@@ -6,10 +6,11 @@ function Home(props) {
   return (
     <>
       <div className="main">
-      <div className="text-center">
-      <h2>Food delivered to you 24/7</h2>
-      <img src={food} alt="Organic Food" style={{ height: 500 }}/>
-      </div> <br></br>
+        <div className="text-center">
+          <h2>Food delivered to you 24/7</h2>
+          <img src={food} alt="Organic Food" style={{ height: 300 }}/>
+        </div>
+        <br />
         <p className='content'>
           Here at SOIL we offer 24/7 fast and fresh organic foods. 
           Our organisation aims to provide our customers with local foods 
@@ -17,19 +18,41 @@ function Home(props) {
           step closer to a greener and healthier planet.
         </p>
         <br />
-        <h3>Placerat vestibulum</h3>
-        <div className="fakeimg" style={{ height: 500 }}>
-          Image
+        <div className="row">
+          <div className="text-options-1">
+          <h3>Shop Organic Groceries</h3>
+          </div>
+          <div className="text-options">
+            <h3>Shop Organic Groceries</h3>
+          </div>
+          <div className="text-options">
+            <h3>Shop Organic Groceries</h3>
+          </div>
         </div>
+        <div className="row">
+          <div className="col-lg-4">
+            <img src={food} alt="Organic Food" style={{ height: 200 }}/>
+          </div>
+          <div className="col-lg-4">
+            <img src={food} alt="Organic Food" style={{ height: 200 }}/>
+          </div>
+          <div className="col-lg-4">
+            <img src={food} alt="Organic Food" style={{ height: 200 }}/>
+          </div>
+        </div>
+        <br />
         <p>Bibendum est ultricies..</p>
         <p>
           Semper quis lectus nulla at. Nullam ac tortor vitae purus faucibus
           ornare suspendisse. Nunc faucibus a pellentesque sit. Risus quis varius
           quam quisque id diam vel quam elementum.
         </p>
-      </div></>
-    
+      </div>
+    </>
   );
 }
 
 export default Home;
+
+
+
