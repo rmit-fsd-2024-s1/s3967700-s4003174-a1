@@ -14,7 +14,7 @@ function Navbar(props) {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-            <Link className="nav-link" to="/">Home</Link>
+              <Link className="nav-link" to="/">Home</Link>
             </li>
             {props.username !== null &&
               <>
@@ -27,7 +27,10 @@ function Navbar(props) {
               </>
             }
           </ul>
-          <ul className="navbar-nav">
+          <div className="d-flex justify-content-center">
+            <h3 className="navbar-heading">Healthy, Fresh, Organic SOIL</h3>
+          </div>
+          <ul className="navbar-nav ml-auto">
             {props.username === null ?
               <>
                 <li className="nav-item">
@@ -54,5 +57,5 @@ function Navbar(props) {
   );
 }
 
-
 export default Navbar;
+
