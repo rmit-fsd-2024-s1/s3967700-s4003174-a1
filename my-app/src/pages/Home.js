@@ -26,7 +26,7 @@ function Home(props) {
             <h3>Weekly Special Deals</h3>
           </div>
           <div className="text-options-3">
-            <h3>Book diet seminar</h3>
+            <h3>Grow your own foods</h3>
           </div>
         </div>
         <div className="row">
@@ -41,12 +41,17 @@ function Home(props) {
           </div>
         </div>
         <br />
-        <p>Bibendum est ultricies..</p>
-        <p>
-          Semper quis lectus nulla at. Nullam ac tortor vitae purus faucibus
-          ornare suspendisse. Nunc faucibus a pellentesque sit. Risus quis varius
-          quam quisque id diam vel quam elementum.
-        </p>
+        <div className="row">
+      <div className="col-lg-4">
+        Shop now for the freshest foods
+      </div>
+      <div className="col-lg-4">
+        Check out our weekly specials
+      </div>
+      <div className="col-lg-4">
+        Grow your own organic food
+      </div>
+    </div>
       </div>
     </>
   );
