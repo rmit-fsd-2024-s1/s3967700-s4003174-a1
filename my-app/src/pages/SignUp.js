@@ -52,6 +52,11 @@ function SignUp(props) {
       <div className="row">
         <div className="col-md-6">
           <form onSubmit={handleSubmit}>
+          <div className="form-group">
+              <label htmlFor="name" className="control-label">Name</label>
+              <input type="name" name="name" id="name" className="form-control"
+                value={fields.name} onChange={handleInputChange} />
+            </div>
             <div className="form-group">
               <label htmlFor="email" className="control-label">Email</label>
               <input type="email" name="email" id="email" className="form-control"
