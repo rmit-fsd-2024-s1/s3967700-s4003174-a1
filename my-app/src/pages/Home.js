@@ -22,11 +22,11 @@ function Home(props) {
           <div className="text-options-1">
           <h3>Shop Organic Groceries</h3>
           </div>
-          <div className="text-options">
-            <h3>Shop Organic Groceries</h3>
+          <div className="text-options-2">
+            <h3>Weekly Special Deals</h3>
           </div>
-          <div className="text-options">
-            <h3>Shop Organic Groceries</h3>
+          <div className="text-options-3">
+            <h3>Book diet seminar</h3>
           </div>
         </div>
         <div className="row">
