@@ -6,10 +6,18 @@
     margin-left: 85px;
 }
 
-.text-options-1 {
-    margin-left: 15px;
+.text-options-1, .para-options-1 {
+    margin-left: 30px;
 }
 
 .text-options-3 {
     margin-left: 110px;
+}
+
+.para-options-2 {
+    margin-left: 155px;
+}
+
+.para-options-3 {
+    margin-left: 175px;
 }

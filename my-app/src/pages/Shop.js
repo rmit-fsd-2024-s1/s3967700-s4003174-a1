@@ -8,16 +8,8 @@ function Home(props) {
     <>
       <div className="main">
         <div className="text-center">
-          <h2>Food delivered to you 24/7</h2>
-          <img src={food} alt="Organic Food" style={{ height: 300 }}/>
+          <h2>Check out our special deals</h2>
         </div>
-        <br />
-        <p className='content'>
-          Here at SOIL we offer 24/7 fast and fresh organic foods. 
-          Our organisation aims to provide our customers with local foods 
-          provided by our local farmers. Every purchase made helps us get one 
-          step closer to a greener and healthier planet.
-        </p>
         <br />
         <div className="row">
           <div className="text-options-1">
@@ -65,6 +57,3 @@ function Home(props) {
 }
 
 export default Home;
-
-
-
