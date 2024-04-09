@@ -6,7 +6,7 @@
     margin-left: 85px;
 }
 
-.text-options-1, .para-options-1 {
+.text-options-1 {
     margin-left: 30px;
 }
 
@@ -14,16 +14,17 @@
     margin-left: 110px;
 }
 
-.para-options-2 {
-    margin-left: 155px;
-}
-
-.para-options-3 {
-    margin-left: 175px;
-}
-
 .caption {
+    text-align: center;
+  }
+
+.caption-shop {
     text-align: center;
     margin-right: 45px;
     margin-top: 10px;
   }
+
+.shop-button {
+    margin-left: 130px;
+    cursor: pointer; /* Example styling for the button */
+}

@@ -1,5 +1,6 @@
 import React from "react";
-import food from './organic.jpg';
+import food from './images/organic.jpg';
+import special from './images/specials.jpg';
 import "./page.css";
 import { Link } from "react-router-dom";
 
@@ -35,30 +36,28 @@ function Home(props) {
           <Link className="nav-link" to="/shop">
           <img src={food} alt="Organic Food" style={{ height: 200 }} />
           </Link>
+          <Link className="shop-button" to="/shop">
+          <button>Shop Now</button>
+          </Link>
+          <p className='caption'>Shop now for the freshest foods</p>
+          </div>
+          <div className="col-lg-4">
+          <Link className="nav-link" to="/profile">
+          <img src={special} alt="Special Deals" style={{ height: 200 }} />
+          </Link>
+          <Link className="shop-button" to="/shop">
+          <button>Shop Now</button>
+          </Link>
+          <p className="caption">Check out our weekly specials</p>
           </div>
           <div className="col-lg-4">
           <Link className="nav-link" to="/profile">
           <img src={food} alt="Organic Food" style={{ height: 200 }} />
           </Link>
-          </div>
-          <div className="col-lg-4">
-          <Link className="nav-link" to="/profile">
-          <img src={food} alt="Organic Food" style={{ height: 200 }} />
-          </Link>
+          <p className="caption">Grow your own organic food</p>
           </div>
         </div>
         <br />
-        <div className="row">
-      <div>
-        <p className='para-options-1'>Shop now for the freshest foods</p>
-      </div>
-      <div>
-        <p className="para-options-2">Check out our weekly specials</p>
-      </div>
-      <div>
-        <p className="para-options-3">Grow your own organic food</p>
-      </div>
-    </div>
       </div>
     </>
   );
