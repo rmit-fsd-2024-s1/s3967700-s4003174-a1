@@ -2,7 +2,7 @@ import React from "react";
 import food from './organic.jpg';
 import "./page.css";
 
-function Home(props) {
+function Shop(props) {
   return (
     <>
       <div className="main">
@@ -77,4 +77,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default Shop;
