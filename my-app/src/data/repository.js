@@ -7,12 +7,10 @@ function initUsers() {
 
   const users = [
     {
-      username: "mbolger",
-      password: "abc123",
+      
     },
     {
-      username: "shekhar",
-      password: "def456",
+      
     },
   ];
 
