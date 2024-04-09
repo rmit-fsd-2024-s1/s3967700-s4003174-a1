@@ -1,66 +1,59 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { verifyUser } from "../data/repository";
+
+// Assuming this function now saves the user to local storage and returns true if successful.
+import { saveUser } from "../data/repository";
 
 function SignUp(props) {
-  const [fields, setFields] = useState({ username: "", password: "" });
+  const [fields, setFields] = useState({ username: "", password: "", name: "", email: "" });
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
-  // Generic change handler.
   const handleInputChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    // Copy fields.
-    const temp = { username: fields.username, password: fields.password };
-    // OR use spread operator.
-    // const temp = { ...fields };
-
-    // Update field and state.
-    temp[name] = value;
-    setFields(temp);
-  }
+    const { name, value } = event.target;
+    setFields(fields => ({ ...fields, [name]: value }));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const verified = verifyUser(fields.username, fields.password);
+    // Save the user to local storage or verify against existing users
+    const success = saveUser(fields.username, fields.password, fields.name, fields.email);
 
-    // If verified login the user.
-    if(verified === true) {
+    if(success) {
+
       props.loginUser(fields.username);
 
-      // Navigate to the home page.
+      // Navigate to the home page after successful registration.
       navigate("/");
-      return;
+    } else {
+      // If registration fail
+      setFields({ username: "", password: "", name: "", email: "" });
+      setErrorMessage("Registration failed, username may already exist or fields are invalid.");
     }
+  };
 
-    // Reset password field to blank.
-    const temp = { ...fields };
-    temp.password = "";
-    setFields(temp);
-
-    // Set error message.
-    setErrorMessage("Username and / or password invalid, please try again.");
-  }
-
-   return (
+  return (
     <div>
       <h1>Sign Up</h1>
       <hr />
       <div className="row">
         <div className="col-md-6">
           <form onSubmit={handleSubmit}>
-          <div className="form-group">
+            <div className="form-group">
               <label htmlFor="name" className="control-label">Name</label>
-              <input type="name" name="name" id="name" className="form-control"
+              <input type="text" name="name" id="name" className="form-control"
                 value={fields.name} onChange={handleInputChange} />
             </div>
             <div className="form-group">
               <label htmlFor="email" className="control-label">Email</label>
               <input type="email" name="email" id="email" className="form-control"
                 value={fields.email} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="username" className="control-label">Username</label>
+              <input type="text" name="username" id="username" className="form-control"
+                value={fields.username} onChange={handleInputChange} />
             </div>
             <div className="form-group">
               <label htmlFor="password" className="control-label">Password</label>
@@ -70,7 +63,7 @@ function SignUp(props) {
             <div className="form-group">
               <input type="submit" className="btn btn-primary" value="Sign Up" />
             </div>
-            {errorMessage !== null &&
+            {errorMessage &&
               <div className="form-group">
                 <span className="text-danger">{errorMessage}</span>
               </div>
@@ -81,4 +74,5 @@ function SignUp(props) {
     </div>
   );
 }
+
 export default SignUp;
