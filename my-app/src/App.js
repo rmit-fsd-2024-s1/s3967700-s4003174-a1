@@ -8,6 +8,7 @@ import MyProfile from "./pages/MyProfile";
 import Forum from "./pages/Forum";
 import SignUp from "./pages/SignUp";
 import Shop from "./pages/Shop";
+import Specials from "./pages/Specials";
 import { getUser, removeUser } from "./data/repository";
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
               <Route path="/profile" element={<MyProfile username={username} />} />
               <Route path="/forum" element={<Forum username={username} />} />
               <Route path="/shop" element={<Shop username={username} />} />
+              <Route path="/Specials" element={<Specials username={username} />} />
             </Routes>
           </div>
         </main>

@@ -1,4 +1,5 @@
 import React from "react";
+
 import "./page.css";
 
 function Specials() {
@@ -6,7 +7,6 @@ function Specials() {
           <div className="main">
             <div className="text-center">
               <h2>Food delivered to you 24/7</h2>
-              <img src={food} alt="Organic Food" style={{ height: 300 }} />
             </div>
             <br />
             <p className='content'>
@@ -24,14 +24,11 @@ function Specials() {
                 <h3>Weekly Special Deals</h3>
               </div>
               <div className="text-options-3">
-                <h3>Grow your own foods</h3>
+                <h3>Grow your own foods poop</h3>
               </div>
             </div>
             <div className="row">
               <div className="col-lg-4">
-                <Link className="nav-link" to="/profile">
-                  <img src={food} alt="Organic Food" style={{ height: 200 }} />
-                </Link>
                 <p className="caption">Grow your own organic food</p>
               </div>
             </div>
