@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import food from './images/organic.jpg';
 import vegetables from './images/vegetables.jpg'
 import special from './images/specials.jpg';
+import plant from './images/plant.jpg';
 import "./page.css";
 
 function Section({ title, imageSrc, buttonText, buttonLink, caption }) {
@@ -60,12 +61,13 @@ function Home(props) {
           buttonLink="/specials"
           caption="Check out our weekly specials"
         />
-        <div className="col-lg-4">
-          <Link className="nav-link" to="/profile">
-            <img src={food} alt="Organic Food" style={{ height: 200 }} />
-          </Link>
-          <p className="caption">Grow your own organic food</p>
-        </div>
+        <Section
+          title="Grow Food"
+          imageSrc={plant}
+          buttonText="Grow Now"
+          buttonLink="/plant"
+          caption="Grow your own organic food"
+        />
       </div>
     </div>
   );
