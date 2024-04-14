@@ -25,6 +25,11 @@
   }
 
 .shop-button {
-    margin-left: 130px;
-    cursor: pointer; /* Example styling for the button */
+    margin-left: 120px;
+    cursor: pointer;
 }
+.shop-button button.highlight-on-hover:hover {
+    background-color: lightgreen;
+    color: white;
+  }
+  

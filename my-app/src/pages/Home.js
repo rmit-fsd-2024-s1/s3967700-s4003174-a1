@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import food from './images/organic.jpg';
+import vegetables from './images/vegetables.jpg'
 import special from './images/specials.jpg';
 import "./page.css";
 
@@ -11,14 +12,14 @@ function Section({ title, imageSrc, buttonText, buttonLink, caption }) {
         <img src={imageSrc} alt={title} style={{ height: 200 }} />
       </Link>
       <Link className="shop-button" to={buttonLink}>
-        <button>{buttonText}</button>
+        <button className="highlight-on-hover">{buttonText}</button>
       </Link>
       <p className="caption">{caption}</p>
     </div>
   );
 }
 
-function Home() {
+function Home(props) {
   return (
     <div className="main">
       <div className="text-center">
@@ -47,7 +48,7 @@ function Home() {
       <div className="row">
         <Section
           title="Organic Food"
-          imageSrc={food}
+          imageSrc={vegetables}
           buttonText="Shop Now"
           buttonLink="/shop"
           caption="Shop now for the freshest foods"
