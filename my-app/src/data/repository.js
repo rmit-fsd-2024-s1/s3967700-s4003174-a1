@@ -37,18 +37,25 @@ function verifyUser(username, password) {
 }
 
 
+
 function saveUser(newUser) {
-  const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+  const users = getUsers();
 
   if (users.some(user => user.username === newUser.username)) {
     return false; 
   }
 
-  // Add new user to the array and save back to local storage
-  users.push(newUser);
+
+  const userWithDate = {
+    ...newUser,
+    joinDate: new Date().toISOString() // Store the join date in ISO format
+  };
+
+  users.push(userWithDate);
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
-  return true; // New user successfully saved
+  return true;
 }
+
 
 function setUser(username) {
   localStorage.setItem(USER_KEY, username);

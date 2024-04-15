@@ -1,38 +1,49 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function MyProfile(props) {
-    const navigate = useNavigate();
+function MyProfile() {
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState({
+    username: "",
+    email: "",
+    bio: "",
+    joinDate: ""
+  });
 
-    const [profile, setProfile] = React.useState({
-        username: props.username,
-        email: "user@example.com", // Placeholder value
-        bio: "This is a bio", // Placeholder value
-    });
+  useEffect(() => {
+    let userDataString = localStorage.getItem("user");
+  
+    if (userDataString) {
+      try {
+        let userData = JSON.parse(userDataString);
 
-    // Handler for potentially updating profile info
-    const handleProfileUpdate = (updatedProfile) => {
-        setProfile(updatedProfile);
+        setProfile({
+          username: userData.username,
+          email: userData.email,
+          bio: userData.bio || "No bio provided",
+          joinDate: userData.joinDate || new Date().toISOString()
+        });
+      } catch (error) {
+        console.error("Failed to parse user data:", error);
 
-    };
 
-    return (
-        <div>
-            <h1>My Profile</h1>
-            <hr />
-            <div>
-                <label>Username:</label> <span>{profile.username}</span>
-            </div>
-            <div>
-                <label>Email:</label> <span>{profile.email}</span>
-            </div>
-            <div>
-                <label>Bio:</label> <span>{profile.bio}</span>
-            </div>
-            {/* Example button to navigate to an edit profile page or trigger an inline edit */}
-            <button onClick={() => navigate("/edit-profile")}>Edit Profile</button>
-        </div>
-    );
+        localStorage.removeItem("user");
+        navigate("/login");
+      }
+    } else {
+      console.error("No user data available, redirecting to login.");
+      navigate("/login");
+    }
+  }, [navigate]);
+  
+
+  return (
+    <div>
+      <h1>My Profile</h1>
+      <hr />
+      {/* Profile display components */}
+    </div>
+  );
 }
 
 export default MyProfile;
