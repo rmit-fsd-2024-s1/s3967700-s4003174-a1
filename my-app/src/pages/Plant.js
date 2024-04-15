@@ -1,22 +1,34 @@
 import React from 'react';
+import grow from './images/growing.jpg';
 
 function Plant() {
   return (
     <div>
-      <h2>Small Vegetable Gardening</h2>
+      <h2>Guide to Grow Your Own Vegetables</h2>
       <p>
-        Growing vegetables in a small backyard can be rewarding and productive.
-        Here are some tips to get you started:
+        Growing vegetables in your own backyard is not only easy but also saves you a lot of money.
       </p>
-      <ul>
-        <li>Choose compact varieties: Opt for vegetables that are specifically bred for small spaces, such as cherry tomatoes, bush beans, and dwarf varieties of peppers and cucumbers.</li>
-        <li>Vertical gardening: Utilize vertical space by growing vining vegetables like peas, beans, and cucumbers on trellises or fences.</li>
-        <li>Container gardening: Grow vegetables in containers or raised beds to maximize space and improve drainage. Herbs, salad greens, and even small root vegetables like radishes and carrots can thrive in containers.</li>
-        <li>Succession planting: Plant crops in succession to make the most of limited space. As one crop is harvested, replant the area with another vegetable.</li>
-        <li>Companion planting: Planting compatible vegetables together can help maximize space and deter pests. For example, planting basil near tomatoes can improve tomato flavor and repel pests.</li>
-        <li>Regular maintenance: Keep your small vegetable garden healthy by watering regularly, providing adequate sunlight, and fertilizing as needed. Be vigilant for pests and diseases, and address any issues promptly.</li>
-      </ul>
-      <p>With these tips, you can enjoy a bountiful harvest of fresh vegetables right from your own backyard, no matter how small!</p>
+      <img src={grow} alt='growing vegetables' style={{ height: 500 }} />
+      <h3>Tips to Get You Started:</h3>
+      <h4>Choose the Right Plants</h4>
+      <p>
+        It's important to select vegetables suitable for your climate conditions and garden size. 
+        Some vegetables thrive in sunlight, while others prefer shade. 
+        Beginners may find tomatoes, carrots, lettuce, and spring onions easy to grow.
+      </p>
+      <h4>Prepare the Soil</h4>
+      <p>
+        Good soil is crucial for successful gardening. 
+        Prepare garden beds by digging and adding compost 1-2 weeks before planting. 
+        Ensure the compost breaks down and enriches the soil before adding plants.
+      </p>
+      <h4>Take Care of Your Plants</h4>
+      <p>
+        After planting, apply mulch to protect the plants. 
+        Regular watering is essential for root development and plant strength. 
+        Remove invasive weeds and pests promptly to maintain plant health.
+      </p>
+      <p>With these tips, you can enjoy a bountiful harvest of fresh vegetables right from your own backyard!</p>
     </div>
   );
 }

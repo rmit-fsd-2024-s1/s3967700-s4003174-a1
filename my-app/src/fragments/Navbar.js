@@ -22,14 +22,17 @@ function Navbar(props) {
                   <Link className="nav-link" to="/profile">My Profile</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/forum">Forum</Link>
+                  <Link className="nav-link" to="/shop">Shop Now</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/specials">Shop Specials</Link>
                 </li>
               </>
             }
+            <li className="nav-item">
+              <Link className="nav-link" to="/plant">Grow Yourself</Link>
+            </li>
           </ul>
-          <div className="d-flex justify-content-center">
-            <h3 className="navbar-heading">Healthy, Fresh, Organic SOIL</h3>
-          </div>
           <ul className="navbar-nav ml-auto">
             {props.username === null ?
               <>

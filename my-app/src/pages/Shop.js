@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Advocado from './images/Advocado.jpg';
 import Cabbage from './images/Cabbage.jpg';
 import Carrot from './images/Carrot.jpg';
@@ -13,7 +13,7 @@ import Onions from './images/Onions.jpg';
 import Tomatoes from './images/Tomatoes.jpg';
 import "./page.css";
 
-function Shop() {
+function Shop(props) {
   const items = [
     { itemName: 'Advocado', itemLink: Advocado, price: 5.35 },
     { itemName: 'Cabbage', itemLink: Cabbage, price: 8.21 },
@@ -30,10 +30,33 @@ function Shop() {
   ];
 
   function ShopItem({ itemName, itemLink, price }) {
+    const [quantity, setQuantity] = useState(1);
+
+    const handleQuantityChange = (event) => {
+      const value = parseInt(event.target.value);
+      setQuantity(value);
+    };
+
     return (
-      <div className="col-lg-4">
-        <img src={itemLink} alt={itemName} style={{ height: 200 }} />
-        <h4 className="caption-shop">{itemName} - ${price}</h4>
+      <div className="col-lg-4" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div style={{ textAlign: "center" }}>
+          <img src={itemLink} alt={itemName} style={{ height: 200 }} />
+          <h4 className="caption-shop">{itemName} - ${price}</h4>
+        </div>
+        {props.username !== null && (
+          <div style={{ marginTop: '10px' }}>
+            <label htmlFor="quantity" style={{ marginRight: '5px' }}>Quantity:</label>
+            <input
+              type="number"
+              id="quantity"
+              min="1" // user cant add 0 or negative items to cart
+              value={quantity}
+              onChange={handleQuantityChange}
+              style={{ width: '50px', marginRight: '10px' }}
+            />
+            <button className="highlight-on-hover">Add to cart</button>
+          </div>
+        )}
       </div>
     );
   }
