@@ -23,15 +23,19 @@ function getUsers() {
 }
 
 function verifyUser(username, password) {
-  const users = getUsers();
-  for (const user of users) {
-    if (username === user.username && password === user.password) {
-      setUser(username);
-      return true;
-    }
+
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+
+  const userExists = users.find(user => user.username === username && user.password === password);
+
+  if (userExists) {
+
+    setUser(username);
+    return true;
   }
   return false;
 }
+
 
 function saveUser(username, password) {
   const users = getUsers();
