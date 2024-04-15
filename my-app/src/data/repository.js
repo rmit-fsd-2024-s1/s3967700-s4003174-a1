@@ -37,16 +37,15 @@ function verifyUser(username, password) {
 }
 
 
-function saveUser(username, password) {
-  const users = getUsers();
+function saveUser(newUser) {
+  const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
 
-  // Check if username already exists
-  if (users.some(user => user.username === username)) {
-    return false; // Username exists, cannot save the user
+  if (users.some(user => user.username === newUser.username)) {
+    return false; 
   }
 
-  // Add new user to array and save back to local storage
-  users.push({ username, password });
+  // Add new user to the array and save back to local storage
+  users.push(newUser);
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
   return true; // New user successfully saved
 }
