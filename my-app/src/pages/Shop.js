@@ -45,7 +45,7 @@ function Shop(props) {
         </div>
         {props.username !== null && (
           <div style={{ marginTop: '10px' }}>
-            <label htmlFor="quantity" style={{ marginRight: '5px' }}>Quantity:</label>
+            <label style={{ marginRight: '5px' }}>Quantity:</label>
             <input
               type="number"
               id="quantity"
