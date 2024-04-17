@@ -23,14 +23,11 @@ function getUsers() {
 }
 
 function verifyUser(username, password) {
-
-  const users = JSON.parse(localStorage.getItem('users')) || [];
-
+  const users = getUsers();
   const userExists = users.find(user => user.username === username && user.password === password);
 
   if (userExists) {
-
-    setUser(username);
+    setUser(userExists); 
     return true;
   }
   return false;
@@ -57,13 +54,20 @@ function saveUser(newUser) {
 }
 
 
-function setUser(username) {
-  localStorage.setItem(USER_KEY, username);
+function setUser(user) {
+  localStorage.setItem(USER_KEY, JSON.stringify(user));
 }
 
 function getUser() {
-  return localStorage.getItem(USER_KEY);
+  const userString = localStorage.getItem(USER_KEY);
+  try {
+    return JSON.parse(userString);
+  } catch (error) {
+    console.error("Error parsing user data:", error);
+    return null;
+  }
 }
+
 
 function removeUser() {
   localStorage.removeItem(USER_KEY);
