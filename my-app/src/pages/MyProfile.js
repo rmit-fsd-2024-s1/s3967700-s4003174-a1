@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUser, setUser } from '../data/repository';
+import { getUser, setUser, removeUser } from '../data/repository';
 
 function MyProfile() {
   const navigate = useNavigate();
@@ -52,6 +52,11 @@ function MyProfile() {
     setIsEditing(false);
   };
 
+  const handleDelete = () => {
+    removeUser(); 
+    navigate('/');
+  };
+
   const formattedJoinDate = profile.joinDate
     ? new Date(profile.joinDate).toLocaleDateString("en-US", {
       year: 'numeric', month: 'long', day: 'numeric'
@@ -78,6 +83,7 @@ function MyProfile() {
           </div>
           <button onClick={saveChanges} className="btn btn-success">Save</button>
           <button onClick={cancelEdit} className="btn btn-secondary">Cancel</button>
+          <button onClick={handleDelete} className="btn btn-danger" style={{ marginLeft: '10px' }}>Delete Profile</button>
         </>
       ) : (
         <>
@@ -86,6 +92,7 @@ function MyProfile() {
           <div><strong>Bio:</strong> {profile.bio}</div>
           <div><strong>Date Joined:</strong> {formattedJoinDate}</div>
           <button onClick={() => setIsEditing(true)} className="btn btn-primary">Edit Profile</button>
+          <button onClick={handleDelete} className="btn btn-danger" style={{ marginLeft: '10px' }}>Delete Profile</button>
         </>
       )}
     </div>
