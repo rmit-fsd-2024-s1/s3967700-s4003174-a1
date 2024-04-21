@@ -13,12 +13,6 @@ function SignUp(props) {
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
-  const emailRegex = /\S+@\S+\.\S+/;
-  
-  const isStrongPassword = (password) => {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password);
-  };
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFields(fields => ({ ...fields, [name]: value }));
@@ -27,12 +21,12 @@ function SignUp(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!emailRegex.test(fields.email)) {
+    if (!fields.email.match(/\S+@\S+\.\S+/)) {
       setErrorMessage("Please enter a valid email address.");
       return;
     }
 
-    if (!isStrongPassword(fields.password)) {
+    if (!fields.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)) {
       setErrorMessage("Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number.");
       return;
     }
@@ -50,15 +44,14 @@ function SignUp(props) {
     };
 
     const success = saveUser(newUser);
-
     if (success) {
-      props.loginUser(fields.username);
-      navigate("/");
+      props.loginUser(fields.username); 
+      navigate("/"); 
     } else {
-      setFields({ username: "", password: "", confirmPassword: "", name: "", email: "" });
       setErrorMessage("Registration failed, username may already exist or fields are invalid.");
     }
   };
+
 
   return (
     <div>

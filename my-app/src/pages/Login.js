@@ -1,69 +1,68 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { verifyUser } from "../data/repository";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getUser } from '../data/repository';
 
-function Login(props) {
-  const [fields, setFields] = useState({ username: "", password: "" });
-  const [errorMessage, setErrorMessage] = useState(null);
+function MyProfile() {
   const navigate = useNavigate();
+  const [profile, setProfile] = useState({
+    username: '',
+    email: '',
+    bio: '',
+    joinDate: ''
+  });
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFields(prevFields => ({ ...prevFields, [name]: value }));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const { username, password } = fields;
-    const verified = verifyUser(username, password);
-
-    if (verified) {
-      props.loginUser(username);
-      navigate("/"); // navigate to the home page
+  useEffect(() => {
+    const user = getUser();
+    if (!user) {
+      navigate('/login'); 
     } else {
-      setErrorMessage("Username and/or password invalid, please try again.");
-      setFields(prevFields => ({ ...prevFields, password: "" })); // Clear password field
+
+      setProfile({
+        username: user.username,
+        email: user.email,
+        bio: user.bio || 'No bio provided',
+        joinDate: user.joinDate || new Date().toISOString() 
+      });
     }
+  }, [navigate]); 
+
+  
+  const formattedJoinDate = profile.joinDate
+    ? new Date(profile.joinDate).toLocaleDateString("en-US", {
+      year: 'numeric', month: 'long', day: 'numeric'
+    })
+    : 'Not available';
+
+
+  const handleEditProfile = () => {
+    navigate('/edit-profile');
   };
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="profile-container">
+      <h1>My Profile</h1>
       <hr />
-      <div className="row">
-        <div className="col-md-6">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                name="username"
-                id="username"
-                className="form-control"
-                value={fields.username}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                className="form-control"
-                value={fields.password}
-                onChange={handleInputChange}
-              />
-            </div>
-            <button type="submit" className="btn btn-primary">Login</button>
-            {errorMessage && <div className="text-danger">{errorMessage}</div>}
-          </form>
-        </div>
+      <div className="profile-field">
+        <label>Username:</label>
+        <span>{profile.username}</span>
       </div>
+      <div className="profile-field">
+        <label>Email:</label>
+        <span>{profile.email}</span>
+      </div>
+      <div className="profile-field">
+        <label>Bio:</label>
+        <span>{profile.bio}</span>
+      </div>
+      <div className="profile-field">
+        <label>Date Joined:</label>
+        <span>{formattedJoinDate}</span>
+      </div>
+      <button onClick={handleEditProfile} className="edit-profile-btn">
+        Edit Profile
+      </button>
     </div>
   );
 }
 
-export default Login;
-
+export default MyProfile;

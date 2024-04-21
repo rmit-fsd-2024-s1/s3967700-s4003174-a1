@@ -1,19 +1,11 @@
 const USERS_KEY = "users";
-const USER_KEY = "user";
+const USER_KEY = "currentUser";
 
 function initUsers() {
   if (localStorage.getItem(USERS_KEY) !== null)
     return;
 
-  const users = [
-    {
-      
-    },
-    {
-      
-    },
-  ];
-
+  const users = [];
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
@@ -27,13 +19,11 @@ function verifyUser(username, password) {
   const userExists = users.find(user => user.username === username && user.password === password);
 
   if (userExists) {
-    setUser(userExists); 
+    setUser(userExists);
     return true;
   }
   return false;
 }
-
-
 
 function saveUser(newUser) {
   const users = getUsers();
@@ -42,17 +32,15 @@ function saveUser(newUser) {
     return false; 
   }
 
-
   const userWithDate = {
     ...newUser,
-    joinDate: new Date().toISOString() // Store the join date in ISO format
+    joinDate: new Date().toISOString() 
   };
 
   users.push(userWithDate);
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
   return true;
 }
-
 
 function setUser(user) {
   localStorage.setItem(USER_KEY, JSON.stringify(user));
@@ -67,7 +55,6 @@ function getUser() {
     return null;
   }
 }
-
 
 function removeUser() {
   localStorage.removeItem(USER_KEY);
