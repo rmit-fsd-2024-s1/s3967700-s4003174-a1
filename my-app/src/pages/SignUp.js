@@ -52,13 +52,16 @@ function SignUp(props) {
     }
   };
 
+  const handleLoginClick = () => {
+    navigate("/login"); // Navigate to the login page
+  };
 
   return (
     <div>
       <h1>Sign Up</h1>
       <hr />
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-md-12">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="name">Name</label>
@@ -85,14 +88,14 @@ function SignUp(props) {
               <input type="password" name="confirmPassword" id="confirmPassword" className="form-control"
                 value={fields.confirmPassword} onChange={handleInputChange} />
             </div>
-            <div className="form-group">
-              <input type="submit" className="btn btn-primary" value="Sign Up" />
-            </div>
-            {errorMessage &&
-              <div className="form-group">
-                <span className="text-danger">{errorMessage}</span>
+            <div className="form-group d-flex justify-content-between align-items-center">
+              <button type="submit" className="btn btn-primary">Sign Up</button>
+              <div>
+                <span className="mr-2">Already registered?</span>
+                <button onClick={handleLoginClick} className="btn btn-link">Login</button>
               </div>
-            }
+            </div>
+            {errorMessage && <div className="text-danger">{errorMessage}</div>}
           </form>
         </div>
       </div>
