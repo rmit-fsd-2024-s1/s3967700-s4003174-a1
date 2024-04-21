@@ -91,6 +91,7 @@ const Shop = () => {
       <div className="text-center">
         <h2>All ingredients are grown locally and organic</h2>
       </div>
+      {/* display the items */}
       <div className="row">
         {items.map((item, index) => (
           <div className="col-lg-4" key={index} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -108,6 +109,7 @@ const Shop = () => {
           </div>
         ))}
       </div>
+      {/* takes user to shopping cart */}
       <div style={{ marginTop: '20px'}}>
         <button onClick={goToCheckout} className="btn checkout-button">Go to Checkout</button>
       </div>
