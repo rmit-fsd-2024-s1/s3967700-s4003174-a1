@@ -1,6 +1,5 @@
 import React from "react";
 import "./Fragment.css";
-
 function Footer() {
   return (
     <footer className="footer bg-dark text-white py-4">
@@ -16,9 +15,9 @@ function Footer() {
           <div className="col-md-3">
             <h5>Quick Links</h5>
             <ul className="list-unstyled">
-              <li><a className="text-light">About Us</a></li>
-              <li><a className="text-light">FAQs</a></li>
-              <li><a className="text-light">Privacy Policy</a></li>
+              <li><span className="text-light">About Us</span></li>
+              <li><span className="text-light">FAQs</span></li>
+              <li><span className="text-light">Privacy Policy</span></li>
             </ul>
           </div>
           <div className="col-md-3">
