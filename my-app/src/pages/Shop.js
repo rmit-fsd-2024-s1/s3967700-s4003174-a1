@@ -78,7 +78,7 @@ const Shop = () => {
   };
 
   const goToCheckout = () => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn) { // check if a user logged in
       alert('Please log in to proceed to checkout.');
       navigate('/login');
       return;

@@ -120,8 +120,8 @@ function Specials() {
       cartItems.push(itemToAdd);  // Add new item
     }
   
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-    alert(`${todaySpecial.quantity} x ${todaySpecial.name} has been added to your cart.`);
+    localStorage.setItem('cart', JSON.stringify(cartItems)); // set to local storage
+    alert(`${todaySpecial.quantity} x ${todaySpecial.name} has been added to your cart.`); // alert user successful addition
   };
   
 
