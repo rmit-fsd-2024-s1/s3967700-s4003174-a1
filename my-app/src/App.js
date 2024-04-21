@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./fragments/Navbar";
 import Footer from "./fragments/Footer";
@@ -16,15 +16,22 @@ import Summary from "./pages/Summary";
 import { getUser, removeUser } from "./data/repository";
 
 function App() {
-  const [username, setUsername] = useState(getUser());
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const user = getUser(); 
+    if (user) {
+      setUsername(user.username); 
+    }
+  }, []);
 
   const loginUser = (username) => {
-    setUsername(username);
+    setUsername(username); 
   }
 
   const logoutUser = () => {
     removeUser();
-    setUsername(null);
+    setUsername(""); 
   }
 
   return (

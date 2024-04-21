@@ -1,19 +1,11 @@
 const USERS_KEY = "users";
-const USER_KEY = "user";
+const USER_KEY = "currentUser";
 
 function initUsers() {
   if (localStorage.getItem(USERS_KEY) !== null)
     return;
 
-  const users = [
-    {
-      
-    },
-    {
-      
-    },
-  ];
-
+  const users = [];
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
@@ -23,20 +15,16 @@ function getUsers() {
 }
 
 function verifyUser(username, password) {
-
-  const users = JSON.parse(localStorage.getItem('users')) || [];
-
+  const users = getUsers();
   const userExists = users.find(user => user.username === username && user.password === password);
 
   if (userExists) {
-
-    setUser(username);
+    const { password, ...userWithoutPassword } = userExists;
+    setUser(userWithoutPassword);
     return true;
   }
   return false;
 }
-
-
 
 function saveUser(newUser) {
   const users = getUsers();
@@ -45,24 +33,29 @@ function saveUser(newUser) {
     return false; 
   }
 
-
   const userWithDate = {
     ...newUser,
-    joinDate: new Date().toISOString() // Store the join date in ISO format
+    joinDate: new Date().toISOString() 
   };
 
   users.push(userWithDate);
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  setUser(userWithDate); 
   return true;
 }
 
-
-function setUser(username) {
-  localStorage.setItem(USER_KEY, username);
+function setUser(user) {
+  localStorage.setItem(USER_KEY, JSON.stringify(user));
 }
 
 function getUser() {
-  return localStorage.getItem(USER_KEY);
+  const userString = localStorage.getItem(USER_KEY);
+  try {
+    return JSON.parse(userString);
+  } catch (error) {
+    console.error("Error parsing user data:", error);
+    return null;
+  }
 }
 
 function removeUser() {
@@ -75,5 +68,6 @@ export {
   verifyUser,
   getUser,
   removeUser,
-  saveUser 
+  saveUser,
+  setUser
 };

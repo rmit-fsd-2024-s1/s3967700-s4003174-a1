@@ -1,13 +1,40 @@
 .nav-link {
-    color: #ffffff !important;
-    font-weight: bold;
-  }
+  color: #ffffff !important;
+  font-weight: bold;
+}
 
-.navbar, footer {
-    background-color: #4caf50 !important;
+.navbar, .footer {
+  background-color: #4caf50 !important; 
 }
 
 .navbar-heading {
   color: #ffffff !important;
   font-weight: bold;
+}
+
+.footer {
+  background-color: #4caf50; 
+}
+
+.footer h5 {
+  color: #f8f9fa; 
+}
+
+.footer ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer a {
+  color: #ddd; 
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer p {
+  color: #ccc; 
+  font-size: 0.9rem;
 }

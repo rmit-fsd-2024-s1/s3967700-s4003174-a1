@@ -24,11 +24,11 @@ function Navbar(props) {
                 <li className="nav-item">
                   <Link className="nav-link" to="/shop">Shop Now</Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/specials">Shop Specials</Link>
-                </li>
               </>
             }
+            <li className="nav-item">
+              <Link className="nav-link" to="/specials">Shop Specials</Link>
+            </li>
             <li className="nav-item">
               <Link className="nav-link" to="/plant">Grow Yourself</Link>
             </li>
@@ -49,7 +49,7 @@ function Navbar(props) {
                   <span className="nav-link text-light">Welcome, {props.username}</span>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/login" onClick={props.logoutUser}>Logout</Link>
+                  <Link className="nav-link" to="/logout" onClick={props.logoutUser}>Logout</Link>
                 </li>
               </>
             }
@@ -61,4 +61,3 @@ function Navbar(props) {
 }
 
 export default Navbar;
-

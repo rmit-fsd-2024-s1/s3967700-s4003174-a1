@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveUser } from "../data/repository";
+import { saveUser, setUser } from "../data/repository";
 
 function SignUp(props) {
-  const [fields, setFields] = useState({ username: "", password: "", name: "", email: "" });
+  const [fields, setFields] = useState({
+    username: "",
+    password: "",
+    confirmPassword: "",  
+    name: "",
+    email: ""
+  });
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
-
-  // Simple email regex for basic validation
-  const emailRegex = /\S+@\S+\.\S+/;
-  
-  //check for strong password
-  const isStrongPassword = (password) => {
-    // Length at least 8, and must contain a digit, an uppercase letter, and a lowercase letter
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password);
-  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -24,18 +21,20 @@ function SignUp(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Check if the email is in the correct format
-    if (!emailRegex.test(fields.email)) {
+    if (!fields.email.match(/\S+@\S+\.\S+/)) {
       setErrorMessage("Please enter a valid email address.");
       return;
     }
 
-    // Check if the password is strong
-    if (!isStrongPassword(fields.password)) {
+    if (!fields.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)) {
       setErrorMessage("Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number.");
       return;
     }
 
+    if (fields.password !== fields.confirmPassword) {
+      setErrorMessage("Passwords don't match.");
+      return;
+    }
 
     const newUser = {
       name: fields.name,
@@ -44,58 +43,64 @@ function SignUp(props) {
       password: fields.password,
     };
 
-
     const success = saveUser(newUser);
-
     if (success) {
-      props.loginUser(fields.username);
-      //navigatesto the home page after successful sign up
-      navigate("/");
+      setUser(newUser); // This sets the logged-in user in local storage.
+      props.loginUser(fields.username); // This should update the login state in your app context or Redux store.
+      navigate("/"); // Navigate to the home page after successful sign up
     } else {
-      //if sign up fails - resets fields
-      setFields({ username: "", password: "", name: "", email: "" });
       setErrorMessage("Registration failed, username may already exist or fields are invalid.");
     }
   };
+
+  const handleLoginClick = () => {
+    navigate("/login"); // Navigate to the login page
+  };
+
   return (
     <div>
-    <h1>Sign Up</h1>
-    <hr />
-    <div className="row">
-      <div className="col-md-6">
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name" className="control-label">Name</label>
-            <input type="text" name="name" id="name" className="form-control"
-              value={fields.name} onChange={handleInputChange} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email" className="control-label">Email</label>
-            <input type="email" name="email" id="email" className="form-control"
-              value={fields.email} onChange={handleInputChange} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="username" className="control-label">Username</label>
-            <input type="text" name="username" id="username" className="form-control"
-              value={fields.username} onChange={handleInputChange} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password" className="control-label">Password</label>
-            <input type="password" name="password" id="password" className="form-control"
-              value={fields.password} onChange={handleInputChange} />
-          </div>
-          <div className="form-group">
-            <input type="submit" className="btn btn-primary" value="Sign Up" />
-          </div>
-          {errorMessage &&
+      <h1>Sign Up</h1>
+      <hr />
+      <div className="row">
+        <div className="col-md-12">
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <span className="text-danger">{errorMessage}</span>
+              <label htmlFor="name">Name</label>
+              <input type="text" name="name" id="name" className="form-control"
+                value={fields.name} onChange={handleInputChange} />
             </div>
-          }
-        </form>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input type="email" name="email" id="email" className="form-control"
+                value={fields.email} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input type="text" name="username" id="username" className="form-control"
+                value={fields.username} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input type="password" name="password" id="password" className="form-control"
+                value={fields.password} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input type="password" name="confirmPassword" id="confirmPassword" className="form-control"
+                value={fields.confirmPassword} onChange={handleInputChange} />
+            </div>
+            <div className="form-group d-flex justify-content-between align-items-center">
+              <button type="submit" className="btn btn-primary">Sign Up</button>
+              <div>
+                <span className="mr-2">Already registered?</span>
+                <button onClick={handleLoginClick} className="btn btn-link">Login</button>
+              </div>
+            </div>
+            {errorMessage && <div className="text-danger">{errorMessage}</div>}
+          </form>
+        </div>
       </div>
     </div>
-  </div>
   );
 }
 
