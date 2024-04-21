@@ -37,17 +37,6 @@ function Home() {
       </p>
       <br />
       <div className="row">
-        <div className="text-options-1">
-          <h3>Shop Organic Groceries</h3>
-        </div>
-        <div className="text-options-2">
-          <h3>Weekly Special Deals</h3>
-        </div>
-        <div className="text-options-3">
-          <h3>Grow your own foods</h3>
-        </div>
-      </div>
-      <div className="row">
         <Section
           title="Shop Organic Groceries"
           imageSrc={vegetables}
