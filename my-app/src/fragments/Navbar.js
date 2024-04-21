@@ -24,11 +24,11 @@ function Navbar(props) {
                 <li className="nav-item">
                   <Link className="nav-link" to="/shop">Shop Now</Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/specials">Shop Specials</Link>
-                </li>
               </>
             }
+            <li className="nav-item">
+              <Link className="nav-link" to="/specials">Shop Specials</Link>  {/* This line is now accessible to everyone */}
+            </li>
             <li className="nav-item">
               <Link className="nav-link" to="/plant">Grow Yourself</Link>
             </li>
@@ -61,4 +61,3 @@ function Navbar(props) {
 }
 
 export default Navbar;
-

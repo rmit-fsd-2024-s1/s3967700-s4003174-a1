@@ -51,26 +51,13 @@ function Specials() {
 
     const currentDay = new Date().toLocaleString('en-US', { weekday: 'long' });
     const specialsData = JSON.parse(localStorage.getItem("weeklySpecials"));
-    const todaySpecial = specialsData[currentDay];
-
-    setTodaySpecial(todaySpecial);
+    setTodaySpecial(specialsData[currentDay]); // Update this line to correctly update state
   }, []);
 
   return (
     <div className="main">
       <div className="text-center">
         <h1>Today's Weekly Special</h1>
-      </div>
-      
-      <p className='content'>
-        Here at SOIL we offer 24/7 fast and fresh organic foods. 
-        Our organisation aims to provide our customers with local foods 
-        provided by our local farmers. Every purchase made helps us get one 
-        step closer to a greener and healthier planet.
-      </p>
-      <br />
-  
-      <div className="text-center">
         <h2>{todaySpecial.name}</h2>
         <p><strong>Special:</strong> {todaySpecial.special}</p>
         <p><strong>Highlight:</strong> {todaySpecial.highlight}</p>
@@ -78,15 +65,19 @@ function Specials() {
         <img src="#" alt="Special of the day" style={{ width: '100%', height: 'auto' }} />
       </div>
       <br />
-      
+      <p className='content'>
+        Here at SOIL we offer 24/7 fast and fresh organic foods. 
+        Our organisation aims to provide our customers with local foods 
+        provided by our local farmers. Every purchase made helps us get one 
+        step closer to a greener and healthier planet.
+      </p>
+      <br />
       <div className="row">
         <div className="col-lg-6">
           <h3>Shop Organic Groceries</h3>
-          <p className="caption">Discover a wide range of organic groceries for your daily needs.</p>
         </div>
         <div className="col-lg-6">
-          <h3>Grow Your Own Food</h3>
-          <p className="caption">Get started with your own organic garden with our range of seeds and gardening tools.</p>
+          <h3>Grow your own foods</h3>
         </div>
       </div>
     </div>
