@@ -46,7 +46,7 @@ function SignUp(props) {
     const success = saveUser(newUser);
     if (success) {
       setUser(newUser); // This sets the logged-in user in local storage.
-      props.loginUser(fields.username); 
+      props.loginUser(fields.username); // This should update the login state in your app context or Redux store.
       navigate("/"); // Navigate to the home page after successful sign up
     } else {
       setErrorMessage("Registration failed, username may already exist or fields are invalid.");

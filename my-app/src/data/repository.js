@@ -19,7 +19,8 @@ function verifyUser(username, password) {
   const userExists = users.find(user => user.username === username && user.password === password);
 
   if (userExists) {
-    setUser(userExists);
+    const { password, ...userWithoutPassword } = userExists;
+    setUser(userWithoutPassword);
     return true;
   }
   return false;
@@ -39,6 +40,7 @@ function saveUser(newUser) {
 
   users.push(userWithDate);
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  setUser(userWithDate); 
   return true;
 }
 
@@ -66,5 +68,6 @@ export {
   verifyUser,
   getUser,
   removeUser,
-  saveUser 
+  saveUser,
+  setUser
 };
