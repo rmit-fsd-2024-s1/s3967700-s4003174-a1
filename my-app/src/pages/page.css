@@ -214,3 +214,46 @@ table {
   button {
     margin: 0 5px;
   }
+
+  .plant-guide-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .guide-image {
+    width: 100%;  
+    height: auto;
+    margin-bottom: 20px; 
+  }
+  
+  .smaller-image .guide-image {
+    max-width: 75%;  
+    margin: auto; 
+  }
+  
+  .image-container {
+    text-align: center; 
+  }
+  
+  h2, h3, h4 {
+    color: #33691e; 
+  }
+  
+  p {
+    font-size: 16px; 
+    color: #666; 
+    line-height: 1.6; 
+  }
+  
+
+  @media (max-width: 768px) {
+    .guide-image {
+      width: 100%; 
+    }
+  
+    .smaller-image .guide-image {
+      max-width: 100%; 
+    }
+  }
+  
