@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Fragment.css";
 import cart from "./cart.jpg";
+import home from "./home.jpg";
 
 function Navbar(props) {
   return (
@@ -15,12 +16,14 @@ function Navbar(props) {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/">Home</Link>
+            <Link className="nav-link" to="/">             {/* home icon */}
+                <img src={home} alt="Home" style={{ width: '30px', height: '30px' }} />
+              </Link>
             </li>
             {props.username !== null &&
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/profile">My Profile</Link>
+                  <Link className="nav-link" to="/profile">Profile</Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/shop">Shop Now</Link>

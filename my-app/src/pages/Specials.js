@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import Mondays from './images/Mondays.jpg';
 import Tuesdays from './images/Tuesdays.jpg';
 import Wednesdays from './images/Wednesdays.jpg';
@@ -11,19 +12,19 @@ import plant from './images/plant.jpg';
 import "./page.css";
 import { Link } from "react-router-dom";
 
-
 function Specials() {
+  const navigate = useNavigate();
   const [todaySpecial, setTodaySpecial] = useState({
     name: "",
     special: "",
     highlight: "",
     imageSrc: "",
     price: 0,
-    discount: 0
+    discount: 0,
+    quantity: 1 // Ensure default quantity is always 1
   });
 
   useEffect(() => {
-
     const images = {
       "Monday": Mondays,
       "Tuesday": Tuesdays,
@@ -33,7 +34,6 @@ function Specials() {
       "Saturday": Saturdays,
       "Sunday": Sundays
     };
-
 
     const weeklySpecials = {
       "Monday": {
@@ -94,24 +94,41 @@ function Specials() {
       }
     };
 
-    // Store the specials in local storage
-    localStorage.setItem("weeklySpecials", JSON.stringify(weeklySpecials));
-
-    // Determine today's special
     const currentDay = new Date().toLocaleString('en-US', { weekday: 'long' });
-    const specialsData = JSON.parse(localStorage.getItem("weeklySpecials"));
-    const todaySpecialData = specialsData[currentDay];
+    const specialData = weeklySpecials[currentDay];
 
-    // Update state with today's special data
     setTodaySpecial({
-      ...todaySpecialData,
-      imageSrc: images[currentDay]
+      ...specialData,
+      imageSrc: images[currentDay],
+      quantity: 1 // Reset quantity every time the day changes
     });
   }, []);
 
-  // Calculate price after discount
-  const priceAfterDiscount = (price, discount) =>
-    (price - price * (discount / 100)).toFixed(2);
+  const addToCart = () => {
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    const itemToAdd = {
+      itemName: todaySpecial.name,  // Ensure this matches the key expected in the checkout
+      price: todaySpecial.price - (todaySpecial.price * todaySpecial.discount / 100),
+      quantity: todaySpecial.quantity
+    };
+  
+    // Check if the item already exists in the cart
+    const existingItem = cartItems.find(item => item.itemName === itemToAdd.itemName);
+    if (existingItem) {
+      existingItem.quantity += todaySpecial.quantity;  // Update quantity
+    } else {
+      cartItems.push(itemToAdd);  // Add new item
+    }
+  
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+    alert(`${todaySpecial.quantity} x ${todaySpecial.name} has been added to your cart.`);
+  };
+  
+
+  const handleQuantityChange = (e) => {
+    const newQuantity = Math.max(1, parseInt(e.target.value, 10)); // Ensure the quantity cannot go below 1
+    setTodaySpecial(prev => ({ ...prev, quantity: newQuantity }));
+  };
 
   return (
     <div className="main">
@@ -119,26 +136,26 @@ function Specials() {
         <h1>Today's Weekly Special</h1>
         <h2>{todaySpecial.name}</h2>
         <img src={todaySpecial.imageSrc} alt={todaySpecial.name} style={{ width: '100%', height: 'auto' }} />
-        <p className="item-price">Price: ${todaySpecial.price.toFixed(2)}</p>
-        <p className="item-discount">Discount: {todaySpecial.discount}%</p>
-        <p className="final-price">Final Price: ${priceAfterDiscount(todaySpecial.price, todaySpecial.discount)}</p>
-        <div className="quantity-selection">
+        <p>{todaySpecial.special}</p>
+        <p>Price: ${todaySpecial.price.toFixed(2)}</p>
+        <p>Discount: {todaySpecial.discount}%</p>
+        <p>Final Price: ${(todaySpecial.price - (todaySpecial.price * todaySpecial.discount / 100)).toFixed(2)}</p>
+        <div>
           <label htmlFor="quantity">Quantity:</label>
-          <input id="quantity" type="number" defaultValue={1} min={1} />
-          <button className="add-to-cart">Add to Cart</button>
+          <input type="number" id="quantity" value={todaySpecial.quantity} onChange={handleQuantityChange} min="1" />
+          <button onClick={addToCart} className="btn checkout-button">Add to Cart</button>
+          <br/>
+          <button onClick={() => navigate('/checkout')} className="btn checkout-button">Go to Checkout</button>
         </div>
+      </div>
 
-      {/* Section for the bottom part of the page with columns */}
       <div className="row">
-        {/* Column for Shop Organic Groceries */}
         <div className="col-md-6 shop-organic-groceries">
           <h2>Shop Organic Groceries</h2>
           <img src={food} alt="Organic Food" className="img-fluid" />
           <Link to="/shop" className="btn btn-primary">Shop Now</Link>
           <p>Shop now for the freshest foods</p>
         </div>
-
-        {/* Column for Grow Your Own Food */}
         <div className="col-md-6 grow-your-own-food">
           <h2>Grow Your Own Food</h2>
           <img src={plant} alt="Grow Food" className="img-fluid" />
@@ -146,10 +163,10 @@ function Specials() {
           <p>Grow your own organic foods</p>
         </div>
       </div>
-
-      </div>
     </div>
   );
 }
 
 export default Specials;
+
+

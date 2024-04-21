@@ -131,6 +131,14 @@
     border-color: #007bff;
 }
 
+.checkout-button {
+    margin-left: 469px;
+    display: block; 
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
 p {
     margin-bottom: 0;
 }

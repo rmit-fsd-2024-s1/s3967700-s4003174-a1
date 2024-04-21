@@ -108,8 +108,8 @@ const Shop = () => {
           </div>
         ))}
       </div>
-      <div className="text-center" style={{ marginTop: '20px' }}>
-        <button onClick={goToCheckout} className="btn btn-primary">Go to Checkout</button>
+      <div style={{ marginTop: '20px'}}>
+        <button onClick={goToCheckout} className="btn checkout-button">Go to Checkout</button>
       </div>
     </div>
   );
