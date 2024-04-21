@@ -4,7 +4,7 @@
 }
 
 .navbar, .footer {
-  background-color: #4caf50 !important; 
+  background-color: #4caf50 !important;
 }
 
 .navbar-heading {
@@ -12,12 +12,8 @@
   font-weight: bold;
 }
 
-.footer {
-  background-color: #4caf50; 
-}
-
 .footer h5 {
-  color: #f8f9fa; 
+  color: #f8f9fa;
 }
 
 .footer ul {
@@ -26,7 +22,7 @@
 }
 
 .footer a {
-  color: #ddd; 
+  color: #ddd;
   text-decoration: none;
 }
 
@@ -35,6 +31,27 @@
 }
 
 .footer p {
-  color: #ccc; 
+  color: #ccc;
   font-size: 0.9rem;
+}
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+main {
+  flex-grow: 1;
+}
+
+.footer {
+  background-color: #4caf50;
+  flex-shrink: 0;
 }
