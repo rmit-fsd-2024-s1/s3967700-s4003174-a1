@@ -8,14 +8,15 @@ import "./page.css";
 
 function Section({ title, imageSrc, buttonText, buttonLink, caption }) {
   return (
-    <div className="col-lg-4">
-      <Link className="nav-link" to={buttonLink}>
-        <img src={imageSrc} alt={title} style={{ height: 200 }} />
+    <div className="col-md-4 text-center">
+      <h2>{title}</h2>
+      <Link to={buttonLink}>
+        <img src={imageSrc} alt={title} className="img-fluid" />
       </Link>
-      <Link className="shop-button" to={buttonLink}>
-        <button className="highlight-on-hover">{buttonText}</button>
+      <Link to={buttonLink} className="btn btn-primary">
+        {buttonText}
       </Link>
-      <p className="caption">{caption}</p>
+      <p>{caption}</p>
     </div>
   );
 }
@@ -48,7 +49,7 @@ function Home(props) {
       </div>
       <div className="row">
         <Section
-          title="Organic Food"
+          title="Shop Organic Groceries"
           imageSrc={vegetables}
           buttonText="Shop Now"
           buttonLink="/shop"
@@ -57,16 +58,16 @@ function Home(props) {
         <Section
           title="Special Deals"
           imageSrc={special}
-          buttonText="Shop Now"
+          buttonText="View Deals"
           buttonLink="/specials"
-          caption="Check out our weekly specials"
+          caption="Discover our exclusive weekly deals"
         />
         <Section
-          title="Grow Food"
+          title="Grow Your Own Food"
           imageSrc={plant}
           buttonText="Grow Now"
           buttonLink="/plant"
-          caption="Grow your own organic food"
+          caption="Start your organic garden today"
         />
       </div>
     </div>

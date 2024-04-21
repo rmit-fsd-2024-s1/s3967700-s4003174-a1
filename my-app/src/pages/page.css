@@ -16,13 +16,13 @@
 
 .caption {
     text-align: center;
-  }
+}
 
 .caption-shop {
     text-align: center;
     margin-right: 50px;
     margin-top: 10px;
-  }
+}
 
 .shop-button {
     margin-left: 120px;
@@ -32,32 +32,32 @@
 .shop-button button.highlight-on-hover:hover {
     background-color: lightgreen;
     color: white;
-  }
+}
 
 .total-cost {
     margin-top: 30px;
     font-size: 20px;
-  }
-  
+}
+
 .continue-shopping {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #4CAF50; /* Green background */
-    color: white; /* White text */
+    background-color: #4CAF50; 
+    color: white; 
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
+}
+
 .continue-shopping:hover {
-    background-color: #45a049; /* Darker green on hover */
-  }
-  
-  
+    background-color: #45a049; 
+}
+
 .main {
     max-width: 1200px;
     margin: auto;
     padding: 20px;
+    flex: 1; 
 }
 
 .text-center h1 {
@@ -90,4 +90,67 @@
     font-size: 1.5rem;
 }
 
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
 
+.col-md-6 {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+@media (min-width: 768px) {
+    .col-md-6 {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+    max-height: 300px; 
+}
+
+.shop-organic-groceries, .grow-your-own-food {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.btn-primary {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: block; 
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+
+footer {
+    background-color: #4caf50; 
+    color: white; 
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: auto; 
+}
+
+
+.footer-links a {
+    color: #ddd;
+    text-decoration: none;
+    padding: 0 10px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}

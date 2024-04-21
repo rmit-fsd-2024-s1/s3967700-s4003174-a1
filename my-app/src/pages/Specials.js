@@ -6,7 +6,11 @@ import Thursdays from './images/Thursdays.jpg';
 import Fridays from './images/Fridays.jpg';
 import Saturdays from './images/Saturdays.jpg';
 import Sundays from './images/Sundays.jpg';
+import food from './images/organic.jpg';
+import plant from './images/plant.jpg';
 import "./page.css";
+import { Link } from "react-router-dom";
+
 
 function Specials() {
   const [todaySpecial, setTodaySpecial] = useState({
@@ -123,6 +127,26 @@ function Specials() {
           <input id="quantity" type="number" defaultValue={1} min={1} />
           <button className="add-to-cart">Add to Cart</button>
         </div>
+
+      {/* Section for the bottom part of the page with columns */}
+      <div className="row">
+        {/* Column for Shop Organic Groceries */}
+        <div className="col-md-6 shop-organic-groceries">
+          <h2>Shop Organic Groceries</h2>
+          <img src={food} alt="Organic Food" className="img-fluid" />
+          <Link to="/shop" className="btn btn-primary">Shop Now</Link>
+          <p>Shop now for the freshest foods</p>
+        </div>
+
+        {/* Column for Grow Your Own Food */}
+        <div className="col-md-6 grow-your-own-food">
+          <h2>Grow Your Own Food</h2>
+          <img src={plant} alt="Grow Food" className="img-fluid" />
+          <Link to="/plant" className="btn btn-primary">Grow Now</Link>
+          <p>Grow your own organic foods</p>
+        </div>
+      </div>
+
       </div>
     </div>
   );
