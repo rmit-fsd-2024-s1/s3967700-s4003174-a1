@@ -18,6 +18,7 @@ const Summary = () => {
     <div>
       <h1>Purchase Summary</h1>
       <div>
+        {/* display receipt */}
         {lastPurchase.map((item, index) => (
           <div key={index}>
             <h3>{item.itemName}</h3>
