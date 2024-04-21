@@ -21,6 +21,7 @@ function MyProfile() {
     if (user) {
       setProfile(user);
     } else {
+      alert('Please log in to view profile.');
       navigate('/login');
     }
   }, [navigate]);
