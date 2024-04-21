@@ -22,13 +22,13 @@ const Checkout = () => {
         return { ...item, quantity: Math.max(0, item.quantity + quantity) };
       }
       return item;
-    }).filter(item => item.quantity > 0); // Remove items with zero quantity
+    }).filter(item => item.quantity > 0); // Remove item if it reaches 0 quantity
     setCartItems(updatedItems);
     localStorage.setItem('cart', JSON.stringify(updatedItems));
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2);
+    return cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2); // find total cost... make it to two decimal places
   };
 
   if (cartItems.length === 0) {
@@ -41,6 +41,7 @@ const Checkout = () => {
     <div>
       <h1>Checkout</h1>
       <table>
+        {/* display items in cart in a table format */}
         <thead>
           <tr>
             <th>Item Name</th>

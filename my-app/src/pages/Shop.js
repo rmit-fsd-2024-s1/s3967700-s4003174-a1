@@ -32,6 +32,7 @@ const Shop = () => {
   }, []);
 
   const items = [
+    // define items
     { itemName: 'Advocado', itemLink: Advocado, price: 5.35 },
     { itemName: 'Arugala 100g', itemLink: Arugala, price: 5.20},
     { itemName: 'Cabbage', itemLink: Cabbage, price: 8.21 },
@@ -52,6 +53,7 @@ const Shop = () => {
     { itemName: 'Tomatoes 500g', itemLink: Tomatoes, price: 9.79 },
   ];
 
+  // if user raise or lower quantity of an item
   const handleQuantityChange = (itemName, value) => {
     setQuantities({
       ...quantities,
@@ -60,6 +62,7 @@ const Shop = () => {
   };
 
   const addToCart = (item) => {
+    // only users who are logged in can add items
     if (!isLoggedIn) {
       alert('You must be logged in to add items to the cart.');
       navigate('/login');
@@ -78,7 +81,8 @@ const Shop = () => {
   };
 
   const goToCheckout = () => {
-    if (!isLoggedIn) { // check if a user logged in
+    // check if a user logged in
+    if (!isLoggedIn) {
       alert('Please log in to proceed to checkout.');
       navigate('/login');
       return;
