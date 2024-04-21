@@ -28,6 +28,7 @@ const Payment = () => {
   };
 
   const validateExpiryDate = (date) => {
+    // make sure date is not expired or invalid
     const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
     if (!regex.test(date)) return false;
     const [month, year] = date.split('/').map(Number);

@@ -1,5 +1,7 @@
 # s3967700-s4003174-a1
 
+link to github - https://github.com/rmit-fsd-2024-s1/s3967700-s4003174-a1
+
 Please do 'cd my-app' then 'npm start' to run the project
 
 image references:
@@ -39,3 +41,8 @@ Tuesdays.jpg - https://i0.wp.com/kwadventurer.com/wp-content/uploads/2024/01/dow
 vegetables.jpg - https://i.pinimg.com/564x/d3/aa/14/d3aa14e936782824f845de4e67aef8da.jpg
 water.jpg - https://dragonfli.co.uk/cdn/shop/files/HousePlantBanner_aeb86f12-e335-405b-8d82-43eafe54e5a1_2000x.jpg?v=1701860063
 Wednesdays.jpg - https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSl5fCdVt8o0aognRsTBtVUGMsdgmS1sW7Vb8xlpQaP7Tt4i4XD
+
+references for Plant.js:
+https://www.bunnings.com.au/diy-advice/garden/planting-and-growing/how-to-start-a-vegetable-garden
+https://miraclegro.com/en-us/gardening-101/why-it-s-important-to-use-good-soil.html
+https://www.jimsmowing.com.au/2023/03/5-tips-every-good-gardener-needs-know/
