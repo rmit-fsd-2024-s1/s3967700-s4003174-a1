@@ -28,8 +28,29 @@
     margin-left: 120px;
     cursor: pointer;
 }
+
 .shop-button button.highlight-on-hover:hover {
     background-color: lightgreen;
     color: white;
   }
+
+.total-cost {
+    margin-top: 30px;
+    font-size: 20px;
+  }
+  
+.continue-shopping {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+.continue-shopping:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
   
