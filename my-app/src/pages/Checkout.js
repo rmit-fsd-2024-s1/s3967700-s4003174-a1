@@ -32,29 +32,50 @@ const Checkout = () => {
   };
 
   if (cartItems.length === 0) {
-    return <div>Your cart is empty.</div>;
+    return <div>Your cart is empty.
+        <div><button onClick={() => navigate('/shop')} className="continue-shopping">Continue Shopping</button></div>
+    </div>;
   }
 
   return (
     <div>
       <h1>Checkout</h1>
-      <ul>
-        {cartItems.map(item => (
-          <li key={item.itemName}>
-            {item.itemName} - Quantity: {item.quantity} 
-            - Price per item: ${item.price.toFixed(2)} 
-            - Total: ${(item.quantity * item.price).toFixed(2)}
-            <button onClick={() => handleQuantityChange(item.itemName, -1)}>-</button>
-            <button onClick={() => handleQuantityChange(item.itemName, 1)}>+</button>
-            <button onClick={() => handleRemoveItem(item.itemName)}>Remove</button>
-          </li>
-        ))}
-      </ul>
-      <div>Total: ${calculateTotal()}</div>
-      <button onClick={() => navigate('/payment')}>Proceed to Payment</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Quantity</th>
+            <th>Price Per Item</th>
+            <th>Total Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cartItems.map(item => (
+            <tr key={item.itemName}>
+              <td>{item.itemName}</td>
+              <td>
+                <button onClick={() => handleQuantityChange(item.itemName, -1)}>-</button>
+                {item.quantity}
+                <button onClick={() => handleQuantityChange(item.itemName, 1)}>+</button>
+              </td>
+              <td>${item.price.toFixed(2)}</td>
+              <td>${(item.quantity * item.price).toFixed(2)}</td>
+              <td><button onClick={() => handleRemoveItem(item.itemName)}>Remove</button></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <br/>
+      <div><h3>Total Cost: ${calculateTotal()}</h3></div>
+      <div>
+        <button onClick={() => navigate('/payment')} className="continue-shopping">Proceed to Payment</button>
+        <button onClick={() => navigate('/shop')} className="continue-shopping" style={{ marginLeft: '10px' }}>Continue Shopping</button>
+      </div>
     </div>
   );
 };
 
 export default Checkout;
+
 
