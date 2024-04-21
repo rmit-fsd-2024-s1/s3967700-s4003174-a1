@@ -59,13 +59,9 @@ function Specials() {
   return (
     <div className="main">
       <div className="text-center">
-        <h2>Today's Special - {todaySpecial.name}</h2>
-        <p><strong>Special:</strong> {todaySpecial.special}</p>
-        <p><strong>Highlight:</strong> {todaySpecial.highlight}</p>
-        {/* Image placeholder for the special */}
-        <img src="#" alt="Special of the day" style={{ width: '100%', height: 'auto' }} />
+        <h1>Today's Weekly Special</h1>
       </div>
-      <br />
+      
       <p className='content'>
         Here at SOIL we offer 24/7 fast and fresh organic foods. 
         Our organisation aims to provide our customers with local foods 
@@ -73,20 +69,24 @@ function Specials() {
         step closer to a greener and healthier planet.
       </p>
       <br />
-      <div className="row">
-        <div className="text-options-1">
-          <h3>Shop Organic Groceries</h3>
-        </div>
-        <div className="text-options-2">
-          <h3>Weekly Special Deals</h3>
-        </div>
-        <div className="text-options-3">
-          <h3>Grow your own food</h3>
-        </div>
+  
+      <div className="text-center">
+        <h2>{todaySpecial.name}</h2>
+        <p><strong>Special:</strong> {todaySpecial.special}</p>
+        <p><strong>Highlight:</strong> {todaySpecial.highlight}</p>
+        {/* Image placeholder for the special */}
+        <img src="#" alt="Special of the day" style={{ width: '100%', height: 'auto' }} />
       </div>
+      <br />
+      
       <div className="row">
-        <div className="col-lg-4">
-          <p className="caption">Grow your own organic food</p>
+        <div className="col-lg-6">
+          <h3>Shop Organic Groceries</h3>
+          <p className="caption">Discover a wide range of organic groceries for your daily needs.</p>
+        </div>
+        <div className="col-lg-6">
+          <h3>Grow Your Own Food</h3>
+          <p className="caption">Get started with your own organic garden with our range of seeds and gardening tools.</p>
         </div>
       </div>
     </div>
