@@ -27,9 +27,11 @@ const Summary = () => {
           </div>
         ))}
         <div className="total-cost">
-          <strong>Total Cost: ${calculateTotal()}</strong>
+          <h3>Total Cost: ${calculateTotal()}</h3>
         </div>
       </div>
+      <br/>
+      <h4>Thank you for shopping at SOIL</h4>
       <button onClick={() => navigate('/shop')} className="continue-shopping">
         Continue Shopping
       </button>

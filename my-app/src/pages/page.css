@@ -90,4 +90,22 @@
     font-size: 1.5rem;
 }
 
-
+/* css for table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+  }
+  
+  button {
+    margin: 0 5px;
+  }

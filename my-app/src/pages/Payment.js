@@ -7,7 +7,6 @@ const getCartItems = () => {
   return cart ? JSON.parse(cart) : [];
 };
 
-// save recent purchase to use in summary page
 const saveLastPurchase = (cartItems) => {
   localStorage.setItem('lastPurchase', JSON.stringify(cartItems));
 };
@@ -24,18 +23,24 @@ const Payment = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Validate credit card number for 16-digit numbers
   const validateCreditCard = (number) => {
     return /^\d{16}$/.test(number);
   };
 
-  // Validate expiry date MM/YY, must not be in the past
   const validateExpiryDate = (date) => {
     const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
     if (!regex.test(date)) return false;
     const [month, year] = date.split('/').map(Number);
     const expiry = new Date(`20${year}`, month - 1);
     return expiry > new Date();
+  };
+
+  const handleCreditCardInput = (e) => {
+    const value = e.target.value;
+    // Limit input to only digits and max 16 digits
+    if (value.length <= 16 && /^\d*$/.test(value)) {
+      setCreditCard(value);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -46,10 +51,9 @@ const Payment = () => {
       return;
     }
     if (!validateExpiryDate(expiryDate)) {
-      setError('Invalid expiry date. Date format should be MM/YY and should be a future date.');
+      setError('Invalid expiry date. Date format should be MM/YY and should not be expired.');
       return;
     }
-    // Proceed with clearing the cart and navigating to the summary page
     clearCart();
     navigate('/summary'); // Redirects to the summary page
   };
@@ -64,7 +68,7 @@ const Payment = () => {
             type="text"
             id="creditCard"
             value={creditCard}
-            onChange={(e) => setCreditCard(e.target.value)}
+            onChange={handleCreditCardInput}
             placeholder="Enter 16-digit card number"
           />
         </div>
@@ -78,7 +82,8 @@ const Payment = () => {
             placeholder="MM/YY"
           />
         </div>
-        <button type="submit">Complete Purchase</button>
+        <button type="submit" className="continue-shopping">Complete Purchase</button>
+        <button onClick={() => navigate('/payment')} className="continue-shopping" style={{ marginLeft: '10px' }}>Back to cart</button>
         {error && <div style={{ color: 'red' }}>{error}</div>}
       </form>
     </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import Advocado from './images/Advocado.jpg';
+import Arugala from './images/arugula.jpg';
 import Cabbage from './images/Cabbage.jpg';
 import Carrot from './images/Carrot.jpg';
 import Chillies from './images/Chillies.jpg';
@@ -9,8 +10,13 @@ import Eggplant from './images/Eggplant.jpg';
 import Garlic from './images/Garlic.jpg';
 import Kale from './images/Kale.jpg';
 import Lettuce from './images/Lettuce.jpg';
+import Mango from './images/Mangoes.jpg'
 import Mushrooms from './images/Mushrooms.jpg';
 import Onions from './images/Onions.jpg';
+import Papaya from './images/Papaya.jpg';
+import Pineapple from './images/Pineapple.jpg';
+import Potato from './images/potato.jpg';
+import Spinach from './images/spinach.jpg';
 import Tomatoes from './images/Tomatoes.jpg';
 import "./page.css";
 
@@ -20,13 +26,14 @@ const Shop = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Check if the user data exists in local storage to determine logged in status
-    const user = localStorage.getItem('user');
+    // Check if the user data exists in local storage
+    const user = localStorage.getItem('currentUser');
     setIsLoggedIn(!!user);
   }, []);
 
   const items = [
     { itemName: 'Advocado', itemLink: Advocado, price: 5.35 },
+    { itemName: 'Arugala 100g', itemLink: Arugala, price: 5.20},
     { itemName: 'Cabbage', itemLink: Cabbage, price: 8.21 },
     { itemName: 'Carrots', itemLink: Carrot, price: 4.55 },
     { itemName: 'Chillies 100g', itemLink: Chillies, price: 5.29 },
@@ -34,9 +41,14 @@ const Shop = () => {
     { itemName: 'Eggplant', itemLink: Eggplant, price: 5.95 },
     { itemName: 'Garlic 100g', itemLink: Garlic, price: 8.92 },
     { itemName: 'Kale', itemLink: Kale, price: 5.47 },
-    { itemName: 'Lettuce', itemLink: Lettuce, price: 5.99 },
+    { itemName: 'Lettuce 100g', itemLink: Lettuce, price: 5.99 },
+    { itemName: 'Mangoes', itemLink: Mango, price: 5.99 },
     { itemName: 'Mushrooms 150g', itemLink: Mushrooms, price: 7.79 },
-    { itemName: 'Onions', itemLink: Onions, price: 4.97 },
+    { itemName: 'Onions 500g', itemLink: Onions, price: 3.60 },
+    { itemName: 'Papaya', itemLink: Papaya, price: 4.60},
+    { itemName: 'Pineapple', itemLink: Pineapple, price: 7.69},
+    { itemName: 'Potatoes 1kg', itemLink: Potato, price: 7.49},
+    { itemName: 'Spinach 100g', itemLink: Spinach, price: 4.09},
     { itemName: 'Tomatoes 500g', itemLink: Tomatoes, price: 9.79 },
   ];
 
