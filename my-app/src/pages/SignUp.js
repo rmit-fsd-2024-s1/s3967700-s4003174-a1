@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveUser } from "../data/repository";
+import { saveUser, setUser } from "../data/repository";
 
 function SignUp(props) {
   const [fields, setFields] = useState({
@@ -45,8 +45,9 @@ function SignUp(props) {
 
     const success = saveUser(newUser);
     if (success) {
+      setUser(newUser); // This sets the logged-in user in local storage.
       props.loginUser(fields.username); 
-      navigate("/"); 
+      navigate("/"); // Navigate to the home page after successful sign up
     } else {
       setErrorMessage("Registration failed, username may already exist or fields are invalid.");
     }
