@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import Advocado from './images/Advocado.jpg';
 import Cabbage from './images/Cabbage.jpg';
 import Carrot from './images/Carrot.jpg';
@@ -13,7 +14,17 @@ import Onions from './images/Onions.jpg';
 import Tomatoes from './images/Tomatoes.jpg';
 import "./page.css";
 
-function Shop(props) {
+const Shop = () => {
+  const navigate = useNavigate();
+  const [quantities, setQuantities] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check if the user data exists in local storage to determine logged in status
+    const user = localStorage.getItem('user');
+    setIsLoggedIn(!!user);
+  }, []);
+
   const items = [
     { itemName: 'Advocado', itemLink: Advocado, price: 5.35 },
     { itemName: 'Cabbage', itemLink: Cabbage, price: 8.21 },
@@ -29,58 +40,72 @@ function Shop(props) {
     { itemName: 'Tomatoes 500g', itemLink: Tomatoes, price: 9.79 },
   ];
 
-  function ShopItem({ itemName, itemLink, price }) {
-    const [quantity, setQuantity] = useState(1);
+  const handleQuantityChange = (itemName, value) => {
+    setQuantities({
+      ...quantities,
+      [itemName]: Math.max(1, parseInt(value) || 1) // can not add negative items
+    });
+  };
 
-    const handleQuantityChange = (event) => {
-      const value = parseInt(event.target.value);
-      setQuantity(value);
-    };
+  const addToCart = (item) => {
+    if (!isLoggedIn) {
+      alert('You must be logged in to add items to the cart.');
+      navigate('/login');
+      return;
+    }
+    const quantity = quantities[item.itemName] || 1;
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingItem = cartItems.find(i => i.itemName === item.itemName);
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      cartItems.push({ ...item, quantity });
+    }
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+    alert(`${quantity} x ${item.itemName} has been added to your cart.`);
+  };
 
-    return (
-      <div className="col-lg-4" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div style={{ textAlign: "center" }}>
-          <img src={itemLink} alt={itemName} style={{ height: 200 }} />
-          <h4 className="caption-shop">{itemName} - ${price}</h4>
-        </div>
-        {props.username !== null && (
-          <div style={{ marginTop: '10px' }}>
-            <label style={{ marginRight: '5px' }}>Quantity:</label>
-            <input
-              type="number"
-              id="quantity"
-              min="1" // user cant add 0 or negative items to cart
-              value={quantity}
-              onChange={handleQuantityChange}
-              style={{ width: '50px', marginRight: '10px' }}
-            />
-            <button className="highlight-on-hover">Add to cart</button>
-          </div>
-        )}
-      </div>
-    );
-  }
+  const goToCheckout = () => {
+    if (!isLoggedIn) {
+      alert('Please log in to proceed to checkout.');
+      navigate('/login');
+      return;
+    }
+    navigate('/checkout');
+  };
 
   return (
     <div className="main">
       <div className="text-center">
         <h2>All ingredients are grown locally and organic</h2>
       </div>
-      <br />
-      <br />
-      <br />
       <div className="row">
         {items.map((item, index) => (
-          <ShopItem
-            key={index}
-            itemName={item.itemName}
-            itemLink={item.itemLink}
-            price={item.price}
-          />
+          <div className="col-lg-4" key={index} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ textAlign: "center" }}>
+              <img src={item.itemLink} alt={item.itemName} style={{ height: 200 }} />
+              <h4 className="caption-shop">{item.itemName} - ${item.price.toFixed(2)}</h4>
+              <input
+                type="number"
+                value={quantities[item.itemName] || 1}
+                onChange={(e) => handleQuantityChange(item.itemName, e.target.value)}
+                style={{ width: '50px', marginRight: '10px' }}
+              />
+              <button onClick={() => addToCart(item)} className="highlight-on-hover">Add to cart</button>
+            </div>
+          </div>
         ))}
+      </div>
+      <div className="text-center" style={{ marginTop: '20px' }}>
+        <button onClick={goToCheckout} className="btn btn-primary">Go to Checkout</button>
       </div>
     </div>
   );
-}
+};
 
 export default Shop;
+
+
+
+
+

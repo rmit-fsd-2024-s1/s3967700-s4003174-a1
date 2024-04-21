@@ -10,6 +10,9 @@ import SignUp from "./pages/SignUp";
 import Shop from "./pages/Shop";
 import Specials from "./pages/Specials";
 import Plant from "./pages/Plant";
+import Checkout from "./pages/Checkout";
+import Payment from "./pages/Payment";
+import Summary from "./pages/Summary";
 import { getUser, removeUser } from "./data/repository";
 
 function App() {
@@ -46,6 +49,9 @@ function App() {
               <Route path="/shop" element={<Shop username={username} />} />
               <Route path="/specials" element={<Specials username={username} />} />
               <Route path="/plant" element={<Plant username={username} />} />
+              <Route path="/checkout" element={<Checkout username={username} />} />
+              <Route path="/payment" element={<Payment username={username} />} />
+              <Route path="/summary" element={<Summary username={username} />} />
             </Routes>
           </div>
         </main>
