@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Fragment.css";
+import cart from "./cart.jpg";
 
 function Navbar(props) {
   return (
@@ -40,7 +41,7 @@ function Navbar(props) {
                   <Link className="nav-link" to="/login">Login</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/SignUp">Sign Up</Link>
+                  <Link className="nav-link" to="/signup">Sign Up</Link>
                 </li>
               </>
               :
@@ -53,6 +54,11 @@ function Navbar(props) {
                 </li>
               </>
             }
+            <li className="nav-item"> 
+              <Link className="nav-link" to="/checkout">             {/* shopping cart icon */}
+                <img src={cart} alt="Cart" style={{ width: '30px', height: '30px' }} />
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
