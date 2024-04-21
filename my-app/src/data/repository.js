@@ -58,6 +58,13 @@ function getUser() {
   }
 }
 
+function deleteUser(username) {
+  let users = getUsers();
+  users = users.filter(user => user.username !== username);
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
+
+
 function removeUser() {
   localStorage.removeItem(USER_KEY);
 }
@@ -69,5 +76,6 @@ export {
   getUser,
   removeUser,
   saveUser,
-  setUser
+  setUser,
+  deleteUser
 };

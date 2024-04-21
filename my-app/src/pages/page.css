@@ -154,3 +154,44 @@ footer {
 .footer-links a:hover {
     text-decoration: underline;
 }
+
+.btn-primary {
+    background-color: rgb(0, 136, 255);
+    color: white;
+  }
+  
+  .btn-danger {
+    background-color: red;
+    color: white;
+  }
+  
+  .btn-success {
+    background-color: green;
+    color: white;
+  }
+  
+  .btn-secondary {
+    background-color: gray;
+    color: white;
+  }
+  
+  .btn {
+    margin-right: 10px;
+  }
+  
+  .btn-primary:hover {
+    background-color: darkblue;
+  }
+  
+  .btn-danger:hover {
+    background-color: darkred;
+  }
+  
+  .btn-success:hover {
+    background-color: darkgreen;
+  }
+  
+  .btn-secondary:hover {
+    background-color: darkgray;
+  }
+  
