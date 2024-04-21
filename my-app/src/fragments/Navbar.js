@@ -27,7 +27,7 @@ function Navbar(props) {
               </>
             }
             <li className="nav-item">
-              <Link className="nav-link" to="/specials">Shop Specials</Link>  {/* This line is now accessible to everyone */}
+              <Link className="nav-link" to="/specials">Shop Specials</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/plant">Grow Yourself</Link>
@@ -49,7 +49,7 @@ function Navbar(props) {
                   <span className="nav-link text-light">Welcome, {props.username}</span>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/login" onClick={props.logoutUser}>Logout</Link>
+                  <Link className="nav-link" to="/logout" onClick={props.logoutUser}>Logout</Link>
                 </li>
               </>
             }
