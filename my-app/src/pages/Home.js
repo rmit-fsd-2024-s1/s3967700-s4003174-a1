@@ -21,7 +21,7 @@ function Section({ title, imageSrc, buttonText, buttonLink, caption }) {
   );
 }
 
-function Home(props) {
+function Home() {
   return (
     <div className="main">
       <div className="text-center">

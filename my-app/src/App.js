@@ -30,7 +30,7 @@ function App() {
 
   const logoutUser = () => {
     removeUser();
-    setUsername(""); 
+    setUsername(null); 
   }
 
   return (
