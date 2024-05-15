@@ -264,4 +264,8 @@ table {
       max-width: 100%; 
     }
   }
+
+  .profile-field label {
+    margin-right: 10px; /* Adjust the value as needed */
+  }
   
