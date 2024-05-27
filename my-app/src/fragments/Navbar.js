@@ -33,9 +33,6 @@ function Navbar(props) {
             </li>
               </>
             }
-            <li className="nav-item">
-              <Link className="nav-link" to="/plant">Grow Yourself</Link>
-            </li>
           </ul>
           <ul className="navbar-nav ml-auto">
             {props.username === null ?
