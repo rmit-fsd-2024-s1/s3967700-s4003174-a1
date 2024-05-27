@@ -108,23 +108,23 @@ function MyProfile() {
       ) : (
         <div>
           <div className="profile-field">
-            <label>Name: </label>
+            <label style={{ marginRight: '10px' }}>Name: </label>
             <span>{profile.name}</span>
           </div>
           <div className="profile-field">
-            <label>Username: </label>
+            <label style={{ marginRight: '10px' }}>Username: </label>
             <span>{profile.username}</span>
           </div>
           <div className="profile-field">
-            <label>Email: </label>
+            <label style={{ marginRight: '10px' }}>Email: </label>
             <span>{profile.email}</span>
           </div>
           <div className="profile-field">
-            <label>Bio: </label>
+            <label style={{ marginRight: '10px' }}>Bio: </label>
             <span>{profile.bio || 'No bio provided'}</span>
           </div>
           <div className="profile-field">
-            <label>Joined: </label>
+            <label style={{ marginRight: '10px' }}>Joined: </label>
             <span>{new Date(profile.joinDate).toLocaleDateString()}</span>
           </div>
           <button onClick={handleEdit} className="btn btn-primary">Edit</button>
