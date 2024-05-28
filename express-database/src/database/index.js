@@ -14,10 +14,16 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 
 // Include models.
 db.user = require("./models/user.js")(db.sequelize, DataTypes);
-db.post = require("./models/post.js")(db.sequelize, DataTypes);
+db.review = require("./models/review.js")(db.sequelize, DataTypes);
+db.item = require("./models/item.js")(db.sequelize, DataTypes);
+db.order = require("./mode;s/order.js")(db.sequelize, DataTypes);
 
-// Relate post and user.
-db.post.belongsTo(db.user, { foreignKey: { name: "username", allowNull: false } });
+// Relate review and user.
+db.review.belongsTo(db.user, { foreignKey: { name: "userID", allowNull: false } });
+db.review.belongsTo(db.item, { foreignKey: { name: "itemID", allowNull: false } });
+db.order.belongsTo(db.user, { foreignKey: { name: "userID", allowNull: false } });
+db.orderItem.belongsTo(db.order, { foreignKey: { name: "orderID", allowNull: false } });
+db.orderItem.belongsTo(db.item, { foreignKey: { name: "itemID", allowNull: false } });
 
 // Learn more about associations here: https://sequelize.org/master/manual/assocs.html
 

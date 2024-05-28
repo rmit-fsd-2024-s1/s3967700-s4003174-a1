@@ -1,13 +1,13 @@
 module.exports = (express, app) => {
-  const controller = require("../controllers/post.controller.js");
+  const controller = require('../controllers/item.controller.js');
   const router = express.Router();
 
-  // Select all posts.
-  router.get("/", controller.all);
+  // Create a new item
+  router.post('/add-item', controller.create);
 
-  // Create a new post.
-  router.post("/", controller.create);
+  // Retrieve all items
+  router.get('/items', controller.findAll);
 
-  // Add routes to server.
-  app.use("/api/posts", router);
+  // Add routes to server
+  app.use('/api', router);
 };
