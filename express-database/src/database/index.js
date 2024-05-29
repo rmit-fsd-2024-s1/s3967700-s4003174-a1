@@ -19,8 +19,7 @@ db.item = require("./models/item.js")(db.sequelize, DataTypes);
 db.order = require("./models/order.js")(db.sequelize, DataTypes);
 db.orderItem = require("./models/orderItems.js")(db.sequelize, DataTypes);
 db.review = require("./models/review.js")(db.sequelize, DataTypes);
-db.specials = require("./models/specials.js")(db.sequelize, DataTypes);  // Ensure this matches the file name casing
-
+db.specials = require("./models/specials.js")(db.sequelize, DataTypes);
 // Define relationships.
 db.post.belongsTo(db.user, { foreignKey: { name: "username", allowNull: false } });
 db.orderItem.belongsTo(db.order, { foreignKey: { name: "OrderID", allowNull: false } });
