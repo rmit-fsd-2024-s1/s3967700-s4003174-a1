@@ -1,21 +1,32 @@
-module.exports = (sequelize, DataTypes) =>
-  sequelize.define("review", {
-    ReviewID: {
+module.exports = (sequelize, DataTypes) => {
+  const Review = sequelize.define('Review', {
+    reviewID: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    UserID: {
+    userID: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      foreignKey: true
+      references: {
+        model: 'User',
+        key: 'userID'
+      }
     },
-    ItemID: {
+    itemID: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      foreignKey: true
+      references: {
+        model: 'Item',
+        key: 'itemID'
+      }
+    },
+    reviewText: {
+      type: DataTypes.TEXT,
+      allowNull: false
     }
   }, {
-    // Don't add the timestamp attributes (updatedAt, createdAt).
     timestamps: false
   });
+  return Review;
+};

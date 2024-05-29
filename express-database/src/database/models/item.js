@@ -1,17 +1,25 @@
 module.exports = (sequelize, DataTypes) => {
-    sequelize.define('Item', {
-      itemID: {
+    const Item = sequelize.define('Item', {
+      ItemID: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
-      itemName: {
+      ItemName: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      price: {
-        type: DataTypes.DECIMAL(10, 2),
+      Price: {
+        type: DataTypes.FLOAT,
         allowNull: false
       }
+    }, {
+      tableName: 'Item', // Specify the table name explicitly
+      timestamps: false // Assuming no timestamps
     });
+  
+    return Item;
   };
+  
+
+  

@@ -1,29 +1,38 @@
 const express = require("express");
-const cors = require("cors");
-const db = require("./src/database");
-
-// Database will be sync'ed in the background.
-db.sync();
+const bodyParser = require("body-parser");
+const db = require("./src/database/index.js");
 
 const app = express();
 
-// Parse requests of content-type - application/json.
-app.use(express.json());
+// Middleware.
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Add CORS suport.
-app.use(cors());
+// Routes.
+require("./src/routes/user.routes.js")(express, app);
+require("./src/routes/item.routes.js")(express, app);
+require("./src/routes/review.routes.js")(express, app);
+require("./src/routes/specials.routes.js")(express, app);
 
-// Simple Hello World route.
+// Root route.
 app.get("/", (req, res) => {
-  res.json({ message: "Hello World!" });
+  res.json({ message: "Welcome to the application." });
 });
 
-// Add user routes.
-require("./src/routes/user.routes.js")(express, app);
-require("./src/routes/post.routes.js")(express, app);
-
-// Set port, listen for requests.
-const PORT = 4000;
+// Start the server.
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
+  
+  db.sequelize.authenticate()
+    .then(() => {
+      console.log("Connection has been established successfully.");
+      return db.sync();
+    })
+    .then(() => {
+      console.log("Database synchronization complete.");
+    })
+    .catch(err => {
+      console.error("Unable to connect to the database:", err);
+    });
 });

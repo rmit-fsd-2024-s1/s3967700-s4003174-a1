@@ -1,23 +1,21 @@
-const db = require('../models');
+const db = require("../database/index");
 
-// Create a new item
-exports.create = async (req, res) => {
+exports.findAll = async (req, res) => {
   try {
-    const newItem = await db.item.create({
-      itemName: req.body.itemName,
-      price: req.body.price
-    });
-    res.status(201).json(newItem);
+    console.log("Fetching items...");
+    const items = await db.item.findAll();
+    console.log("Items fetched:", items);
+    res.status(200).json(items);
   } catch (error) {
+    console.error("Error fetching items:", error);
     res.status(500).json({ error: error.message });
   }
 };
 
-// Get all items
-exports.findAll = async (req, res) => {
+exports.create = async (req, res) => {
   try {
-    const items = await db.item.findAll();
-    res.status(200).json(items);
+    const newItem = await db.item.create(req.body);
+    res.status(201).json(newItem);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

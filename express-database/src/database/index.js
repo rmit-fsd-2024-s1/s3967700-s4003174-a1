@@ -6,7 +6,7 @@ const db = {
   Op: Sequelize.Op
 };
 
-// Create Sequelize.
+// Create Sequelize instance.
 db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   host: config.HOST,
   dialect: config.DIALECT
@@ -14,42 +14,36 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 
 // Include models.
 db.user = require("./models/user.js")(db.sequelize, DataTypes);
-db.review = require("./models/review.js")(db.sequelize, DataTypes);
+db.post = require("./models/post.js")(db.sequelize, DataTypes);
 db.item = require("./models/item.js")(db.sequelize, DataTypes);
-db.order = require("./mode;s/order.js")(db.sequelize, DataTypes);
+db.order = require("./models/order.js")(db.sequelize, DataTypes);
+db.orderItem = require("./models/orderItems.js")(db.sequelize, DataTypes);
+db.review = require("./models/review.js")(db.sequelize, DataTypes);
+db.specials = require("./models/specials.js")(db.sequelize, DataTypes);  // Ensure this matches the file name casing
 
-// Relate review and user.
-db.review.belongsTo(db.user, { foreignKey: { name: "userID", allowNull: false } });
-db.review.belongsTo(db.item, { foreignKey: { name: "itemID", allowNull: false } });
-db.order.belongsTo(db.user, { foreignKey: { name: "userID", allowNull: false } });
-db.orderItem.belongsTo(db.order, { foreignKey: { name: "orderID", allowNull: false } });
-db.orderItem.belongsTo(db.item, { foreignKey: { name: "itemID", allowNull: false } });
+// Define relationships.
+db.post.belongsTo(db.user, { foreignKey: { name: "username", allowNull: false } });
+db.orderItem.belongsTo(db.order, { foreignKey: { name: "OrderID", allowNull: false } });
+db.orderItem.belongsTo(db.item, { foreignKey: { name: "ItemID", allowNull: false } });
+db.review.belongsTo(db.user, { foreignKey: { name: "UserID", allowNull: false } });
+db.review.belongsTo(db.item, { foreignKey: { name: "ItemID", allowNull: false } });
 
-// Learn more about associations here: https://sequelize.org/master/manual/assocs.html
-
-// Include a sync option with seed data logic included.
+// Sync the database.
 db.sync = async () => {
-  // Sync schema.
   await db.sequelize.sync();
-
-  // Can sync with force if the schema has become out of date - note that syncing with force is a destructive operation.
-  // await db.sequelize.sync({ force: true });
-  
   await seedData();
 };
 
 async function seedData() {
   const count = await db.user.count();
 
-  // Only seed data if necessary.
-  if(count > 0)
-    return;
+  if (count > 0) return;
 
   let hash = await argon2.hash("abc123", { type: argon2.argon2id });
-  await db.user.create({ username: "mbolger", password_hash: hash, first_name: "Matthew", last_name : "Bolger" });
+  await db.user.create({ username: "mbolger", password_hash: hash, first_name: "Matthew", last_name: "Bolger" });
 
   hash = await argon2.hash("def456", { type: argon2.argon2id });
-  await db.user.create({ username: "shekhar", password_hash: hash, first_name: "Shekhar", last_name : "Kalra" });
+  await db.user.create({ username: "shekhar", password_hash: hash, first_name: "Shekhar", last_name: "Kalra" });
 }
 
 module.exports = db;
