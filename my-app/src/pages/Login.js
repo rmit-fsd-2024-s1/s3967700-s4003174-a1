@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { verifyUser } from "../data/repository";
+import axios from 'axios';
 
 function Login(props) {
   const [fields, setFields] = useState({ username: "", password: "" });
@@ -12,23 +12,29 @@ function Login(props) {
     setFields(prevFields => ({ ...prevFields, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const { username, password } = fields;
-    const verified = verifyUser(username, password);
+    try {
+      // Send POST request to the server with username and password
+      const response = await axios.post('http://localhost:4000/api/users/login', {
+        username: username,
+        password: password
+      });
 
-    if (verified) {
-      props.loginUser(username);  
-      navigate("/"); // Navigate to the home page after login
-    } else {
+      if (response.data) {
+        props.loginUser(username);  
+        navigate("/"); 
+      }
+    } catch (error) {
       setErrorMessage("Username and/or password invalid, please try again.");
-      setFields(prevFields => ({ ...prevFields, password: "" })); // Clear password field after failed login
+      setFields(prevFields => ({ ...prevFields, password: "" })); 
     }
   };
 
   const handleSignUpClick = () => {
-    navigate("/signup"); // Navigate to the sign-up page
+    navigate("/signup"); 
   };
 
   return (

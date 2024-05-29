@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveUser, setUser } from "../data/repository";
+import axios from 'axios';
 
 function SignUp(props) {
   const [fields, setFields] = useState({
@@ -11,6 +11,7 @@ function SignUp(props) {
     email: ""
   });
   const [errorMessage, setErrorMessage] = useState(null);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
@@ -18,7 +19,7 @@ function SignUp(props) {
     setFields(fields => ({ ...fields, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!fields.email.match(/\S+@\S+\.\S+/)) {
@@ -43,18 +44,23 @@ function SignUp(props) {
       password: fields.password,
     };
 
-    const success = saveUser(newUser);
-    if (success) {
-      setUser(newUser); // This sets the logged-in user in local storage.
-      props.loginUser(fields.username); // This should update the login state in your app context or Redux store.
-      navigate("/"); // Navigate to the home page after successful sign up
-    } else {
+    try {
+      const response = await axios.post('http://localhost:4000/api/users/register', newUser);
+      if (response.data) {
+        navigate("/"); // Navigate to the home page after successful sign up
+      }
+    } catch (error) {
       setErrorMessage("Registration failed, username may already exist or fields are invalid.");
+      console.error("Registration Error:", error);
     }
   };
 
   const handleLoginClick = () => {
     navigate("/login"); // Navigate to the login page
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword); // Toggle the state of the password visibility
   };
 
   return (
@@ -81,12 +87,15 @@ function SignUp(props) {
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <input type="password" name="password" id="password" className="form-control"
+              <input type={showPassword ? "text" : "password"} name="password" id="password" className="form-control"
                 value={fields.password} onChange={handleInputChange} />
+              <button type="button" onClick={togglePasswordVisibility} className="btn btn-secondary btn-sm">
+                {showPassword ? "Hide" : "Show"} Password
+              </button>
             </div>
             <div className="form-group">
               <label htmlFor="confirmPassword">Confirm Password</label>
-              <input type="password" name="confirmPassword" id="confirmPassword" className="form-control"
+              <input type={showPassword ? "text" : "password"} name="confirmPassword" id="confirmPassword" className="form-control"
                 value={fields.confirmPassword} onChange={handleInputChange} />
             </div>
             <div className="form-group d-flex justify-content-between align-items-center">
