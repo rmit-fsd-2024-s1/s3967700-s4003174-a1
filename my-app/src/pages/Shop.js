@@ -31,29 +31,6 @@ const Shop = () => {
     setIsLoggedIn(!!user);
   }, []);
 
-  const items = [
-    // define items
-    { itemName: 'Advocado', itemLink: Advocado, price: 5.35 },
-    { itemName: 'Arugala 100g', itemLink: Arugala, price: 5.20},
-    { itemName: 'Cabbage', itemLink: Cabbage, price: 8.21 },
-    { itemName: 'Carrots', itemLink: Carrot, price: 4.55 },
-    { itemName: 'Chillies 100g', itemLink: Chillies, price: 5.29 },
-    { itemName: 'Cucumber', itemLink: Cucumber, price: 5.99 },
-    { itemName: 'Eggplant', itemLink: Eggplant, price: 5.95 },
-    { itemName: 'Garlic 100g', itemLink: Garlic, price: 8.92 },
-    { itemName: 'Kale', itemLink: Kale, price: 5.47 },
-    { itemName: 'Lettuce 100g', itemLink: Lettuce, price: 5.99 },
-    { itemName: 'Mangoes', itemLink: Mango, price: 5.99 },
-    { itemName: 'Mushrooms 150g', itemLink: Mushrooms, price: 7.79 },
-    { itemName: 'Onions 500g', itemLink: Onions, price: 3.60 },
-    { itemName: 'Papaya', itemLink: Papaya, price: 4.60},
-    { itemName: 'Pineapple', itemLink: Pineapple, price: 7.69},
-    { itemName: 'Potatoes 1kg', itemLink: Potato, price: 7.49},
-    { itemName: 'Spinach 100g', itemLink: Spinach, price: 4.09},
-    { itemName: 'Tomatoes 500g', itemLink: Tomatoes, price: 9.79 },
-  ];
-
-  // if user raise or lower quantity of an item
   const handleQuantityChange = (itemName, value) => {
     setQuantities({
       ...quantities,
@@ -122,8 +99,3 @@ const Shop = () => {
 };
 
 export default Shop;
-
-
-
-
-
