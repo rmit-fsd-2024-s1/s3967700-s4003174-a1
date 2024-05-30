@@ -1,13 +1,18 @@
 module.exports = (express, app) => {
-  const controller = require('../controllers/item.controller.js');
+  const controller = require('../controller/review.controller.js');
   const router = express.Router();
 
-  // Create a new item
-  router.post('/add-item', controller.create);
+  // Create a new review
+  router.post("/", controller.createReview);
 
-  // Retrieve all items
-  router.get('/items', controller.findAll);
+  // Update a review
+  router.put("/", controller.updateReview);
 
-  // Add routes to server
-  app.use('/api', router);
+  // Delete a review
+  router.delete("/:ReviewID", controller.deleteReview);
+
+  // Get reviews for a product
+  router.get("/:ItemID", controller.getReviews);
+
+  app.use("/api/reviews", router);
 };

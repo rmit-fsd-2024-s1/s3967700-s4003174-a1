@@ -1,8 +1,8 @@
-const db = require("../database/models");
+const db = require("../database/index.js");
 
 exports.getSpecials = async (req, res) => {
   try {
-    const specials = await db.Specials.findAll();
+    const specials = await db.specials.findAll();
     res.status(200).send(specials);
   } catch (error) {
     res.status(500).send({ message: "Error fetching specials.", error: error.message });
@@ -13,7 +13,7 @@ exports.createSpecial = async (req, res) => {
   const { SpecialName, Description, Quantity, Price, Discount, DayOfWeek } = req.body;
 
   try {
-    const special = await db.Specials.create({
+    const special = await db.specials.create({
       SpecialName,
       Description,
       Quantity,

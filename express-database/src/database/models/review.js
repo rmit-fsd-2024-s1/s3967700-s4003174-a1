@@ -1,32 +1,50 @@
 module.exports = (sequelize, DataTypes) => {
   const Review = sequelize.define('Review', {
-    reviewID: {
+    ReviewID: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    userID: {
+    UserID: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: 'User',
-        key: 'userID'
+        key: 'UserID'
       }
     },
-    itemID: {
+    ItemID: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: 'Item',
-        key: 'itemID'
+        key: 'ItemID'
       }
     },
-    reviewText: {
-      type: DataTypes.TEXT,
-      allowNull: false
+    ReviewTitle: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    Rating: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        min: 1,
+        max: 5
+      }
+    },
+    ReviewText: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    dateCreated: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
-    timestamps: false
+    timestamps: false // No createdAt and updatedAt fields
   });
+
   return Review;
 };
