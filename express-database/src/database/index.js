@@ -1,10 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const config = require("./config.js");
 
-const db = {
-  Op: Sequelize.Op
-};
-
 // Create Sequelize instance
 db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   host: config.HOST,
