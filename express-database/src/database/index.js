@@ -1,6 +1,10 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const config = require("./config.js");
 
+const db = {
+  Op: Sequelize.Op
+};
+
 // Create Sequelize instance
 db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   host: config.HOST,
@@ -22,9 +26,37 @@ db.orderItem.belongsTo(db.item, { foreignKey: { name: "itemID", allowNull: false
 db.review.belongsTo(db.user, { foreignKey: { name: "UserID", allowNull: false } });
 db.review.belongsTo(db.item, { foreignKey: { name: "ItemID", allowNull: false } });
 
-// Synchronize models with the database
+// Sync the database.
 db.sync = async () => {
   await db.sequelize.sync();
+  await seedData();
 };
+
+async function seedData() {
+  const count = await db.user.count();
+
+  if (count > 0) return;
+
+  let hash = await argon2.hash("abc123", { type: argon2.argon2id });
+  await db.user.create({
+    Username: "mbolger",
+    Password: hash,
+    Email: "mbolger@example.com",
+    FirstName: "Matthew",
+    LastName: "Bolger",
+    JoinDate: new Date()
+  });
+
+  hash = await argon2.hash("def456", { type: argon2.argon2id });
+  await db.user.create({
+    Username: "shekhar",
+    Password: hash,
+    Email: "shekhar@example.com",
+    FirstName: "Shekhar",
+    LastName: "Kalra",
+    JoinDate: new Date()
+  });
+}
+
 
 module.exports = db;

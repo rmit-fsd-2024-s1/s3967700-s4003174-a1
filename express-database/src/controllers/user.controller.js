@@ -1,5 +1,3 @@
-const db = require("../database"); // Ensure this path is correct
-// src/controllers/user.controller.js
 const db = require("../database/index.js");
 const argon2 = require("argon2");
 
