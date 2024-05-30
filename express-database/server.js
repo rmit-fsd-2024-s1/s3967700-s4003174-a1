@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 const bodyParser = require("body-parser");
 const db = require("./src/database/index.js");
 
@@ -7,6 +8,7 @@ const app = express();
 // Middleware.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 // Routes.
 require("./src/routes/user.routes.js")(express, app);

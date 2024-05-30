@@ -1,6 +1,6 @@
-const db = require("../database/index"); // Corrected path
+// src/controllers/user.controller.js
+const db = require("../database/index.js");
 const argon2 = require("argon2");
-
 
 exports.all = async (req, res) => {
   try {
@@ -10,7 +10,6 @@ exports.all = async (req, res) => {
     res.status(500).send({ message: "Error retrieving users", error: error.message });
   }
 };
-
 
 exports.one = async (req, res) => {
   try {
@@ -26,30 +25,46 @@ exports.one = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { username, password } = req.body;
-  const user = await db.user.findOne({ where: { username } });
-  if (user && await argon2.verify(user.password_hash, password)) {
-    res.json({ message: 'Login successful', user });
-  } else {
-    res.status(401).json({ message: 'Invalid username or password' });
+
+  try {
+    // Find the user by username
+    const user = await db.user.findOne({ where: { Username: username } });
+
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+
+    // Verify the password using Argon2
+    const validPassword = await argon2.verify(user.Password, password);
+    if (!validPassword) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+
+    // If login is successful, return the user details
+    res.status(200).json({ message: 'Login successful', user: user });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
-
-
 exports.create = async (req, res) => {
   try {
-    const existingUser = await db.user.findOne({ where: { username: req.body.username } });
+    const existingUser = await db.user.findOne({ where: { Username: req.body.username } });
     if (existingUser) {
       return res.status(409).send({ message: "Username already exists" });
     }
 
-    const hash = await argon2.hash(req.body.password, { type: argon2.argon2id });
+    // Hash the password using Argon2
+    const hashedPassword = await argon2.hash(req.body.password);
+
     const newUser = await db.user.create({
-      username: req.body.username,
-      password_hash: hash,
-      email: req.body.email,
-      firstName: req.body.firstName, 
-      lastName: req.body.lastName
+      Username: req.body.username,
+      Password: hashedPassword,
+      Email: req.body.email,
+      FirstName: req.body.firstName, 
+      LastName: req.body.lastName,
+      JoinDate: new Date()
     });
 
     res.status(201).json({ message: "User created successfully", user: newUser });

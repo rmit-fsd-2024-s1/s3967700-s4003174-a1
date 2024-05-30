@@ -9,7 +9,7 @@ module.exports = (express, app) => {
   router.get("/select/:id", controller.one);
 
   // Login a user. Changed to POST for security.
-  router.post("/login", controller.login);
+  router.post('/login', controller.login);
 
   // Register (create) a new user. Changed to a more descriptive path.
   router.post("/register", controller.create);

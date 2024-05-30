@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test-db": "node src/database/testConnection.js"
+    "test-db": "node src/database/testConnection.js",
+    "seed-users": "node src/database/seedUsers.js"
   },
   "keywords": [
     "nodejs",
@@ -18,7 +19,7 @@
   "author": "Ninh Huynh",
   "license": "ISC",
   "dependencies": {
-    "argon2": "^0.40.1",
+    "argon2": "^0.40.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "mysql2": "^3.9.7",

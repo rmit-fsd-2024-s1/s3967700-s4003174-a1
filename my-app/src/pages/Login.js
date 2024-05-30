@@ -23,25 +23,23 @@ function Login(props) {
       });
 
       if (response.data && response.status === 200) {
-        props.loginUser(username);  
-        navigate("/"); 
+        props.loginUser(username);
+        navigate("/");
       } else {
         setErrorMessage(response.data.message || "Login failed, please try again.");
       }
-      
     } catch (error) {
-      // Check if server response contains a specific message
       if (error.response && error.response.data.message) {
         setErrorMessage(error.response.data.message);
       } else {
         setErrorMessage("Username and/or password invalid, please try again.");
       }
-      setFields(prevFields => ({ ...prevFields, password: "" })); // Reset password field
+      setFields(prevFields => ({ ...prevFields, password: "" }));
     }
   };
 
   const handleSignUpClick = () => {
-    navigate("/signup");  // Navigate to the signup page
+    navigate("/signup");
   };
 
   return (
@@ -85,4 +83,3 @@ function Login(props) {
 }
 
 export default Login;
-

@@ -7,25 +7,28 @@ module.exports = (sequelize, DataTypes) => {
     },
     orderID: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
-        model: 'Order',
+        model: 'Orders',
         key: 'OrderID'
-      },
-      allowNull: false
+      }
     },
     itemID: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
-        model: 'Item',
+        model: 'Items',
         key: 'ItemID'
-      },
-      allowNull: false
+      }
     },
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 1
     }
+  }, {
+    timestamps: true
   });
+
   return OrderItem;
 };
