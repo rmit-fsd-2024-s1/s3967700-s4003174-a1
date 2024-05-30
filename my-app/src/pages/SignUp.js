@@ -6,8 +6,9 @@ function SignUp(props) {
   const [fields, setFields] = useState({
     username: "",
     password: "",
-    confirmPassword: "",  
-    name: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
     email: ""
   });
   const [errorMessage, setErrorMessage] = useState(null);
@@ -21,37 +22,42 @@ function SignUp(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    
     if (!fields.email.match(/\S+@\S+\.\S+/)) {
-      setErrorMessage("Please enter a valid email address.");
-      return;
+        setErrorMessage("Please enter a valid email address.");
+        return;
     }
 
     if (!fields.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)) {
-      setErrorMessage("Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number.");
-      return;
+        setErrorMessage("Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number.");
+        return;
     }
 
     if (fields.password !== fields.confirmPassword) {
-      setErrorMessage("Passwords don't match.");
-      return;
+        setErrorMessage("Passwords don't match.");
+        return;
     }
 
     const newUser = {
-      name: fields.name,
-      email: fields.email,
-      username: fields.username,
-      password: fields.password,
+        firstName: fields.firstName,
+        lastName: fields.lastName,
+        email: fields.email,
+        username: fields.username,
+        password: fields.password,
     };
 
     try {
-      const response = await axios.post('http://localhost:4000/api/users/register', newUser);
-      if (response.data) {
-        navigate("/"); // Navigate to the home page after successful sign up
-      }
+        const response = await axios.post('http://localhost:4000/api/users/register', newUser);
+        if (response.data) {
+            navigate("/"); // Navigate to the home page after successful sign up
+        }
     } catch (error) {
-      setErrorMessage("Registration failed, username may already exist or fields are invalid.");
-      console.error("Registration Error:", error);
+        if (error.response && error.response.data.error) {
+            setErrorMessage(error.response.data.error);
+        } else {
+            setErrorMessage("Registration failed, please try again.");
+        }
+        console.error("Registration Error:", error);
     }
   };
 
@@ -71,9 +77,14 @@ function SignUp(props) {
         <div className="col-md-12">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <input type="text" name="name" id="name" className="form-control"
-                value={fields.name} onChange={handleInputChange} />
+              <label htmlFor="firstName">First Name</label>
+              <input type="text" name="firstName" id="firstName" className="form-control"
+                value={fields.firstName} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="lastName">Last Name</label>
+              <input type="text" name="lastName" id="lastName" className="form-control"
+                value={fields.lastName} onChange={handleInputChange} />
             </div>
             <div className="form-group">
               <label htmlFor="email">Email</label>

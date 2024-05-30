@@ -8,11 +8,11 @@ module.exports = (express, app) => {
   // Select a single user with id.
   router.get("/select/:id", controller.one);
 
-  // Select one user from the database if username and password are a match.
-  router.get("/login", controller.login);
+  // Login a user. Changed to POST for security.
+  router.post("/login", controller.login);
 
-  // Create a new user.
-  router.post("/", controller.create);
+  // Register (create) a new user. Changed to a more descriptive path.
+  router.post("/register", controller.create);
 
   // Add routes to server.
   app.use("/api/users", router);

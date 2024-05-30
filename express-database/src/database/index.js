@@ -16,7 +16,8 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 db.user = require("./models/user.js")(db.sequelize, DataTypes);
 db.review = require("./models/review.js")(db.sequelize, DataTypes);
 db.item = require("./models/item.js")(db.sequelize, DataTypes);
-db.order = require("./mode;s/order.js")(db.sequelize, DataTypes);
+db.order = require("./models/order.js")(db.sequelize, DataTypes);
+
 
 // Relate review and user.
 db.review.belongsTo(db.user, { foreignKey: { name: "userID", allowNull: false } });
@@ -40,10 +41,7 @@ db.sync = async () => {
 
 async function seedData() {
   const count = await db.user.count();
-
-  // Only seed data if necessary.
-  if(count > 0)
-    return;
+  if (count > 0) return;  // Prevent re-seeding
 
   let hash = await argon2.hash("abc123", { type: argon2.argon2id });
   await db.user.create({ username: "mbolger", password_hash: hash, first_name: "Matthew", last_name : "Bolger" });
@@ -51,5 +49,6 @@ async function seedData() {
   hash = await argon2.hash("def456", { type: argon2.argon2id });
   await db.user.create({ username: "shekhar", password_hash: hash, first_name: "Shekhar", last_name : "Kalra" });
 }
+
 
 module.exports = db;

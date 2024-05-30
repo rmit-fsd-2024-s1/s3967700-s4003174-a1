@@ -14,27 +14,34 @@ function Login(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const { username, password } = fields;
+
     try {
-      // Send POST request to the server with username and password
       const response = await axios.post('http://localhost:4000/api/users/login', {
-        username: username,
-        password: password
+        username,
+        password
       });
 
-      if (response.data) {
+      if (response.data && response.status === 200) {
         props.loginUser(username);  
         navigate("/"); 
+      } else {
+        setErrorMessage(response.data.message || "Login failed, please try again.");
       }
+      
     } catch (error) {
-      setErrorMessage("Username and/or password invalid, please try again.");
-      setFields(prevFields => ({ ...prevFields, password: "" })); 
+      // Check if server response contains a specific message
+      if (error.response && error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Username and/or password invalid, please try again.");
+      }
+      setFields(prevFields => ({ ...prevFields, password: "" })); // Reset password field
     }
   };
 
   const handleSignUpClick = () => {
-    navigate("/signup"); 
+    navigate("/signup");  // Navigate to the signup page
   };
 
   return (
@@ -78,3 +85,4 @@ function Login(props) {
 }
 
 export default Login;
+
