@@ -24,7 +24,6 @@ exports.one = async (req, res) => {
   }
 };
 
-
 exports.login = async (req, res) => {
   const { username, password } = req.body;
   const user = await db.user.findOne({ where: { username } });
