@@ -8,7 +8,7 @@ import MyProfile from "./pages/MyProfile";
 import SignUp from "./pages/SignUp";
 import Shop from "./pages/Shop";
 import Specials from "./pages/Specials";
-import Plant from "./pages/Plant";
+import Review from "./pages/Review";
 import Checkout from "./pages/Checkout";
 import Payment from "./pages/Payment";
 import Summary from "./pages/Summary";
