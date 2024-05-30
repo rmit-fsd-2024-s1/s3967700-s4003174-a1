@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require('cors');
 const bodyParser = require("body-parser");
+const cors = require("cors"); // Include the CORS library
 const db = require("./src/database/index.js");
 
 const app = express();
@@ -26,13 +27,12 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
   
+  // Database connection and synchronization
   db.sequelize.authenticate()
     .then(() => {
       console.log("Connection has been established successfully.");
-      return db.sync();
-    })
-    .then(() => {
-      console.log("Database synchronization complete.");
+      // If you need to sync models (not recommended in production automatically)
+      // db.sequelize.sync();
     })
     .catch(err => {
       console.error("Unable to connect to the database:", err);
