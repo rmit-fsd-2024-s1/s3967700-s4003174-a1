@@ -16,14 +16,6 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 db.user = require("./models/user.js")(db.sequelize, DataTypes);
 db.item = require("./models/item.js")(db.sequelize, DataTypes);
 db.order = require("./models/order.js")(db.sequelize, DataTypes);
-
-
-// Relate review and user.
-db.review.belongsTo(db.user, { foreignKey: { name: "userID", allowNull: false } });
-db.review.belongsTo(db.item, { foreignKey: { name: "itemID", allowNull: false } });
-db.order.belongsTo(db.user, { foreignKey: { name: "userID", allowNull: false } });
-db.orderItem.belongsTo(db.order, { foreignKey: { name: "orderID", allowNull: false } });
-db.orderItem.belongsTo(db.item, { foreignKey: { name: "itemID", allowNull: false } });
 db.orderItem = require("./models/orderItems.js")(db.sequelize, DataTypes);
 db.review = require("./models/review.js")(db.sequelize, DataTypes);
 db.specials = require("./models/specials.js")(db.sequelize, DataTypes);
@@ -33,6 +25,7 @@ db.orderItem.belongsTo(db.order, { foreignKey: { name: "OrderID", allowNull: fal
 db.orderItem.belongsTo(db.item, { foreignKey: { name: "ItemID", allowNull: false } });
 db.review.belongsTo(db.user, { foreignKey: { name: "UserID", allowNull: false } });
 db.review.belongsTo(db.item, { foreignKey: { name: "ItemID", allowNull: false } });
+db.order.belongsTo(db.user, { foreignKey: { name: "userID", allowNull: false } });
 
 // Sync the database.
 db.sync = async () => {

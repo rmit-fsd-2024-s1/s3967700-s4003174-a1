@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import food from './images/organic.jpg';
 import vegetables from './images/vegetables.jpg'
 import special from './images/specials.jpg';
-import plant from './images/plant.jpg';
+import review from './images/review.jpg';
 import "./page.css";
 
 function Section({ title, imageSrc, buttonText, buttonLink, caption }) {
@@ -52,11 +52,11 @@ function Home() {
           caption="Discover our exclusive weekly deals"
         />
         <Section
-          title="Grow Your Own Food"
-          imageSrc={plant}
+          title="Check out reviews"
+          imageSrc={review}
           buttonText="Grow Now"
-          buttonLink="/plant"
-          caption="Start your organic garden today"
+          buttonLink="/review"
+          caption="Read or create a review here"
         />
       </div>
     </div>
