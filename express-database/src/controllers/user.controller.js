@@ -1,4 +1,4 @@
-const db = require("../database");
+const db = require("../database/index"); // Corrected path
 const argon2 = require("argon2");
 
 

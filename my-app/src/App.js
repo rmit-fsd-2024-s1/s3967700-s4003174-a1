@@ -8,7 +8,7 @@ import MyProfile from "./pages/MyProfile";
 import SignUp from "./pages/SignUp";
 import Shop from "./pages/Shop";
 import Specials from "./pages/Specials";
-import Plant from "./pages/Plant";
+import Review from "./pages/Review";
 import Checkout from "./pages/Checkout";
 import Payment from "./pages/Payment";
 import Summary from "./pages/Summary";
@@ -46,6 +46,7 @@ function App() {
               <Route path="/profile" element={<MyProfile username={username} />} />
               <Route path="/shop" element={<Shop username={username} />} />
               <Route path="/specials" element={<Specials username={username} />} />
+              <Route path="/review" element={<Review username={username} />} />
               <Route path="/checkout" element={<Checkout username={username} />} />
               <Route path="/payment" element={<Payment username={username} />} />
               <Route path="/summary" element={<Summary username={username} />} />

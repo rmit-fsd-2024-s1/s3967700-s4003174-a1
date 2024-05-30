@@ -4,7 +4,7 @@
   "description": "Node.js Rest Apis with Express, Sequelize & Cloud MySQL",
   "main": "server.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "test-db": "node src/database/testConnection.js"
   },
   "keywords": [

@@ -6,7 +6,7 @@ const db = {
   Op: Sequelize.Op
 };
 
-// Create Sequelize.
+// Create Sequelize instance.
 db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   host: config.HOST,
   dialect: config.DIALECT
@@ -14,7 +14,6 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 
 // Include models.
 db.user = require("./models/user.js")(db.sequelize, DataTypes);
-db.review = require("./models/review.js")(db.sequelize, DataTypes);
 db.item = require("./models/item.js")(db.sequelize, DataTypes);
 db.order = require("./models/order.js")(db.sequelize, DataTypes);
 
@@ -25,29 +24,36 @@ db.review.belongsTo(db.item, { foreignKey: { name: "itemID", allowNull: false } 
 db.order.belongsTo(db.user, { foreignKey: { name: "userID", allowNull: false } });
 db.orderItem.belongsTo(db.order, { foreignKey: { name: "orderID", allowNull: false } });
 db.orderItem.belongsTo(db.item, { foreignKey: { name: "itemID", allowNull: false } });
+db.orderItem = require("./models/orderItems.js")(db.sequelize, DataTypes);
+db.review = require("./models/review.js")(db.sequelize, DataTypes);
+db.specials = require("./models/specials.js")(db.sequelize, DataTypes);
 
-// Learn more about associations here: https://sequelize.org/master/manual/assocs.html
+// Define relationships.
+db.orderItem.belongsTo(db.order, { foreignKey: { name: "OrderID", allowNull: false } });
+db.orderItem.belongsTo(db.item, { foreignKey: { name: "ItemID", allowNull: false } });
+db.review.belongsTo(db.user, { foreignKey: { name: "UserID", allowNull: false } });
+db.review.belongsTo(db.item, { foreignKey: { name: "ItemID", allowNull: false } });
 
-// Include a sync option with seed data logic included.
+// Sync the database.
 db.sync = async () => {
-  // Sync schema.
   await db.sequelize.sync();
-
-  // Can sync with force if the schema has become out of date - note that syncing with force is a destructive operation.
-  // await db.sequelize.sync({ force: true });
-  
   await seedData();
 };
 
 async function seedData() {
   const count = await db.user.count();
+<<<<<<< HEAD
   if (count > 0) return;  // Prevent re-seeding
+=======
+
+  if (count > 0) return;
+>>>>>>> 11a60719c003f668584ffd9755782edaa6b0d41d
 
   let hash = await argon2.hash("abc123", { type: argon2.argon2id });
-  await db.user.create({ username: "mbolger", password_hash: hash, first_name: "Matthew", last_name : "Bolger" });
+  await db.user.create({ username: "mbolger", password_hash: hash, first_name: "Matthew", last_name: "Bolger" });
 
   hash = await argon2.hash("def456", { type: argon2.argon2id });
-  await db.user.create({ username: "shekhar", password_hash: hash, first_name: "Shekhar", last_name : "Kalra" });
+  await db.user.create({ username: "shekhar", password_hash: hash, first_name: "Shekhar", last_name: "Kalra" });
 }
 
 

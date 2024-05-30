@@ -1,11 +1,11 @@
 module.exports = (express, app) => {
-    const controller = require('../controllers/item.controller.js');
+    const controller = require("../controllers/item.controller.js");
     const router = express.Router();
   
-    // Retrieve all items
+    // Select all items.
     router.get("/", controller.findAll);
   
-    // Create a new item
+    // Create a new item.
     router.post("/", controller.create);
   
     // Add routes to server
