@@ -35,13 +35,28 @@ db.sync = async () => {
 
 async function seedData() {
   const count = await db.user.count();
-  if (count > 0) return;  // Prevent re-seeding
+
+  if (count > 0) return;
 
   let hash = await argon2.hash("abc123", { type: argon2.argon2id });
-  await db.user.create({ username: "mbolger", password_hash: hash, first_name: "Matthew", last_name: "Bolger" });
+  await db.user.create({
+    Username: "mbolger",
+    Password: hash,
+    Email: "mbolger@example.com",
+    FirstName: "Matthew",
+    LastName: "Bolger",
+    JoinDate: new Date()
+  });
 
   hash = await argon2.hash("def456", { type: argon2.argon2id });
-  await db.user.create({ username: "shekhar", password_hash: hash, first_name: "Shekhar", last_name: "Kalra" });
+  await db.user.create({
+    Username: "shekhar",
+    Password: hash,
+    Email: "shekhar@example.com",
+    FirstName: "Shekhar",
+    LastName: "Kalra",
+    JoinDate: new Date()
+  });
 }
 
 
