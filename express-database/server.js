@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes.
 require("./src/routes/user.routes.js")(express, app);
 require("./src/routes/item.routes.js")(express, app);
-require("./src/routes/review.routes.js")(express, app);
+require("./src/routes/review.routes.js")(express, app); // Ensure this line is correct
 require("./src/routes/specials.routes.js")(express, app);
 
 // Root route.
