@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require('cors');
 const bodyParser = require("body-parser");
-const cors = require("cors"); // Include the CORS library
 const db = require("./src/database/index.js");
 
 const app = express();
