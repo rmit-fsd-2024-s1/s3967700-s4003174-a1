@@ -7,7 +7,6 @@ exports.findAll = async (req, res) => {
     console.log("Items fetched:", items);
     res.status(200).json(items);
   } catch (error) {
-    console.error("Error fetching items:", error);
     res.status(500).json({ error: error.message });
   }
 };
