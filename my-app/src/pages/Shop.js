@@ -70,20 +70,6 @@ const Shop = () => {
         setItems(extractedItems);
       })
       .catch(error => console.error('Error fetching items:', error));
-
-    // Fetch special items from the API
-    fetch('/api/specials')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        const extractedSpecialItems = data.map(item => item.dataValues || item);
-        setSpecialItems(extractedSpecialItems);
-      })
-      .catch(error => console.error('Error fetching special items:', error));
   }, []);
 
   const handleQuantityChange = (itemName, value) => {

@@ -2,7 +2,7 @@ const db = require("../database/index.js");
 
 exports.findAll = async (req, res) => {
   try {
-    const items = await db.Item.findAll();
+    const items = await db.item.findAll();
     res.status(200).json(items);
   } catch (error) {
     res.status(500).json({ error: error.message });
