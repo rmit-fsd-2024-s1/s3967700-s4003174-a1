@@ -19,6 +19,7 @@ db.order = require("./models/order.js")(db.sequelize, DataTypes);
 db.orderItem = require("./models/orderItems.js")(db.sequelize, DataTypes);
 db.review = require("./models/review.js")(db.sequelize, DataTypes);
 db.specials = require("./models/specials.js")(db.sequelize, DataTypes);
+db.cart = require("./models/cart.js")(db.sequelize, DataTypes);
 
 // Define associations
 db.order.belongsTo(db.user, { foreignKey: { name: "UserID", allowNull: false } });
