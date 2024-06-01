@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const config = require("./config.js");
+const argon2 = require("argon2"); // Make sure to require argon2 for hashing
 
 const db = {
   Op: Sequelize.Op
@@ -57,6 +58,5 @@ async function seedData() {
     JoinDate: new Date()
   });
 }
-
 
 module.exports = db;

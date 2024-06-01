@@ -11,10 +11,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes.
-require("./src/routes/user.routes.js")(express, app);
-require("./src/routes/item.routes.js")(express, app);
-require("./src/routes/review.routes.js")(express, app);
-require("./src/routes/specials.routes.js")(express, app);
+require('./routes/user.routes.js')(express, app);
+require('./routes/item.routes.js')(express, app);
+require('./routes/order.routes.js')(express, app);
+require('./routes/orderItems.routes.js')(express, app);
+require('./routes/specials.routes.js')(express, app);
+require('./routes/cart.routes.js')(express, app);
 
 // Root route.
 app.get("/", (req, res) => {

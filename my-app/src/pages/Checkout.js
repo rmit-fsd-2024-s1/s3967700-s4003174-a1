@@ -4,31 +4,61 @@ import { useNavigate } from 'react-router-dom';
 const Checkout = () => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
+  const [userID, setUserID] = useState(null);
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem('cart')) || [];
-    setCartItems(items);
+    // Fetch user information
+    fetch('/api/users/current/1') // Assume current user ID is 1 for now
+      .then(response => response.json())
+      .then(data => {
+        setUserID(data.UserID);
+        fetch(`/api/cart/${data.UserID}`)
+          .then(response => response.json())
+          .then(data => setCartItems(data))
+          .catch(error => console.error('Error fetching cart items:', error));
+      })
+      .catch(error => console.error('Error fetching user:', error));
   }, []);
 
-  const handleRemoveItem = (itemName) => {
-    const updatedItems = cartItems.filter(item => item.itemName !== itemName);
-    setCartItems(updatedItems);
-    localStorage.setItem('cart', JSON.stringify(updatedItems));
+  const handleRemoveItem = (itemID) => {
+    fetch(`/api/cart/remove/${userID}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ itemID })
+    })
+    .then(response => response.json())
+    .then(data => {
+      setCartItems(cartItems.filter(item => item.itemID !== itemID));
+    })
+    .catch(error => console.error('Error removing item from cart:', error));
   };
 
-  const handleQuantityChange = (itemName, quantity) => {
+  const handleQuantityChange = (itemID, quantity) => {
     const updatedItems = cartItems.map(item => {
-      if (item.itemName === itemName) {
-        return { ...item, quantity: Math.max(0, item.quantity + quantity) };
+      if (item.itemID === itemID) {
+        item.quantity = Math.max(1, item.quantity + quantity);
       }
       return item;
     }).filter(item => item.quantity > 0); // Remove item if it reaches 0 quantity
-    setCartItems(updatedItems);
-    localStorage.setItem('cart', JSON.stringify(updatedItems));
+
+    fetch(`/api/cart/update/${userID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ itemID, quantity: updatedItems.find(item => item.itemID === itemID).quantity })
+    })
+    .then(response => response.json())
+    .then(data => {
+      setCartItems(updatedItems);
+    })
+    .catch(error => console.error('Error updating cart item:', error));
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2); // find total cost... make it to two decimal places
+    return cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2);
   };
 
   if (cartItems.length === 0) {
@@ -41,7 +71,6 @@ const Checkout = () => {
     <div>
       <h1>Checkout</h1>
       <table>
-        {/* display items in cart in a table format */}
         <thead>
           <tr>
             <th>Item Name</th>
@@ -53,16 +82,16 @@ const Checkout = () => {
         </thead>
         <tbody>
           {cartItems.map(item => (
-            <tr key={item.itemName}>
+            <tr key={item.itemID}>
               <td>{item.itemName}</td>
               <td>
-                <button onClick={() => handleQuantityChange(item.itemName, -1)}>-</button>
+                <button onClick={() => handleQuantityChange(item.itemID, -1)}>-</button>
                 {item.quantity}
-                <button onClick={() => handleQuantityChange(item.itemName, 1)}>+</button>
+                <button onClick={() => handleQuantityChange(item.itemID, 1)}>+</button>
               </td>
               <td>${item.price.toFixed(2)}</td>
               <td>${(item.quantity * item.price).toFixed(2)}</td>
-              <td><button onClick={() => handleRemoveItem(item.itemName)}>Remove</button></td>
+              <td><button onClick={() => handleRemoveItem(item.itemID)}>Remove</button></td>
             </tr>
           ))}
         </tbody>
@@ -78,5 +107,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-
-

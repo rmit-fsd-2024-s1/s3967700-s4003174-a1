@@ -2,22 +2,23 @@ module.exports = (express, app) => {
   const controller = require("../controllers/user.controller.js");
   const router = express.Router();
 
-
-
-  // Select all users.
+  // Get all users
   router.get("/", controller.all);
 
-  // Select a single user with id.
+  // Get a single user by ID
   router.get("/select/:id", controller.one);
 
-  // Login a user. Changed to POST for security.
-  router.post('/login', controller.login);
+  // Login a user
+  router.post("/login", controller.login);
 
-  // Register (create) a new user. Changed to a more descriptive path.
-  router.post("/register", controller.create);
+  // Register a new user
+  router.post("/register", controller.register);
 
-  // Add routes to server.
+  // Get the current logged-in user (assuming user ID is passed as a parameter)
+  router.get("/current/:id", controller.current);
+
+  // Add routes to the app
   app.use("/api/users", router);
 };
-  
+
 

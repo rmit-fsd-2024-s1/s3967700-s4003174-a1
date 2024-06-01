@@ -1,347 +1,345 @@
 .content {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .text-options-2 {
-    margin-left: 85px;
+  margin-left: 85px;
 }
 
 .text-options-1 {
-    margin-left: 30px;
+  margin-left: 30px;
 }
 
 .text-options-3 {
-    margin-left: 110px;
+  margin-left: 110px;
 }
 
 .caption {
-    text-align: center;
+  text-align: center;
 }
 
 .caption-shop {
-    text-align: center;
-    margin-right: 50px;
-    margin-top: 10px;
+  text-align: center;
+  margin-right: 50px;
+  margin-top: 10px;
 }
 
 .shop-button {
-    margin-left: 120px;
-    cursor: pointer;
+  margin-left: 120px;
+  cursor: pointer;
 }
 
 .shop-button button.highlight-on-hover:hover {
-    background-color: lightgreen;
-    color: white;
+  background-color: lightgreen;
+  color: white;
 }
 
 .total-cost {
-    margin-top: 30px;
-    font-size: 20px;
+  margin-top: 30px;
+  font-size: 20px;
 }
 
 .continue-shopping {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4CAF50; 
-    color: white; 
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50; 
+  color: white; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .continue-shopping:hover {
-    background-color: #45a049; 
+  background-color: #45a049; 
 }
 
 .main {
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
-    flex: 1; 
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  flex: 1; 
 }
 
 .text-center h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
 }
 
 .text-center h2 {
-    font-size: 2rem;
-    margin-top: 20px;
+  font-size: 2rem;
+  margin-top: 20px;
 }
 
 .content {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
 }
 
 .caption {
-    font-size: 1rem;
-    color: #666;
-    margin-top: 5px;
+  font-size: 1rem;
+  color: #666;
+  margin-top: 5px;
 }
 
 .row .col-lg-6 {
-    padding: 20px;
+  padding: 20px;
 }
 
 .row h3 {
-    color: #333;
-    font-size: 1.5rem;
+  color: #333;
+  font-size: 1.5rem;
 }
 
 .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
 }
 
 .col-md-6 {
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
 @media (min-width: 768px) {
-    .col-md-6 {
-      flex: 0 0 50%;
-      max-width: 50%;
-    }
+  .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
 }
 
 .img-fluid {
-    max-width: 100%;
-    height: auto;
-    max-height: 300px; 
+  max-width: 100%;
+  height: auto;
+  max-height: 300px; 
 }
 
 .shop-organic-groceries, .grow-your-own-food {
-    text-align: center;
-    margin-bottom: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .btn-primary {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    display: block; 
-    color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: block; 
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
 }
 
 .checkout-button {
-    margin-left: 469px;
-    display: block; 
-    color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+  margin-left: 469px;
+  display: block; 
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
 }
 
 p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
-
 
 footer {
-    background-color: #4caf50; 
-    color: white; 
-    text-align: center;
-    padding: 1rem 0;
-    margin-top: auto; 
+  background-color: #4caf50; 
+  color: white; 
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: auto; 
 }
 
-
 .footer-links a {
-    color: #ddd;
-    text-decoration: none;
-    padding: 0 10px;
+  color: #ddd;
+  text-decoration: none;
+  padding: 0 10px;
 }
 
 .footer-links a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .btn-primary {
-    background-color: rgb(0, 136, 255);
-    color: white;
-  }
-  
-  .btn-danger {
-    background-color: red;
-    color: white;
-  }
-  
-  .btn-success {
-    background-color: green;
-    color: white;
-  }
-  
-  .btn-secondary {
-    background-color: gray;
-    color: white;
-  }
-  
-  .btn {
-    margin-right: 10px;
-  }
-  
-  .btn-primary:hover {
-    background-color: darkblue;
-  }
-  
-  .btn-danger:hover {
-    background-color: darkred;
-  }
-  
-  .btn-success:hover {
-    background-color: darkgreen;
-  }
-  
-  .btn-secondary:hover {
-    background-color: darkgray;
-  }
-  
+  background-color: rgb(0, 136, 255);
+  color: white;
+}
+
+.btn-danger {
+  background-color: red;
+  color: white;
+}
+
+.btn-success {
+  background-color: green;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: gray;
+  color: white;
+}
+
+.btn {
+  margin-right: 10px;
+}
+
+.btn-primary:hover {
+  background-color: darkblue;
+}
+
+.btn-danger:hover {
+  background-color: darkred;
+}
+
+.btn-success:hover {
+  background-color: darkgreen;
+}
+
+.btn-secondary:hover {
+  background-color: darkgray;
+}
+
 /* css for table */
 table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #f4f4f4;
-  }
-  
-  button {
-    margin: 0 5px;
-  }
+  width: 100%;
+  border-collapse: collapse;
+}
 
-  .plant-guide-container {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-  }
-  
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+button {
+  margin: 0 5px;
+}
+
+.plant-guide-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.guide-image {
+  width: 100%;  
+  height: auto;
+  margin-bottom: 20px; 
+}
+
+.smaller-image .guide-image {
+  max-width: 75%;  
+  margin: auto; 
+}
+
+.image-container {
+  text-align: center; 
+}
+
+h2, h3, h4 {
+  color: #33691e; 
+}
+
+p {
+  font-size: 16px; 
+  color: #666; 
+  line-height: 1.6; 
+}
+
+@media (max-width: 768px) {
   .guide-image {
-    width: 100%;  
-    height: auto;
-    margin-bottom: 20px; 
-  }
-  
-  .smaller-image .guide-image {
-    max-width: 75%;  
-    margin: auto; 
-  }
-  
-  .image-container {
-    text-align: center; 
-  }
-  
-  h2, h3, h4 {
-    color: #33691e; 
-  }
-  
-  p {
-    font-size: 16px; 
-    color: #666; 
-    line-height: 1.6; 
-  }
-  
-
-  @media (max-width: 768px) {
-    .guide-image {
       width: 100%; 
-    }
-  
-    .smaller-image .guide-image {
+  }
+
+  .smaller-image .guide-image {
       max-width: 100%; 
-    }
   }
-  
-  .review-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .review-options {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .review-form-container, .review-list-container {
-    background-color: #eef;
-    padding: 20px;
-    border-radius: 10px;
-  }
-  
-  .review-form, .review-item {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .review-input, .review-textarea, .review-select, .review-button {
-    margin-bottom: 10px;
-    padding: 10px;
-    font-size: 16px;
-  }
-  
-  .review-input, .review-textarea, .review-select {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .review-textarea {
-    resize: vertical;
-  }
-  
-  .review-button {
-    border: none;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .review-button:hover {
-    background-color: #45a049;
-  }
-  
-  .review-button.cancel {
-    background-color: #f44336;
-  }
-  
-  .review-button.cancel:hover {
-    background-color: #e53935;
-  }
-  
-  .review-button.delete {
-    background-color: #ff4444;
-  }
-  
-  .review-button.delete:hover {
-    background-color: #cc0000;
-  }
-  
-  .review-content {
-    padding: 10px;
-  }
-  
-  .review-actions {
-    display: flex;
-    gap: 10px;
-  }
+}
+
+.review-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.review-options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.review-form-container, .review-list-container {
+  background-color: #eef;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.review-form, .review-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.review-input, .review-textarea, .review-select, .review-button {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.review-input, .review-textarea, .review-select {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.review-textarea {
+  resize: vertical;
+}
+
+.review-button {
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+.review-button:hover {
+  background-color: #45a049;
+}
+
+.review-button.cancel {
+  background-color: #f44336;
+}
+
+.review-button.cancel:hover {
+  background-color: #e53935;
+}
+
+.review-button.delete {
+  background-color: #ff4444;
+}
+
+.review-button.delete:hover {
+  background-color: #cc0000;
+}
+
+.review-content {
+  padding: 10px;
+}
+
+.review-actions {
+  display: flex;
+  gap: 10px;
+}
+

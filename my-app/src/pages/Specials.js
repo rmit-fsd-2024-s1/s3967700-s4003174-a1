@@ -25,9 +25,16 @@ const images = {
 function Specials() {
   const navigate = useNavigate();
   const [todaySpecial, setTodaySpecial] = useState(null);
+  const [userID, setUserID] = useState(null);
 
   useEffect(() => {
     const currentDay = new Date().toLocaleString('en-US', { weekday: 'long' });
+
+    // Fetch user information
+    fetch('/api/users/current/1') // Assume current user ID is 1 for now
+      .then(response => response.json())
+      .then(data => setUserID(data.UserID))
+      .catch(error => console.error('Error fetching user:', error));
 
     // Fetch today's special from the database
     fetch(`/api/specials`)
@@ -39,7 +46,7 @@ function Specials() {
             ...specialData,
             Price: parseFloat(specialData.Price),  // Ensure Price is a number
             imageSrc: images[currentDay],
-            quantity: 1 // Reset quantity every time the day changes
+            Quantity: 1 // Reset quantity every time the day changes
           });
         }
       })
@@ -47,22 +54,29 @@ function Specials() {
   }, []);
 
   const addToCart = () => {
-    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    if (!userID) {
+      alert('You must be logged in to add items to the cart.');
+      navigate('/login');
+      return;
+    }
+
     const itemToAdd = {
-      itemName: todaySpecial.SpecialName,
-      price: todaySpecial.Price - (todaySpecial.Price * todaySpecial.Discount / 100),
+      itemID: todaySpecial.SpecialID,
       quantity: todaySpecial.Quantity
     };
 
-    const existingItem = cartItems.find(item => item.itemName === itemToAdd.itemName);
-    if (existingItem) {
-      existingItem.quantity += todaySpecial.Quantity;
-    } else {
-      cartItems.push(itemToAdd);
-    }
-
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-    alert(`${todaySpecial.Quantity} x ${todaySpecial.SpecialName} has been added to your cart.`);
+    fetch(`/api/cart/add/${userID}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(itemToAdd)
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert(`${todaySpecial.Quantity} x ${todaySpecial.SpecialName} has been added to your cart.`);
+    })
+    .catch(error => console.error('Error adding item to cart:', error));
   };
 
   const handleQuantityChange = (e) => {
@@ -112,5 +126,3 @@ function Specials() {
 }
 
 export default Specials;
-
-

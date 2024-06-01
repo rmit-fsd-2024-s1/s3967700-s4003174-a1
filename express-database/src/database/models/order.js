@@ -1,25 +1,35 @@
 module.exports = (sequelize, DataTypes) => {
-  const Order = sequelize.define('Order', {
-    OrderID: {
+  const OrderItem = sequelize.define('OrderItem', {
+    orderItemID: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    userID: {
+    orderID: {
       type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    totalAmount: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    orderDate: {
-      type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      references: {
+        model: 'Orders',
+        key: 'OrderID'
+      }
+    },
+    itemID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Items',
+        key: 'ItemID'
+      }
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1
     }
   }, {
-    tableName: 'Order',
+    timestamps: true
   });
-  return Order;
+
+  return OrderItem;
 };
+
