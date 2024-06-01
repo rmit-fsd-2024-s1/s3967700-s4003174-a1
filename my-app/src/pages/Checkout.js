@@ -58,7 +58,7 @@ const Checkout = () => {
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2);
+    return cartItems.reduce((acc, item) => acc + (item.quantity || 0) * (item.price || 0), 0).toFixed(2);
   };
 
   if (cartItems.length === 0) {
@@ -96,8 +96,8 @@ const Checkout = () => {
                 {item.quantity}
                 <button onClick={() => handleQuantityChange(item.itemID, 1)}>+</button>
               </td>
-              <td>${item.price.toFixed(2)}</td>
-              <td>${(item.quantity * item.price).toFixed(2)}</td>
+              <td>${(item.price || 0).toFixed(2)}</td>
+              <td>${((item.quantity || 0) * (item.price || 0)).toFixed(2)}</td>
               <td><button onClick={() => handleRemoveItem(item.itemID)}>Remove</button></td>
             </tr>
           ))}
@@ -118,3 +118,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
