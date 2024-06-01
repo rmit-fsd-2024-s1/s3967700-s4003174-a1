@@ -5,6 +5,7 @@ exports.register = async (req, res) => {
   const { FirstName, LastName, Email, Username, Password } = req.body;
   try {
     const passwordHash = await argon2.hash(Password, { type: argon2.argon2id });
+    console.log("Creating user with:", { FirstName, LastName, Email, Username, Password: passwordHash });
     const user = await db.user.create({
       FirstName,
       LastName,
