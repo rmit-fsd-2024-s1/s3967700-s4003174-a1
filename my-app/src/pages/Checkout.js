@@ -62,9 +62,16 @@ const Checkout = () => {
   };
 
   if (cartItems.length === 0) {
-    return <div>Your cart is empty.
-        <div><button onClick={() => navigate('/shop')} className="continue-shopping">Continue Shopping</button></div>
-    </div>;
+    return (
+      <div>
+        Your cart is empty.
+        <div>
+          <button onClick={() => navigate('/shop')} className="continue-shopping">
+            Continue Shopping
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -97,10 +104,14 @@ const Checkout = () => {
         </tbody>
       </table>
       <br/>
-      <div><h3>Total Cost: ${calculateTotal()}</h3></div>
+      <div>
+        <h3>Total Cost: ${calculateTotal()}</h3>
+      </div>
       <div>
         <button onClick={() => navigate('/payment')} className="continue-shopping">Proceed to Payment</button>
-        <button onClick={() => navigate('/shop')} className="continue-shopping" style={{ marginLeft: '10px' }}>Continue Shopping</button>
+        <button onClick={() => navigate('/shop')} className="continue-shopping" style={{ marginLeft: '10px' }}>
+          Continue Shopping
+        </button>
       </div>
     </div>
   );
