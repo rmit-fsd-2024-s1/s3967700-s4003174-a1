@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUser, saveUser, deleteUser, removeUser } from '../data/repository';
 import "./page.css";
+import axios from 'axios';
 
 function MyProfile() {
   const navigate = useNavigate();
