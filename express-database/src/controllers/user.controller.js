@@ -3,9 +3,28 @@ const argon2 = require("argon2");
 
 exports.register = async (req, res) => {
   const { FirstName, LastName, Email, Username, Password } = req.body;
+
   try {
+    // Check if username or email already exists
+    const existingUser = await db.user.findOne({
+      where: {
+        [db.Sequelize.Op.or]: [
+          { Username: Username },
+          { Email: Email }
+        ]
+      }
+    });
+    
+    if (existingUser) {
+      console.log("Existing user found:", existingUser);
+      return res.status(409).json({ message: "Username or email already exists, please choose a different username or email." });
+    } else {
+      console.log("No existing user found, proceeding to create new user.");
+    }
+    
+
+    // Hash the password and create the user if the username and email are unique
     const passwordHash = await argon2.hash(Password, { type: argon2.argon2id });
-    console.log("Creating user with:", { FirstName, LastName, Email, Username, Password: passwordHash });
     const user = await db.user.create({
       FirstName,
       LastName,
@@ -14,12 +33,21 @@ exports.register = async (req, res) => {
       Password: passwordHash,
       JoinDate: new Date()
     });
+
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      res.status(409).json({ message: "Username or email already exists, please choose a different username or email." });
+    } else {
+      console.error("Registration Error:", error);
+      res.status(500).json({ message: "Registration failed", error: error.message });
+    }
     console.error("Registration Error:", error);
     res.status(500).json({ message: "Registration failed", error: error.message });
   }
+  
 };
+
 
 exports.all = async (req, res) => {
   try {

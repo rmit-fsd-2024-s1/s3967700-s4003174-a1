@@ -48,26 +48,36 @@ function SignUp(props) {
 
         try {
             const registrationResponse = await axios.post('http://localhost:4000/api/users/register', newUser);
-            if (registrationResponse.data) {
-                // Attempt to automatically log in the user after registration
-                const loginResponse = await axios.post('http://localhost:4000/api/users/login', {
-                    username: fields.username,
-                    password: fields.password
-                });
-                if (loginResponse.data && loginResponse.status === 200) {
-                    props.loginUser(fields.username); // Assuming loginUser updates the context/state for user session
-                    navigate("/"); // Navigate to the home page after successful login
-                } else {
-                    setErrorMessage("Automatic login failed, please try logging in manually.");
-                }
-            }
-        } catch (error) {
-            if (error.response && error.response.data.message) {
-                setErrorMessage(error.response.data.message);
-            } else {
-                setErrorMessage("Registration failed, please try again.");
+            if (registrationResponse.status === 201) {
+                navigate("/"); // Navigate to the home page after successful registration
             }
         }
+        catch (error) {
+          if (error.response) {
+              // Handling specific status codes explicitly
+              switch (error.response.status) {
+                  case 409: // Conflict, such as when a username or email already exists
+                      setErrorMessage("Username or email already exists, please choose a different username or email.");
+                      break;
+                  case 500: // Internal Server Error
+                      setErrorMessage("Username or email already exists, please choose a different username or email.");
+                      break;
+                  default: // Other responses that might be returned by the backend
+                      if (error.response.data && error.response.data.message) {
+                          setErrorMessage(error.response.data.message);
+                      } else {
+                          setErrorMessage("Registration failed, please try again.");
+                      }
+              }
+          } else if (error.request) {
+              // The request was made but no response was received
+              setErrorMessage("No response from the server. Check your network connection.");
+          } else {
+              // Something happened in setting up the request and triggered an Error
+              setErrorMessage("An unknown error occurred.");
+          }
+      }
+      
     };
 
     const togglePasswordVisibility = () => {
