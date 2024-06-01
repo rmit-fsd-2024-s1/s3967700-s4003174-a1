@@ -8,6 +8,11 @@ module.exports = (express, app) => {
   // Get a single user by ID
   router.get("/select/:id", controller.one);
 
+  // Fetch user details
+  router.get('/profile/:username', userController.getUserDetails);
+
+
+
   // Login a user
   router.post("/login", controller.login);
 

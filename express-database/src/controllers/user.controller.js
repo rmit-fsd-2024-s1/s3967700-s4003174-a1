@@ -74,3 +74,17 @@ exports.current = async (req, res) => {
     res.status(500).send({ message: "Error retrieving current user", error: error.message });
   }
 };
+
+
+exports.getUserDetails = async (req, res) => {
+  try {
+      // Assuming req.params.username is the way to access the username sent from frontend
+      const user = await db.user.findOne({ where: { Username: req.params.username } });
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+      res.json(user); // Send back the user data
+  } catch (error) {
+      res.status(500).json({ message: "Error retrieving user", error: error.message });
+  }
+};
