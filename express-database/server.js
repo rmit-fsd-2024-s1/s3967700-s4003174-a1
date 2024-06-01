@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require('cors');
 const bodyParser = require("body-parser");
-const db = require("./src/database/index.js");
+const db = require('./src/database');
 
 const app = express();
 
@@ -11,12 +11,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes.
-require('./routes/user.routes.js')(express, app);
-require('./routes/item.routes.js')(express, app);
-require('./routes/order.routes.js')(express, app);
-require('./routes/orderItems.routes.js')(express, app);
-require('./routes/specials.routes.js')(express, app);
-require('./routes/cart.routes.js')(express, app);
+require('./src/routes/user.routes.js')(express, app);
+require('./src/routes/item.routes.js')(express, app);
+require('./src/routes/order.routes.js')(express, app);
+require('./src/routes/orderItems.routes.js')(express, app);
+require('./src/routes/specials.routes.js')(express, app);
+require('./src/routes/cart.routes.js')(express, app);
 
 // Root route.
 app.get("/", (req, res) => {

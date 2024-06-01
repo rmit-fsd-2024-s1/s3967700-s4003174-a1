@@ -46,7 +46,6 @@ const imageMap = {
 const Shop = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
-  const [specialItems, setSpecialItems] = useState([]);
   const [quantities, setQuantities] = useState({});
   const [userID, setUserID] = useState(null);
 
@@ -91,9 +90,14 @@ const Shop = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ itemID: item.ItemID || item.SpecialID, quantity })
+      body: JSON.stringify({ itemID: item.ItemID, quantity })
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to add item to cart');
+      }
+      return response.json();
+    })
     .then(data => {
       alert(`${quantity} x ${item.ItemName} has been added to your cart.`);
     })
@@ -115,7 +119,7 @@ const Shop = () => {
         <h2>All ingredients are grown locally and organic</h2>
       </div>
       <div className="row">
-        {items.map((item, index) => (
+        {items.length > 0 ? items.map((item, index) => (
           <div className="col-lg-4" key={index} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ textAlign: "center" }}>
               <img src={imageMap[item.ItemName]} alt={item.ItemName} style={{ height: 200 }} />
@@ -129,27 +133,7 @@ const Shop = () => {
               <button onClick={() => addToCart(item)} className="highlight-on-hover">Add to cart</button>
             </div>
           </div>
-        ))}
-      </div>
-      <div className="text-center">
-        <h2>Special Items</h2>
-      </div>
-      <div className="row">
-        {specialItems.map((item, index) => (
-          <div className="col-lg-4" key={index} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div style={{ textAlign: "center" }}>
-              <img src={imageMap[item.SpecialName]} alt={item.SpecialName} style={{ height: 200 }} />
-              <h4 className="caption-shop">{item.SpecialName} - ${item.Price.toFixed(2)}</h4>
-              <input
-                type="number"
-                value={quantities[item.SpecialName] || 1}
-                onChange={(e) => handleQuantityChange(item.SpecialName, e.target.value)}
-                style={{ width: '50px', marginRight: '10px' }}
-              />
-              <button onClick={() => addToCart(item)} className="highlight-on-hover">Add to cart</button>
-            </div>
-          </div>
-        ))}
+        )) : <div>Loading items...</div>}
       </div>
       <div style={{ marginTop: '20px'}}>
         <button onClick={goToCheckout} className="btn checkout-button">Go to Checkout</button>

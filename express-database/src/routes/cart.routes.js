@@ -1,20 +1,19 @@
 module.exports = (express, app) => {
-    const controller = require("../controllers/cart.controller.js");
-    const router = express.Router();
-  
-    // Get user's cart.
-    router.get("/", controller.getCart);
-  
-    // Add item to cart.
-    router.post("/add", controller.addToCart);
-  
-    // Update item in cart.
-    router.put("/update", controller.updateCart);
-  
-    // Remove item from cart.
-    router.delete("/remove", controller.removeFromCart);
-  
-    // Add routes to server.
-    app.use('/api/cart', router);
-  };
-  
+  const controller = require("../controllers/cart.controller.js");
+  const router = express.Router();
+
+  // Get user's cart (passing user ID as a parameter for simplicity)
+  router.get("/:userID", controller.getCart);
+
+  // Add item to cart (passing user ID as a parameter for simplicity)
+  router.post("/add/:userID", controller.addToCart);
+
+  // Update item in cart (passing user ID as a parameter for simplicity)
+  router.put("/update/:userID", controller.updateCart);
+
+  // Remove item from cart (passing user ID as a parameter for simplicity)
+  router.delete("/remove/:userID", controller.removeFromCart);
+
+  // Add routes to server
+  app.use('/api/cart', router);
+};
