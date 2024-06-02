@@ -25,16 +25,9 @@ const images = {
 function Specials() {
   const navigate = useNavigate();
   const [todaySpecial, setTodaySpecial] = useState(null);
-  const [userID, setUserID] = useState(null);
 
   useEffect(() => {
     const currentDay = new Date().toLocaleString('en-US', { weekday: 'long' });
-
-    // Fetch user information
-    fetch('/api/users/current/1') // Assume current user ID is 1 for now
-      .then(response => response.json())
-      .then(data => setUserID(data.UserID))
-      .catch(error => console.error('Error fetching user:', error));
 
     // Fetch today's special from the database
     fetch(`/api/specials`)
@@ -44,9 +37,8 @@ function Specials() {
         if (specialData) {
           setTodaySpecial({
             ...specialData,
-            Price: parseFloat(specialData.Price),  // Ensure Price is a number
             imageSrc: images[currentDay],
-            Quantity: 1 // Reset quantity every time the day changes
+            quantity: 1 // Reset quantity every time the day changes
           });
         }
       })
@@ -54,29 +46,22 @@ function Specials() {
   }, []);
 
   const addToCart = () => {
-    if (!userID) {
-      alert('You must be logged in to add items to the cart.');
-      navigate('/login');
-      return;
-    }
-
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
     const itemToAdd = {
-      itemID: todaySpecial.SpecialID,
+      itemName: todaySpecial.SpecialName,
+      price: todaySpecial.Price - (todaySpecial.Price * todaySpecial.Discount / 100),
       quantity: todaySpecial.Quantity
     };
 
-    fetch(`/api/cart/add/${userID}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(itemToAdd)
-    })
-    .then(response => response.json())
-    .then(data => {
-      alert(`${todaySpecial.Quantity} x ${todaySpecial.SpecialName} has been added to your cart.`);
-    })
-    .catch(error => console.error('Error adding item to cart:', error));
+    const existingItem = cartItems.find(item => item.itemName === itemToAdd.itemName);
+    if (existingItem) {
+      existingItem.quantity += todaySpecial.Quantity;
+    } else {
+      cartItems.push(itemToAdd);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+    alert(`${todaySpecial.Quantity} x ${todaySpecial.SpecialName} has been added to your cart.`);
   };
 
   const handleQuantityChange = (e) => {
@@ -95,7 +80,7 @@ function Specials() {
         <h2>{todaySpecial.SpecialName}</h2>
         <img src={todaySpecial.imageSrc} alt={todaySpecial.SpecialName} style={{ width: '100%', height: 'auto' }} />
         <p>{todaySpecial.Description}</p>
-        <p>Price: ${todaySpecial.Price.toFixed(2)}</p>
+        <p>Price: ${todaySpecial.Price}</p>
         <p>Discount: {todaySpecial.Discount}%</p>
         <p>Final Price: ${(todaySpecial.Price - (todaySpecial.Price * todaySpecial.Discount / 100)).toFixed(2)}</p>
         <div>

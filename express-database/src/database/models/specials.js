@@ -1,36 +1,37 @@
 module.exports = (sequelize, DataTypes) => {
-  const Specials = sequelize.define("Specials", {
+  const Specials = sequelize.define('Specials', {
     SpecialID: {
       type: DataTypes.INTEGER,
+      primaryKey: true,
       autoIncrement: true,
-      primaryKey: true
     },
     SpecialName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     Description: {
-      type: DataTypes.TEXT,
-      allowNull: true
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     Quantity: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     Price: {
-      type: DataTypes.FLOAT,
-      allowNull: false
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
     },
     Discount: {
-      type: DataTypes.FLOAT,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     DayOfWeek: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     }
   }, {
-    timestamps: false
+    tableName: 'Specials',
+    timestamps: false,
   });
 
   return Specials;
