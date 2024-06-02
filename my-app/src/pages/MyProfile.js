@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "./page.css";
@@ -6,6 +6,7 @@ import "./page.css";
 function MyProfile() {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [profile, setProfile] = useState({
     FirstName: '',
     LastName: '',
@@ -14,9 +15,10 @@ function MyProfile() {
     Bio: '',
     JoinDate: ''
   });
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
 
-  const fetchProfile = async () => {
+  const fetchProfile = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:4000/api/users/validate-session', {
         withCredentials: true
@@ -31,11 +33,11 @@ function MyProfile() {
       alert('Please log in to view profile.');
       navigate('/login');
     }
-  };
+  }, [navigate]);
 
   useEffect(() => {
     fetchProfile();
-  }, [navigate]);
+  }, [navigate, fetchProfile]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -49,9 +51,15 @@ function MyProfile() {
     if (!profile.Username) newErrors.Username = "Username is required.";
     if (!profile.Email) newErrors.Email = "Email is required.";
     if (!/^\S+@\S+\.\S+$/.test(profile.Email)) newErrors.Email = "Invalid email format.";
-    if (profile.Password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(profile.Password))
-      newErrors.Password = "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number.";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
+  const validatePassword = () => {
+    const newErrors = {};
+    if (!password) newErrors.Password = "Password is required.";
+    if (password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password))
+      newErrors.Password = "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -61,8 +69,14 @@ function MyProfile() {
     setErrors({});
   };
 
+  const handleChangePassword = () => {
+    setIsChangingPassword(true);
+    setErrors({});
+  };
+
   const handleCancel = () => {
     setIsEditing(false);
+    setIsChangingPassword(false);
     fetchProfile(); // Re-fetch the profile to reset any unsaved changes
   };
 
@@ -76,6 +90,19 @@ function MyProfile() {
     } catch (error) {
       console.error("Error updating profile:", error);
       alert('Error updating profile, please try again.');
+    }
+  };
+
+  const handleSavePassword = async () => {
+    if (!validatePassword()) return;
+
+    try {
+      await axios.put('http://localhost:4000/api/users/update-password', { Password: password }, { withCredentials: true });
+      setIsChangingPassword(false);
+      alert('Password updated successfully.');
+    } catch (error) {
+      console.error("Error updating password:", error);
+      alert('Error updating password, please try again.');
     }
   };
 
@@ -119,15 +146,20 @@ function MyProfile() {
             {errors.Email && <div className="error">{errors.Email}</div>}
           </div>
           <div className="profile-field">
-            <label>Password: </label>
-            <input type="password" value={profile.Password} onChange={handleInputChange} name="Password" />
-            {errors.Password && <div className="error">{errors.Password}</div>}
-          </div>
-          <div className="profile-field">
             <label>Bio: </label>
             <textarea value={profile.Bio} onChange={handleInputChange} name="Bio"></textarea>
           </div>
           <button onClick={handleSave} className="btn btn-success">Save</button>
+          <button onClick={handleCancel} className="btn btn-secondary">Cancel</button>
+        </div>
+      ) : isChangingPassword ? (
+        <div>
+          <div className="profile-field">
+            <label>New Password: </label>
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} name="Password" />
+            {errors.Password && <div className="error">{errors.Password}</div>}
+          </div>
+          <button onClick={handleSavePassword} className="btn btn-success">Save Password</button>
           <button onClick={handleCancel} className="btn btn-secondary">Cancel</button>
         </div>
       ) : (
@@ -157,6 +189,7 @@ function MyProfile() {
             <span>{new Date(profile.JoinDate).toLocaleDateString()}</span>
           </div>
           <button onClick={handleEdit} className="btn btn-primary">Edit</button>
+          <button onClick={handleChangePassword} className="btn btn-warning">Change Password</button>
           <button onClick={handleDelete} className="btn btn-danger">Delete</button>
         </div>
       )}
