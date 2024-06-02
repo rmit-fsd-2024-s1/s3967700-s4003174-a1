@@ -120,79 +120,83 @@ function MyProfile() {
   };
 
   return (
-    <div className="profile-container">
-      <h1>My Profile</h1>
-      <hr />
-      {isEditing ? (
-        <div>
-          <div className="profile-field">
-            <label>First Name: </label>
-            <input type="text" value={profile.FirstName} onChange={handleInputChange} name="FirstName" />
-            {errors.FirstName && <div className="error">{errors.FirstName}</div>}
+    <div className="profile-container card shadow-sm">
+      <h1 className="card-header text-center">My Profile</h1>
+      <div className="card-body">
+        <hr />
+        {isEditing ? (
+          <div>
+            <div className="form-group profile-field">
+              <label>First Name: </label>
+              <input type="text" value={profile.FirstName} onChange={handleInputChange} name="FirstName" className="form-control" />
+              {errors.FirstName && <div className="text-danger">{errors.FirstName}</div>}
+            </div>
+            <div className="form-group profile-field">
+              <label>Last Name: </label>
+              <input type="text" value={profile.LastName} onChange={handleInputChange} name="LastName" className="form-control" />
+              {errors.LastName && <div className="text-danger">{errors.LastName}</div>}
+            </div>
+            <div className="form-group profile-field">
+              <label>Username: </label>
+              <input type="text" value={profile.Username} onChange={handleInputChange} name="Username" className="form-control" />
+              {errors.Username && <div className="text-danger">{errors.Username}</div>}
+            </div>
+            <div className="form-group profile-field">
+              <label>Email: </label>
+              <input type="email" value={profile.Email} onChange={handleInputChange} name="Email" className="form-control" />
+              {errors.Email && <div className="text-danger">{errors.Email}</div>}
+            </div>
+            <div className="form-group profile-field">
+              <label>Bio: </label>
+              <textarea value={profile.Bio} onChange={handleInputChange} name="Bio" className="form-control"></textarea>
+            </div>
+            <button onClick={handleSave} className="btn btn-success">Save</button>
+            <button onClick={handleCancel} className="btn btn-secondary">Cancel</button>
           </div>
-          <div className="profile-field">
-            <label>Last Name: </label>
-            <input type="text" value={profile.LastName} onChange={handleInputChange} name="LastName" />
-            {errors.LastName && <div className="error">{errors.LastName}</div>}
+        ) : isChangingPassword ? (
+          <div>
+            <div className="form-group profile-field">
+              <label>New Password: </label>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} name="Password" className="form-control" />
+              {errors.Password && <div className="text-danger">{errors.Password}</div>}
+            </div>
+            <button onClick={handleSavePassword} className="btn btn-success">Save Password</button>
+            <button onClick={handleCancel} className="btn btn-secondary">Cancel</button>
           </div>
-          <div className="profile-field">
-            <label>Username: </label>
-            <input type="text" value={profile.Username} onChange={handleInputChange} name="Username" />
-            {errors.Username && <div className="error">{errors.Username}</div>}
+        ) : (
+          <div>
+            <div className="profile-field">
+              <label style={{ marginRight: '10px' }}>First Name: </label>
+              <span>{profile.FirstName}</span>
+            </div>
+            <div className="profile-field">
+              <label style={{ marginRight: '10px' }}>Last Name: </label>
+              <span>{profile.LastName}</span>
+            </div>
+            <div className="profile-field">
+              <label style={{ marginRight: '10px' }}>Username: </label>
+              <span>{profile.Username}</span>
+            </div>
+            <div className="profile-field">
+              <label style={{ marginRight: '10px' }}>Email: </label>
+              <span>{profile.Email}</span>
+            </div>
+            <div className="profile-field">
+              <label style={{ marginRight: '10px' }}>Bio: </label>
+              <span>{profile.Bio || 'No bio provided'}</span>
+            </div>
+            <div className="profile-field">
+              <label style={{ marginRight: '10px' }}>Joined: </label>
+              <span>{new Date(profile.JoinDate).toLocaleDateString()}</span>
+            </div>
+            <div className="button-group">
+              <button onClick={handleEdit} className="btn btn-primary">Edit</button>
+              <button onClick={handleChangePassword} className="btn btn-warning">Change Password</button>
+              <button onClick={handleDelete} className="btn btn-danger">Delete</button>
+            </div>
           </div>
-          <div className="profile-field">
-            <label>Email: </label>
-            <input type="email" value={profile.Email} onChange={handleInputChange} name="Email" />
-            {errors.Email && <div className="error">{errors.Email}</div>}
-          </div>
-          <div className="profile-field">
-            <label>Bio: </label>
-            <textarea value={profile.Bio} onChange={handleInputChange} name="Bio"></textarea>
-          </div>
-          <button onClick={handleSave} className="btn btn-success">Save</button>
-          <button onClick={handleCancel} className="btn btn-secondary">Cancel</button>
-        </div>
-      ) : isChangingPassword ? (
-        <div>
-          <div className="profile-field">
-            <label>New Password: </label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} name="Password" />
-            {errors.Password && <div className="error">{errors.Password}</div>}
-          </div>
-          <button onClick={handleSavePassword} className="btn btn-success">Save Password</button>
-          <button onClick={handleCancel} className="btn btn-secondary">Cancel</button>
-        </div>
-      ) : (
-        <div>
-          <div className="profile-field">
-            <label style={{ marginRight: '10px' }}>First Name: </label>
-            <span>{profile.FirstName}</span>
-          </div>
-          <div className="profile-field">
-            <label style={{ marginRight: '10px' }}>Last Name: </label>
-            <span>{profile.LastName}</span>
-          </div>
-          <div className="profile-field">
-            <label style={{ marginRight: '10px' }}>Username: </label>
-            <span>{profile.Username}</span>
-          </div>
-          <div className="profile-field">
-            <label style={{ marginRight: '10px' }}>Email: </label>
-            <span>{profile.Email}</span>
-          </div>
-          <div className="profile-field">
-            <label style={{ marginRight: '10px' }}>Bio: </label>
-            <span>{profile.Bio || 'No bio provided'}</span>
-          </div>
-          <div className="profile-field">
-            <label style={{ marginRight: '10px' }}>Joined: </label>
-            <span>{new Date(profile.JoinDate).toLocaleDateString()}</span>
-          </div>
-          <button onClick={handleEdit} className="btn btn-primary">Edit</button>
-          <button onClick={handleChangePassword} className="btn btn-warning">Change Password</button>
-          <button onClick={handleDelete} className="btn btn-danger">Delete</button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
