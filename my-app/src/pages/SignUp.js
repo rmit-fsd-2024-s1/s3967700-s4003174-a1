@@ -12,7 +12,7 @@ function SignUp(props) {
         email: ""
     });
     const [errorMessage, setErrorMessage] = useState(null);
-    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleInputChange = (event) => {
@@ -22,69 +22,72 @@ function SignUp(props) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
-        // Validate email format
+
         if (!fields.email.match(/\S+@\S+\.\S+/)) {
             setErrorMessage("Please enter a valid email address.");
             return;
         }
 
-        // Validate password strength
         if (!fields.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)) {
             setErrorMessage("Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number.");
             return;
         }
 
-        // Check if passwords match
         if (fields.password !== fields.confirmPassword) {
             setErrorMessage("Passwords don't match.");
             return;
         }
 
         const newUser = {
-          FirstName: fields.firstName,
-          LastName: fields.lastName,
-          Email: fields.email,
-          Username: fields.username,
-          Password: fields.password,
-      };
-      
+            FirstName: fields.firstName,
+            LastName: fields.lastName,
+            Email: fields.email,
+            Username: fields.username,
+            Password: fields.password,
+        };
 
         try {
-            const response = await axios.post('http://localhost:4000/api/users/register', newUser);
-            if (response.data) {
-                navigate("/"); // Navigate to the home page after successful sign up
+            const registrationResponse = await axios.post('http://localhost:4000/api/users/register', newUser);
+            if (registrationResponse.status === 201) {
+                // Perform login automatically after successful registration
+                const loginResponse = await axios.post('http://localhost:4000/api/users/login', {
+                    username: fields.username,
+                    password: fields.password
+                });
+                if (loginResponse.status === 200) {
+                    props.loginUser(fields.username);  // Update application state to logged in
+                    navigate("/"); // Navigate to the home page after successful login
+                } else {
+                    setErrorMessage("Auto-login failed, please log in manually.");
+                }
             }
-        } catch (error) {
-            console.log(error.response); // Log the error response to understand what went wrong
-            if (error.response && error.response.data.error) {
-                setErrorMessage(error.response.data.error);
-            } else {
-                setErrorMessage("Registration failed, please try again.");
-            }
-            console.error("Registration Error:", error);
         }
-        try {
-          console.log("Attempting to register:", newUser);
-          const response = await axios.post('http://localhost:4000/api/users/register', newUser);
-          console.log("Registration response:", response.data);
-          navigate("/"); // Navigate to the home page after successful sign up
-      } catch (error) {
-          console.log("Error response:", error.response); // Detailed log of the error response
-          if (error.response && error.response.data.error) {
-              setErrorMessage(error.response.data.error);
-          } else {
-              setErrorMessage("Registration failed, please try again.");
-          }
-      }
+        catch (error) {
+            if (error.response) {
+                switch (error.response.status) {
+                    case 409:
+                        setErrorMessage("Username or email already exists, please choose a different username or email.");
+                        break;
+                    case 500:
+                        setErrorMessage("An unexpected error occurred. Please try again later.");
+                        break;
+                    default:
+                        setErrorMessage(error.response.data.message || "Registration failed, please try again.");
+                }
+            } else if (error.request) {
+                setErrorMessage("No response from the server. Check your network connection.");
+            } else {
+                setErrorMessage("An unknown error occurred.");
+            }
+        }
     };
 
     const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword); // Toggle the state of the password visibility
+        setShowPassword(!showPassword);
     };
 
     const handleLoginClick = () => {
-        navigate("/login"); // Navigate to the login page
+        navigate("/login");
     };
 
     return (

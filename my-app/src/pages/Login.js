@@ -14,17 +14,19 @@ function Login(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const { username, password } = fields;
 
     try {
       const response = await axios.post('http://localhost:4000/api/users/login', {
-        username,
-        password
+        username: fields.username,
+        password: fields.password
+      }, {
+        withCredentials: true  // Ensure credentials are sent with requests
       });
 
       if (response.data && response.status === 200) {
-        props.loginUser(username);
-        navigate("/");
+        // Assuming loginUser updates the context or state to reflect user is logged in
+        props.loginUser(fields.username);
+        navigate("/"); // Redirect to the homepage or dashboard after successful login
       } else {
         setErrorMessage(response.data.message || "Login failed, please try again.");
       }
@@ -34,7 +36,7 @@ function Login(props) {
       } else {
         setErrorMessage("Username and/or password invalid, please try again.");
       }
-      setFields(prevFields => ({ ...prevFields, password: "" }));
+      setFields(prevFields => ({ ...prevFields, password: "" })); // Clear password for security
     }
   };
 
