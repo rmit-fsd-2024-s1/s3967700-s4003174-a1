@@ -1,9 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import axios from 'axios'; // Ensure axios is imported here
 import "./index.css";
 import { initUsers } from "./data/repository";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+
+// Set withCredentials to true for all axios requests
+axios.defaults.withCredentials = true;
 
 // Initialise local storage data.
 initUsers();

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import axios from 'axios';
+
 import Navbar from "./fragments/Navbar";
 import Footer from "./fragments/Footer";
 import Home from "./pages/Home";
@@ -12,26 +14,47 @@ import Review from "./pages/Review";
 import Checkout from "./pages/Checkout";
 import Payment from "./pages/Payment";
 import Summary from "./pages/Summary";
-import { getUser, removeUser } from "./data/repository";
 
 function App() {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    const user = getUser(); 
-    if (user) {
-      setUsername(user.username); 
-    }
+    const validateSession = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/api/users/validate-session', {
+          withCredentials: true
+        });
+        if(response.data && response.data.user) {
+          setUsername(response.data.user.Username); // Assuming the user object is returned with a Username field
+          console.log("Session valid, user:", response.data.user.Username);
+        } else {
+          throw new Error("Session data incomplete or missing.");
+        }
+      } catch (error) {
+        console.log("Session validation error:", error);
+        setUsername(null); // Reset username if session validation fails
+      }
+    };
+
+    validateSession();
   }, []);
 
+
   const loginUser = (username) => {
-    setUsername(username); 
-  }
+    setUsername(username);
+  };
 
   const logoutUser = () => {
-    removeUser();
-    setUsername(null); 
-  }
+    setUsername(null);
+    // You might want to also make a request to log out on the server side
+    axios.post('http://localhost:4000/api/users/logout', {}, { withCredentials: true })
+      .then(() => {
+        console.log("Logged out successfully.");
+      })
+      .catch(error => {
+        console.error("Logout error:", error);
+      });
+  };
 
   return (
     <div className="d-flex flex-column min-vh-100">

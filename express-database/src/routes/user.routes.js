@@ -1,5 +1,5 @@
 module.exports = (express, app) => {
-  const controller = require("../controllers/user.controller.js");
+  const controller = require('../controllers/user.controller.js');
   const router = express.Router();
 
   // Get all users
@@ -9,9 +9,7 @@ module.exports = (express, app) => {
   router.get("/select/:id", controller.one);
 
   // Fetch user details
-  router.get('/profile/:username', userController.getUserDetails);
-
-
+  router.get('/profile/:username', controller.getUserDetails); 
 
   // Login a user
   router.post("/login", controller.login);
@@ -19,11 +17,13 @@ module.exports = (express, app) => {
   // Register a new user
   router.post("/register", controller.register);
 
-  // Get the current logged-in user (assuming user ID is passed as a parameter)
+  // Get the current logged-in user
   router.get("/current/:id", controller.current);
+
+  router.get('/validate-session', controller.validateSession);
 
   // Add routes to the app
   app.use("/api/users", router);
+
+
 };
-
-
