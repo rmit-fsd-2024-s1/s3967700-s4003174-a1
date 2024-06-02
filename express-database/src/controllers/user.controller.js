@@ -162,3 +162,61 @@ exports.validateSession = async (req, res) => {
   }
 };
 
+
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const token = req.cookies['authToken'];
+    if (!token) {
+      return res.status(401).json({ message: "No token provided." });
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const { FirstName, LastName, Username, Email, Bio, Password } = req.body;
+
+    const user = await db.user.findByPk(decoded.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    if (Password) {
+      user.Password = await argon2.hash(Password, { type: argon2.argon2id });
+    }
+
+    user.FirstName = FirstName;
+    user.LastName = LastName;
+    user.Username = Username;
+    user.Email = Email;
+    user.Bio = Bio;
+
+    await user.save();
+    return res.json({ message: "Profile updated successfully.", user });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return res.status(500).json({ message: "Failed to update profile.", error: error.message });
+  }
+};
+
+exports.deleteProfile = async (req, res) => {
+  try {
+    const token = req.cookies['authToken'];
+    if (!token) {
+      return res.status(401).json({ message: "No token provided." });
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const user = await db.user.findByPk(decoded.userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    await user.destroy();
+    res.clearCookie('authToken');
+    return res.json({ message: "Profile deleted successfully." });
+  } catch (error) {
+    console.error("Error deleting profile:", error);
+    return res.status(500).json({ message: "Failed to delete profile.", error: error.message });
+  }
+};
+

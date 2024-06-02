@@ -1,30 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUser, saveUser, deleteUser, removeUser } from '../data/repository';
-import "./page.css";
 import axios from 'axios';
+import "./page.css";
 
 function MyProfile() {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
-    name: '',
-    username: '',
-    email: '',
-    password: '',
-    bio: '',
-    joinDate: ''
+    FirstName: '',
+    LastName: '',
+    Username: '',
+    Email: '',
+    Bio: '',
+    JoinDate: ''
   });
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    const user = getUser();
-    if (user) {
-      setProfile(user);
-    } else {
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/api/users/validate-session', {
+        withCredentials: true
+      });
+      if (response.data && response.data.user) {
+        setProfile(response.data.user);
+      } else {
+        throw new Error("Session data incomplete or missing.");
+      }
+    } catch (error) {
+      console.log("Session validation error:", error);
       alert('Please log in to view profile.');
       navigate('/login');
     }
+  };
+
+  useEffect(() => {
+    fetchProfile();
   }, [navigate]);
 
   const handleInputChange = (e) => {
@@ -34,12 +44,13 @@ function MyProfile() {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!profile.name) newErrors.name = "Name is required.";
-    if (!profile.username) newErrors.username = "Username is required.";
-    if (!profile.email) newErrors.email = "Email is required.";
-    if (!/^\S+@\S+\.\S+$/.test(profile.email)) newErrors.email = "Invalid email format.";
-    if (profile.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(profile.password))
-      newErrors.password = "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number.";
+    if (!profile.FirstName) newErrors.FirstName = "First name is required.";
+    if (!profile.LastName) newErrors.LastName = "Last name is required.";
+    if (!profile.Username) newErrors.Username = "Username is required.";
+    if (!profile.Email) newErrors.Email = "Email is required.";
+    if (!/^\S+@\S+\.\S+$/.test(profile.Email)) newErrors.Email = "Invalid email format.";
+    if (profile.Password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(profile.Password))
+      newErrors.Password = "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -52,24 +63,32 @@ function MyProfile() {
 
   const handleCancel = () => {
     setIsEditing(false);
-    setErrors({});
-    setProfile(getUser());
+    fetchProfile(); // Re-fetch the profile to reset any unsaved changes
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!validateForm()) return;
 
-    saveUser(profile);
-    setIsEditing(false);
-    alert('Profile updated successfully.');
+    try {
+      await axios.put('http://localhost:4000/api/users/update', profile, { withCredentials: true });
+      setIsEditing(false);
+      alert('Profile updated successfully.');
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert('Error updating profile, please try again.');
+    }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
-      deleteUser(profile.username);
-      removeUser();
-      alert('Profile deleted successfully.');
-      navigate('/');
+      try {
+        await axios.delete('http://localhost:4000/api/users/delete', { withCredentials: true });
+        alert('Profile deleted successfully.');
+        navigate('/login');
+      } catch (error) {
+        console.error("Error deleting profile:", error);
+        alert('Error deleting profile, please try again.');
+      }
     }
   };
 
@@ -80,28 +99,33 @@ function MyProfile() {
       {isEditing ? (
         <div>
           <div className="profile-field">
-            <label>Name: </label>
-            <input type="text" value={profile.name} onChange={handleInputChange} name="name" />
-            {errors.name && <div className="error">{errors.name}</div>}
+            <label>First Name: </label>
+            <input type="text" value={profile.FirstName} onChange={handleInputChange} name="FirstName" />
+            {errors.FirstName && <div className="error">{errors.FirstName}</div>}
+          </div>
+          <div className="profile-field">
+            <label>Last Name: </label>
+            <input type="text" value={profile.LastName} onChange={handleInputChange} name="LastName" />
+            {errors.LastName && <div className="error">{errors.LastName}</div>}
           </div>
           <div className="profile-field">
             <label>Username: </label>
-            <input type="text" value={profile.username} onChange={handleInputChange} name="username" />
-            {errors.username && <div className="error">{errors.username}</div>}
+            <input type="text" value={profile.Username} onChange={handleInputChange} name="Username" />
+            {errors.Username && <div className="error">{errors.Username}</div>}
           </div>
           <div className="profile-field">
             <label>Email: </label>
-            <input type="email" value={profile.email} onChange={handleInputChange} name="email" />
-            {errors.email && <div className="error">{errors.email}</div>}
+            <input type="email" value={profile.Email} onChange={handleInputChange} name="Email" />
+            {errors.Email && <div className="error">{errors.Email}</div>}
           </div>
           <div className="profile-field">
             <label>Password: </label>
-            <input type="password" value={profile.password} onChange={handleInputChange} name="password" />
-            {errors.password && <div className="error">{errors.password}</div>}
+            <input type="password" value={profile.Password} onChange={handleInputChange} name="Password" />
+            {errors.Password && <div className="error">{errors.Password}</div>}
           </div>
           <div className="profile-field">
             <label>Bio: </label>
-            <textarea value={profile.bio} onChange={handleInputChange} name="bio"></textarea>
+            <textarea value={profile.Bio} onChange={handleInputChange} name="Bio"></textarea>
           </div>
           <button onClick={handleSave} className="btn btn-success">Save</button>
           <button onClick={handleCancel} className="btn btn-secondary">Cancel</button>
@@ -109,24 +133,28 @@ function MyProfile() {
       ) : (
         <div>
           <div className="profile-field">
-            <label style={{ marginRight: '10px' }}>Name: </label>
-            <span>{profile.name}</span>
+            <label style={{ marginRight: '10px' }}>First Name: </label>
+            <span>{profile.FirstName}</span>
+          </div>
+          <div className="profile-field">
+            <label style={{ marginRight: '10px' }}>Last Name: </label>
+            <span>{profile.LastName}</span>
           </div>
           <div className="profile-field">
             <label style={{ marginRight: '10px' }}>Username: </label>
-            <span>{profile.username}</span>
+            <span>{profile.Username}</span>
           </div>
           <div className="profile-field">
             <label style={{ marginRight: '10px' }}>Email: </label>
-            <span>{profile.email}</span>
+            <span>{profile.Email}</span>
           </div>
           <div className="profile-field">
             <label style={{ marginRight: '10px' }}>Bio: </label>
-            <span>{profile.bio || 'No bio provided'}</span>
+            <span>{profile.Bio || 'No bio provided'}</span>
           </div>
           <div className="profile-field">
             <label style={{ marginRight: '10px' }}>Joined: </label>
-            <span>{new Date(profile.joinDate).toLocaleDateString()}</span>
+            <span>{new Date(profile.JoinDate).toLocaleDateString()}</span>
           </div>
           <button onClick={handleEdit} className="btn btn-primary">Edit</button>
           <button onClick={handleDelete} className="btn btn-danger">Delete</button>
