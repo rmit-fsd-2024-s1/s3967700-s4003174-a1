@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -7,28 +8,26 @@ const Checkout = () => {
   const [userID, setUserID] = useState(null);
 
   useEffect(() => {
-    // Fetch user information
-    fetch('/api/users/current')
-      .then(response => response.json())
-      .then(data => {
-        if (data.UserID) {
-          setUserID(data.UserID);
-          fetch(`/api/cart/${data.UserID}`)
-            .then(response => response.json())
-            .then(data => {
-              if (Array.isArray(data)) {
-                setCartItems(data);
-                console.log('Cart items fetched:', data);
-              } else {
-                console.error('Expected array but got:', data);
-              }
-            })
-            .catch(error => console.error('Error fetching cart items:', error));
+    const fetchUserAndCart = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/api/users/validate-session', { withCredentials: true });
+        if (response.data && response.data.user) {
+          setUserID(response.data.user.UserID);
+          const cartResponse = await axios.get(`/api/cart/${response.data.user.UserID}`);
+          if (Array.isArray(cartResponse.data)) {
+            setCartItems(cartResponse.data);
+          } else {
+            console.error('Expected array but got:', cartResponse.data);
+          }
         } else {
-          console.error('No UserID found in user data:', data);
+          console.error('No user data found or session is invalid');
         }
-      })
-      .catch(error => console.error('Error fetching user:', error));
+      } catch (error) {
+        console.error('Error fetching user or cart items:', error);
+      }
+    };
+
+    fetchUserAndCart();
   }, []);
 
   const handleRemoveItem = (itemID) => {

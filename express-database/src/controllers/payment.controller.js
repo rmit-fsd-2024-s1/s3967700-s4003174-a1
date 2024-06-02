@@ -13,9 +13,6 @@ exports.processPayment = async (req, res) => {
       PaymentDate: new Date(),
     });
 
-    // Now that the payment record is created, delete the cart entries
-    await Cart.destroy({ where: { userID } });
-
     res.status(200).json({ message: 'Payment processed successfully', payment });
   } catch (error) {
     console.error('Error processing payment:', error);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import "./page.css";
 
 // Import images
@@ -50,26 +51,32 @@ const Shop = () => {
   const [userID, setUserID] = useState(null);
 
   useEffect(() => {
-    // Fetch user information
-    fetch('/api/users/current')
-      .then(response => response.json())
-      .then(data => setUserID(data.UserID))
-      .catch(error => console.error('Error fetching user:', error));
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/api/users/validate-session', {
+          withCredentials: true
+        });
+        if (response.data && response.data.user) {
+          setUserID(response.data.user.UserID);
+        } else {
+          throw new Error("Session data incomplete or missing.");
+        }
+      } catch (error) {
+        console.error("Session validation error:", error);
+        alert('Please log in to continue shopping.');
+        navigate('/login');
+      }
+    };
+
+    fetchCurrentUser();
 
     // Fetch items from the API
-    fetch('/api/items')
+    axios.get('/api/items')
       .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Fetched items:', data); // Log fetched items to debug
-        setItems(data);
+        setItems(response.data);
       })
       .catch(error => console.error('Error fetching items:', error));
-  }, []);
+  }, [navigate]);
 
   const handleQuantityChange = (itemName, value) => {
     setQuantities({
@@ -85,23 +92,16 @@ const Shop = () => {
       return;
     }
     const quantity = quantities[item.ItemName] || 1;
-    fetch(`/api/cart/add`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ 
-        userID: userID, 
-        itemID: item.ItemID, 
-        itemName: item.ItemName, // Include itemName in the request body
-        price: item.Price, // Include price in the request body
-        quantity: quantity 
-      })
+    axios.post('/api/cart/add', {
+      userID: userID,
+      itemID: item.ItemID,
+      itemName: item.ItemName, // Include itemName in the request body
+      price: item.Price, // Include price in the request body
+      quantity: quantity
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.error) {
-        alert(`Error: ${data.error}`);
+    .then(response => {
+      if (response.data.error) {
+        alert(`Error: ${response.data.error}`);
       } else {
         alert(`${quantity} x ${item.ItemName} has been added to your cart.`);
       }

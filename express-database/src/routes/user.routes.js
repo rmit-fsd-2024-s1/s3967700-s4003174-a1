@@ -29,6 +29,9 @@ module.exports = (express, app) => {
   // Delete profile
   router.delete('/delete', controller.deleteProfile);
 
+  // Route to get user by username
+  router.get("/getUserByUsername/:username", controller.getUserByUsername);
+
   // Add routes to the app
   app.use("/api/users", router);
 };

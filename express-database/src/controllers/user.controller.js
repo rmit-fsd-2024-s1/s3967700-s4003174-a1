@@ -117,7 +117,7 @@ exports.one = async (req, res) => {
 
 
 exports.getCurrentUser = (req, res) => {
-  const userID = 1;
+  const userID = req.user.id;
 
   db.user.findByPk(userID)
     .then(user => {
@@ -163,6 +163,21 @@ exports.validateSession = async (req, res) => {
       return res.json({ message: "Session is valid.", user });
   } catch (error) {
       return res.status(500).json({ message: "Failed to authenticate token.", error: error.message });
+  }
+};
+
+exports.getUserByUsername = async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const user = await db.user.findOne({ where: { username } });
+    if (user) {
+      res.status(200).json({ userID: user.id });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 

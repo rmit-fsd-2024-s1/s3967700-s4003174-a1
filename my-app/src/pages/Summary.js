@@ -1,44 +1,76 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const Summary = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [userID, setUserID] = useState(null); // Store the user ID
 
-  useEffect(() => {
-    const userID = 1; // Replace with the actual user ID as needed
-    const fetchCartItems = async () => {
-      try {
-        const response = await fetch(`/api/cart/getCart?userID=${userID}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch cart items');
-        }
-        const data = await response.json();
-        setCartItems(data);
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-
-    fetchCartItems();
-  }, []);
-
-  const deleteCartItems = async () => {
-    const userID = 1; // Replace with the actual user ID as needed
+  const fetchCurrentUser = async () => {
     try {
-      await fetch(`/api/cart/deleteCart?userID=${userID}`, { method: 'DELETE' });
+      const response = await axios.get('http://localhost:4000/api/users/validate-session', { withCredentials: true });
+      if (response.data && response.data.user) {
+        setUserID(response.data.user.UserID);
+        return response.data.user.UserID;
+      } else {
+        throw new Error("Session data incomplete or missing.");
+      }
     } catch (error) {
-      console.error('Failed to delete cart items:', error);
+      console.log("Session validation error:", error);
+      alert('Please log in to view profile.');
+      navigate('/login');
+      return null;
     }
   };
 
-  const handleContinueShopping = () => {
-    deleteCartItems();
-    navigate('/shop');
+  const fetchCartItems = async (userID) => {
+    try {
+      const response = await axios.get(`/api/cart/${userID}`);
+      setCartItems(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching cart items:', error);
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const initialize = async () => {
+      const userId = await fetchCurrentUser();
+      if (userId) {
+        await fetchCartItems(userId);
+      }
+    };
+
+    initialize();
+  }, []);
+
+  useEffect(() => {
+    const handleBeforeUnload = async () => {
+      await deleteCartItems();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      handleBeforeUnload();
+    };
+  }, [userID]); // Depend on userID to ensure it's available
+
+  const deleteCartItems = async () => {
+    if (!userID) return; // Ensure userID is available
+    try {
+      await fetch(`/api/cart/deleteCart?userID=${userID}`, { method: 'DELETE' });
+      console.log('Cart items deleted');
+    } catch (error) {
+      console.error('Failed to delete cart items:', error);
+    }
   };
 
   const calculateTotal = () => {
@@ -75,7 +107,7 @@ const Summary = () => {
       </div>
       <br/>
       <h4>Thank you for shopping at SOIL</h4>
-      <button onClick={handleContinueShopping} className="continue-shopping">
+      <button onClick={() => navigate('/shop')} className="continue-shopping">
         Continue Shopping
       </button>
     </div>

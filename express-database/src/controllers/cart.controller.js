@@ -1,7 +1,7 @@
 const db = require("../database/index.js");
 const Cart = db.cart;
 
-exports.getCart = async (req, res) => {
+exports.getCartItems = async (req, res) => {
   const userID = req.params.userID;
   try {
     const cartItems = await Cart.findAll({

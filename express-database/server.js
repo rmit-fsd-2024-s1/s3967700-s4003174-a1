@@ -40,9 +40,7 @@ app.listen(PORT, () => {
   db.sequelize.authenticate()
     .then(() => {
       console.log("Connection has been established successfully.");
-      db.sync();  // Ensure this is properly called
-      // If you need to sync models (comment out if not needed)
-      // db.sequelize.sync();
+      db.sequelize.sync();  // Ensure this is properly called
     })
     .catch(err => {
       console.error("Unable to connect to the database:", err);

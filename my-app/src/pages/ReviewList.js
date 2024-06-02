@@ -46,7 +46,7 @@ const ReviewList = ({ itemId, userId, onBack }) => {
             <p>{review.ReviewText}</p>
             {review.UserID === userId && (
               <div className="review-actions">
-                <button className="review-button" onClick={() => setEditingReview(review)}>Edit</button>
+                {/* <button className="review-button" onClick={() => setEditingReview(review)}>Edit</button> */}
                 <button className="review-button delete" onClick={() => handleDelete(review.ReviewID)}>Delete</button>
               </div>
             )}

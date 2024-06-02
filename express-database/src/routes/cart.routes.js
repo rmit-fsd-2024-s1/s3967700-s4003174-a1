@@ -3,7 +3,7 @@ module.exports = (express, app) => {
   const router = express.Router();
 
   // Get user's cart (passing user ID as a parameter for simplicity)
-  router.get("/:userID", controller.getCart);
+  router.get("/:userID", controller.getCartItems);
 
   // Add item to cart (passing user ID as a parameter for simplicity)
   router.post('/add', controller.addToCart);
