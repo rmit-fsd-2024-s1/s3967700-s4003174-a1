@@ -8,7 +8,7 @@ import Fridays from './images/Fridays.jpg';
 import Saturdays from './images/Saturdays.jpg';
 import Sundays from './images/Sundays.jpg';
 import food from './images/organic.jpg';
-import plant from './images/plant.jpg';
+import review from './images/review.jpg';
 import "./page.css";
 import { Link } from "react-router-dom";
 
@@ -25,8 +25,29 @@ const images = {
 function Specials() {
   const navigate = useNavigate();
   const [todaySpecial, setTodaySpecial] = useState(null);
+  const [userID, setUserID] = useState(null);
 
   useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/users/validate-session', {
+          credentials: 'include'
+        });
+        const data = await response.json();
+        if (data.user) {
+          setUserID(data.user.UserID);
+        } else {
+          throw new Error("Session data incomplete or missing.");
+        }
+      } catch (error) {
+        console.log("Session validation error:", error);
+        alert('Please log in to view specials.');
+        navigate('/login');
+      }
+    };
+
+    fetchProfile();
+
     const currentDay = new Date().toLocaleString('en-US', { weekday: 'long' });
 
     // Fetch today's special from the database
@@ -43,30 +64,41 @@ function Specials() {
         }
       })
       .catch(error => console.error('Error fetching specials:', error));
-  }, []);
+  }, [navigate]);
 
-  const addToCart = () => {
-    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-    const itemToAdd = {
-      itemName: todaySpecial.SpecialName,
-      price: todaySpecial.Price - (todaySpecial.Price * todaySpecial.Discount / 100),
-      quantity: todaySpecial.Quantity
-    };
-
-    const existingItem = cartItems.find(item => item.itemName === itemToAdd.itemName);
-    if (existingItem) {
-      existingItem.quantity += todaySpecial.Quantity;
-    } else {
-      cartItems.push(itemToAdd);
+  const addToCart = async () => {
+    if (!userID) {
+      alert('You must be logged in to add items to the cart.');
+      navigate('/login');
+      return;
     }
-
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-    alert(`${todaySpecial.Quantity} x ${todaySpecial.SpecialName} has been added to your cart.`);
+    try {
+      const response = await fetch('/api/cart/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userID,
+          itemName: todaySpecial.SpecialName,
+          price: todaySpecial.Price - (todaySpecial.Price * todaySpecial.Discount / 100),
+          quantity: todaySpecial.quantity
+        })
+      });
+      const data = await response.json();
+      if (data.error) {
+        alert(`Error: ${data.error}`);
+      } else {
+        alert(`${todaySpecial.quantity} x ${todaySpecial.SpecialName} has been added to your cart.`);
+      }
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    }
   };
 
   const handleQuantityChange = (e) => {
     const newQuantity = Math.max(1, parseInt(e.target.value, 10));
-    setTodaySpecial(prev => ({ ...prev, Quantity: newQuantity }));
+    setTodaySpecial(prev => ({ ...prev, quantity: newQuantity }));
   };
 
   if (!todaySpecial) {
@@ -85,7 +117,7 @@ function Specials() {
         <p>Final Price: ${(todaySpecial.Price - (todaySpecial.Price * todaySpecial.Discount / 100)).toFixed(2)}</p>
         <div>
           <label htmlFor="quantity">Quantity:</label>
-          <input type="number" id="quantity" value={todaySpecial.Quantity} onChange={handleQuantityChange} min="1" />
+          <input type="number" id="quantity" value={todaySpecial.quantity} onChange={handleQuantityChange} min="1" />
           <button onClick={addToCart} className="btn checkout-button">Add to Cart</button>
           <br/>
           <button onClick={() => navigate('/checkout')} className="btn checkout-button">Go to Checkout</button>
@@ -101,9 +133,9 @@ function Specials() {
         </div>
         <div className="col-md-6 grow-your-own-food">
           <h2>Grow Your Own Food</h2>
-          <img src={plant} alt="Grow Food" className="img-fluid" />
-          <Link to="/plant" className="btn btn-primary">Grow Now</Link>
-          <p>Grow your own organic foods</p>
+          <img src={review} alt="Grow Food" className="img-fluid" />
+          <Link to="/review" className="btn btn-primary">Review Food</Link>
+          <p>Review Your Food</p>
         </div>
       </div>
     </div>
