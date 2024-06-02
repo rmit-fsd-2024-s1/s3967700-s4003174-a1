@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Mondays from './images/Mondays.jpg';
 import Tuesdays from './images/Tuesdays.jpg';
 import Wednesdays from './images/Wednesdays.jpg';
@@ -30,12 +31,11 @@ function Specials() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/users/validate-session', {
-          credentials: 'include'
+        const response = await axios.get('http://localhost:4000/api/users/validate-session', {
+          withCredentials: true
         });
-        const data = await response.json();
-        if (data.user) {
-          setUserID(data.user.UserID);
+        if (response.data && response.data.user) {
+          setUserID(response.data.user.UserID);
         } else {
           throw new Error("Session data incomplete or missing.");
         }
@@ -73,14 +73,14 @@ function Specials() {
       return;
     }
     try {
-      const response = await fetch('/api/cart/add', {
+      const response = await fetch('/api/cart/addSpecial', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           userID,
-          itemName: todaySpecial.SpecialName,
+          specialName: todaySpecial.SpecialName,
           price: todaySpecial.Price - (todaySpecial.Price * todaySpecial.Discount / 100),
           quantity: todaySpecial.quantity
         })
@@ -119,7 +119,7 @@ function Specials() {
           <label htmlFor="quantity">Quantity:</label>
           <input type="number" id="quantity" value={todaySpecial.quantity} onChange={handleQuantityChange} min="1" />
           <button onClick={addToCart} className="btn checkout-button">Add to Cart</button>
-          <br/>
+          <br />
           <button onClick={() => navigate('/checkout')} className="btn checkout-button">Go to Checkout</button>
         </div>
       </div>
@@ -132,10 +132,10 @@ function Specials() {
           <p>Shop now for the freshest foods</p>
         </div>
         <div className="col-md-6 grow-your-own-food">
-          <h2>Grow Your Own Food</h2>
-          <img src={review} alt="Grow Food" className="img-fluid" />
-          <Link to="/review" className="btn btn-primary">Review Food</Link>
-          <p>Review Your Food</p>
+          <h2>Review Your Food</h2>
+          <img src={review} alt="Review Food" className="img-fluid" />
+          <Link to="/review" className="btn btn-primary">Review Now</Link>
+          <p>Review your own organic foods</p>
         </div>
       </div>
     </div>

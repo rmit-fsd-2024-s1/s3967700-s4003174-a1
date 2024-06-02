@@ -17,6 +17,9 @@ module.exports = (express, app) => {
   // Delete cart items
   router.delete("/deleteCart", controller.deleteCart);
 
+  // Add specials to cart
+  router.post('/addSpecial', controller.addSpecialToCart);
+
   // Add routes to server
   app.use('/api/cart', router);
 };

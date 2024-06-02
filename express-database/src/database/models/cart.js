@@ -1,3 +1,4 @@
+// In your cart model file
 module.exports = (sequelize, DataTypes) => {
   const Cart = sequelize.define('Cart', {
     cartID: {
@@ -11,7 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     itemID: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true, // Make this nullable if it can be either item or special
+    },
+    specialID: {
+      type: DataTypes.INTEGER,
+      allowNull: true, // Make this nullable if it can be either item or special
     },
     itemName: {
       type: DataTypes.STRING,
@@ -24,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     price: {
       type: DataTypes.FLOAT,
-      allowNull: false,
+      allowNull: false
     }
   }, {
     tableName: 'Cart',
@@ -33,4 +38,5 @@ module.exports = (sequelize, DataTypes) => {
 
   return Cart;
 };
+
 
