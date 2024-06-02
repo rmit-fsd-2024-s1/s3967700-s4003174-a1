@@ -8,14 +8,25 @@ const Checkout = () => {
 
   useEffect(() => {
     // Fetch user information
-    fetch('/api/users/current/1') // Assume current user ID is 1 for now
+    fetch('/api/users/current')
       .then(response => response.json())
       .then(data => {
-        setUserID(data.UserID);
-        fetch(`/api/cart/${data.UserID}`)
-          .then(response => response.json())
-          .then(data => setCartItems(data))
-          .catch(error => console.error('Error fetching cart items:', error));
+        if (data.UserID) {
+          setUserID(data.UserID);
+          fetch(`/api/cart/${data.UserID}`)
+            .then(response => response.json())
+            .then(data => {
+              if (Array.isArray(data)) {
+                setCartItems(data);
+                console.log('Cart items fetched:', data);
+              } else {
+                console.error('Expected array but got:', data);
+              }
+            })
+            .catch(error => console.error('Error fetching cart items:', error));
+        } else {
+          console.error('No UserID found in user data:', data);
+        }
       })
       .catch(error => console.error('Error fetching user:', error));
   }, []);
@@ -35,13 +46,13 @@ const Checkout = () => {
     .catch(error => console.error('Error removing item from cart:', error));
   };
 
-  const handleQuantityChange = (itemID, quantity) => {
+  const handleQuantityChange = (itemID, quantityChange) => {
     const updatedItems = cartItems.map(item => {
       if (item.itemID === itemID) {
-        item.quantity = Math.max(1, item.quantity + quantity);
+        item.quantity = Math.max(1, item.quantity + quantityChange);
       }
       return item;
-    }).filter(item => item.quantity > 0); // Remove item if it reaches 0 quantity
+    });
 
     fetch(`/api/cart/update/${userID}`, {
       method: 'PUT',
@@ -57,7 +68,16 @@ const Checkout = () => {
     .catch(error => console.error('Error updating cart item:', error));
   };
 
-  const calculateTotal = () => {
+  const handleClearCart = () => {
+    fetch(`/api/cart/deleteCart?userID=${userID}`, { method: 'DELETE' })
+      .then(response => response.json())
+      .then(data => {
+        setCartItems([]);
+      })
+      .catch(error => console.error('Error clearing cart:', error));
+  };
+
+  const calculateTotalPrice = () => {
     return cartItems.reduce((acc, item) => acc + (item.quantity || 0) * (item.price || 0), 0).toFixed(2);
   };
 
@@ -89,7 +109,7 @@ const Checkout = () => {
         </thead>
         <tbody>
           {cartItems.map(item => (
-            <tr key={item.itemID}>
+            <tr key={item.cartID}>
               <td>{item.itemName}</td>
               <td>
                 <button onClick={() => handleQuantityChange(item.itemID, -1)}>-</button>
@@ -105,12 +125,15 @@ const Checkout = () => {
       </table>
       <br/>
       <div>
-        <h3>Total Cost: ${calculateTotal()}</h3>
+        <h3>Total Cost: ${calculateTotalPrice()}</h3>
       </div>
       <div>
         <button onClick={() => navigate('/payment')} className="continue-shopping">Proceed to Payment</button>
         <button onClick={() => navigate('/shop')} className="continue-shopping" style={{ marginLeft: '10px' }}>
           Continue Shopping
+        </button>
+        <button onClick={handleClearCart} className="continue-shopping" style={{ marginLeft: '10px' }}>
+          Clear Cart
         </button>
       </div>
     </div>

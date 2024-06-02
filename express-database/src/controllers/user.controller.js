@@ -63,14 +63,18 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.current = async (req, res) => {
-  try {
-    const user = await db.user.findByPk(req.params.id);
-    if (!user) {
-      return res.status(404).send({ message: "User not found" });
-    }
-    res.json(user);
-  } catch (error) {
-    res.status(500).send({ message: "Error retrieving current user", error: error.message });
-  }
+exports.getCurrentUser = (req, res) => {
+  const userID = 1;
+
+  db.user.findByPk(userID)
+    .then(user => {
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(404).json({ error: 'User not found' });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({ error: error.message });
+    });
 };

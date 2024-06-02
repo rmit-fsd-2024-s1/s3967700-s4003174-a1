@@ -1,10 +1,11 @@
-const db = require("../database/index.js");
+const db = require('../database/index.js');
 
 exports.findAll = async (req, res) => {
   try {
-    const items = await db.item.findAll();
+    const items = await db.item.findAll({ raw: true });
     res.status(200).json(items);
   } catch (error) {
+    console.error('Error fetching items:', error);
     res.status(500).json({ error: error.message });
   }
 };

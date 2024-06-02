@@ -13,7 +13,7 @@ app.use(cors());
 // Routes.
 require('./src/routes/user.routes.js')(express, app);
 require('./src/routes/item.routes.js')(express, app);
-require('./src/routes/order.routes.js')(express, app);
+require('./src/routes/payment.routes.js')(express, app);
 require('./src/routes/specials.routes.js')(express, app);
 require('./src/routes/cart.routes.js')(express, app);
 
@@ -37,3 +37,4 @@ app.listen(PORT, () => {
       console.error("Unable to connect to the database:", err);
     });
 });
+

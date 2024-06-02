@@ -51,7 +51,7 @@ const Shop = () => {
 
   useEffect(() => {
     // Fetch user information
-    fetch('/api/users/current/1') // Assume current user ID is 1 for now
+    fetch('/api/users/current')
       .then(response => response.json())
       .then(data => setUserID(data.UserID))
       .catch(error => console.error('Error fetching user:', error));
@@ -65,8 +65,8 @@ const Shop = () => {
         return response.json();
       })
       .then(data => {
-        const extractedItems = data.map(item => item.dataValues || item);
-        setItems(extractedItems);
+        console.log('Fetched items:', data); // Log fetched items to debug
+        setItems(data);
       })
       .catch(error => console.error('Error fetching items:', error));
   }, []);
@@ -85,7 +85,7 @@ const Shop = () => {
       return;
     }
     const quantity = quantities[item.ItemName] || 1;
-    fetch(`/api/cart/add/${userID}`, {
+    fetch(`/api/cart/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -94,11 +94,17 @@ const Shop = () => {
         userID: userID, 
         itemID: item.ItemID, 
         itemName: item.ItemName, // Include itemName in the request body
+        price: item.Price, // Include price in the request body
         quantity: quantity 
       })
     })
+    .then(response => response.json())
     .then(data => {
-      alert(`${quantity} x ${item.ItemName} has been added to your cart.`);
+      if (data.error) {
+        alert(`Error: ${data.error}`);
+      } else {
+        alert(`${quantity} x ${item.ItemName} has been added to your cart.`);
+      }
     })
     .catch(error => console.error('Error adding item to cart:', error));
   };
@@ -122,7 +128,7 @@ const Shop = () => {
           <div className="col-lg-4" key={index} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ textAlign: "center" }}>
               <img src={imageMap[item.ItemName]} alt={item.ItemName} style={{ height: 200 }} />
-              <h4 className="caption-shop">{item.ItemName} - ${item.Price.toFixed(2)}</h4>
+              <h4 className="caption-shop">{item.ItemName} - ${item.Price !== undefined ? item.Price.toFixed(2) : 'N/A'}</h4>
               <input
                 type="number"
                 value={quantities[item.ItemName] || 1}

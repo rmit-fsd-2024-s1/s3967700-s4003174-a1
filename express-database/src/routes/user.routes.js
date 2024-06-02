@@ -15,7 +15,7 @@ module.exports = (express, app) => {
   router.post("/register", controller.register);
 
   // Get the current logged-in user (assuming user ID is passed as a parameter)
-  router.get("/current/:id", controller.current);
+  router.get('/current', controller.getCurrentUser);
 
   // Add routes to the app
   app.use("/api/users", router);

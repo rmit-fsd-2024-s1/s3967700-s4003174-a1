@@ -1,36 +1,32 @@
 module.exports = (sequelize, DataTypes) => {
-  const Cart = sequelize.define('Cart', {
-    cartID: {
+  const Payment = sequelize.define('Payment', {
+    PaymentID: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    cartID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     userID: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    itemID: {
-      type: DataTypes.INTEGER,
+    Amount: {
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
-    itemName: {
-      type: DataTypes.STRING,
+    PaymentDate: {
+      type: DataTypes.DATE,
       allowNull: false,
-    },
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 1,
-    },
-    price: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
+      defaultValue: DataTypes.NOW,
     }
   }, {
-    tableName: 'Cart',
+    tableName: 'Payment',
     timestamps: false,
   });
 
-  return Cart;
+  return Payment;
 };
 

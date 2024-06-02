@@ -1,24 +1,67 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Summary = () => {
-  const navigate = useNavigate(); // Hook for navigating programmatically
-  const lastPurchase = JSON.parse(localStorage.getItem('lastPurchase'));
+  const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const calculateTotal = () => {
-    return lastPurchase.reduce((total, item) => total + item.quantity * item.price, 0).toFixed(2);
+  useEffect(() => {
+    const userID = 1; // Replace with the actual user ID as needed
+    const fetchCartItems = async () => {
+      try {
+        const response = await fetch(`/api/cart/getCart?userID=${userID}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch cart items');
+        }
+        const data = await response.json();
+        setCartItems(data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchCartItems();
+  }, []);
+
+  const deleteCartItems = async () => {
+    const userID = 1; // Replace with the actual user ID as needed
+    try {
+      await fetch(`/api/cart/deleteCart?userID=${userID}`, { method: 'DELETE' });
+    } catch (error) {
+      console.error('Failed to delete cart items:', error);
+    }
   };
 
-  if (!lastPurchase || lastPurchase.length === 0) {
-    return <div>No recent purchases found.</div>;
+  const handleContinueShopping = () => {
+    deleteCartItems();
+    navigate('/shop');
+  };
+
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => total + item.quantity * item.price, 0).toFixed(2);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!cartItems || cartItems.length === 0) {
+    return <div>No items in cart.</div>;
   }
 
   return (
     <div>
       <h1>Purchase Summary</h1>
       <div>
-        {/* display receipt */}
-        {lastPurchase.map((item, index) => (
+        {cartItems.map((item, index) => (
           <div key={index}>
             <h3>{item.itemName}</h3>
             <p>Quantity: {item.quantity}</p>
@@ -32,7 +75,7 @@ const Summary = () => {
       </div>
       <br/>
       <h4>Thank you for shopping at SOIL</h4>
-      <button onClick={() => navigate('/shop')} className="continue-shopping">
+      <button onClick={handleContinueShopping} className="continue-shopping">
         Continue Shopping
       </button>
     </div>
@@ -40,4 +83,3 @@ const Summary = () => {
 };
 
 export default Summary;
-

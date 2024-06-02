@@ -1,34 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// Functions to handle local storage for the cart
-const getCartItems = () => {
-  const cart = localStorage.getItem('cart');
-  return cart ? JSON.parse(cart) : [];
-};
-
-const saveLastPurchase = (cartItems) => {
-  localStorage.setItem('lastPurchase', JSON.stringify(cartItems));
-};
-
-const clearCart = () => {
-  const cartItems = getCartItems();
-  saveLastPurchase(cartItems); // Save before clearing
-  localStorage.removeItem('cart');
-};
 
 const Payment = () => {
   const [creditCard, setCreditCard] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [error, setError] = useState('');
+  const [userID, setUserID] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch user information
+    fetch('/api/users/current')
+      .then(response => response.json())
+      .then(data => {
+        setUserID(data.UserID);
+        return fetch(`/api/cart/${data.UserID}`);
+      })
+      .then(response => response.json())
+      .then(data => {
+        setCartItems(data);
+      })
+      .catch(error => console.error('Error fetching user or cart items:', error));
+  }, []);
 
   const validateCreditCard = (number) => {
     return /^\d{16}$/.test(number);
   };
 
   const validateExpiryDate = (date) => {
-    // make sure date is not expired or invalid
+    // Make sure date is not expired or invalid
     const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
     if (!regex.test(date)) return false;
     const [month, year] = date.split('/').map(Number);
@@ -44,7 +45,7 @@ const Payment = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     if (!validateCreditCard(creditCard)) {
@@ -55,8 +56,26 @@ const Payment = () => {
       setError('Invalid expiry date. Date format should be MM/YY and should not be expired.');
       return;
     }
-    clearCart();
-    navigate('/summary'); // Redirects to the summary page
+
+    const amount = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+
+    try {
+      const response = await fetch('/api/payment/process', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cartID: cartItems[0].cartID, userID, amount }), // Assuming cartID from the first item; adjust as necessary
+      });
+      const data = await response.json();
+      if (response.ok) {
+        navigate('/summary');
+      } else {
+        setError(data.error);
+      }
+    } catch (error) {
+      setError('Error processing payment. Please try again.');
+    }
   };
 
   return (
@@ -84,7 +103,7 @@ const Payment = () => {
           />
         </div>
         <button type="submit" className="continue-shopping">Complete Purchase</button>
-        <button onClick={() => navigate('/payment')} className="continue-shopping" style={{ marginLeft: '10px' }}>Back to cart</button>
+        <button onClick={() => navigate('/cart')} className="continue-shopping" style={{ marginLeft: '10px' }}>Back to cart</button>
         {error && <div style={{ color: 'red' }}>{error}</div>}
       </form>
     </div>
