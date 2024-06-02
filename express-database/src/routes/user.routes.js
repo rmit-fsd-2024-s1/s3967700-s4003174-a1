@@ -19,8 +19,6 @@ module.exports = (express, app) => {
 
   // Get the current logged-in user (assuming user ID is passed as a parameter)
   router.get('/current', controller.getCurrentUser);
-  // Get the current logged-in user
-  router.get("/current/:id", controller.current);
 
   // Validate session
   router.get('/validate-session', controller.validateSession);
