@@ -14,7 +14,6 @@ app.use(cors());
 require('./src/routes/user.routes.js')(express, app);
 require('./src/routes/item.routes.js')(express, app);
 require('./src/routes/order.routes.js')(express, app);
-require('./src/routes/orderItems.routes.js')(express, app);
 require('./src/routes/specials.routes.js')(express, app);
 require('./src/routes/cart.routes.js')(express, app);
 
@@ -32,8 +31,7 @@ app.listen(PORT, () => {
   db.sequelize.authenticate()
     .then(() => {
       console.log("Connection has been established successfully.");
-      // If you need to sync models (not recommended in production automatically)
-      // db.sequelize.sync();
+      db.sync();  // Ensure this is properly called
     })
     .catch(err => {
       console.error("Unable to connect to the database:", err);

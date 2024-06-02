@@ -90,13 +90,12 @@ const Shop = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ itemID: item.ItemID, quantity })
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to add item to cart');
-      }
-      return response.json();
+      body: JSON.stringify({ 
+        userID: userID, 
+        itemID: item.ItemID, 
+        itemName: item.ItemName, // Include itemName in the request body
+        quantity: quantity 
+      })
     })
     .then(data => {
       alert(`${quantity} x ${item.ItemName} has been added to your cart.`);

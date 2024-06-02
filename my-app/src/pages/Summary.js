@@ -5,7 +5,6 @@ const Summary = () => {
   const navigate = useNavigate(); // Hook for navigating programmatically
   const lastPurchase = JSON.parse(localStorage.getItem('lastPurchase'));
 
-  // Calculate the total cost of the last purchase
   const calculateTotal = () => {
     return lastPurchase.reduce((total, item) => total + item.quantity * item.price, 0).toFixed(2);
   };

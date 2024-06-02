@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const config = require("./config.js");
-const argon2 = require("argon2"); // Make sure to require argon2 for hashing
 
 const db = {
   Op: Sequelize.Op
@@ -16,7 +15,6 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 db.user = require("./models/user.js")(db.sequelize, DataTypes);
 db.item = require("./models/item.js")(db.sequelize, DataTypes);
 db.order = require("./models/order.js")(db.sequelize, DataTypes);
-db.orderItem = require("./models/orderItems.js")(db.sequelize, DataTypes);
 db.review = require("./models/review.js")(db.sequelize, DataTypes);
 db.specials = require("./models/specials.js")(db.sequelize, DataTypes);
 db.cart = require("./models/cart.js")(db.sequelize, DataTypes);
