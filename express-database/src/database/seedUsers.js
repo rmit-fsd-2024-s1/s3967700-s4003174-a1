@@ -22,7 +22,8 @@ async function seedData() {
       Email: "mbolger@example.com",
       FirstName: "Matthew",
       LastName: "Bolger",
-      JoinDate: new Date()
+      JoinDate: new Date(),
+      Bio: "My name is Matthew Bolger and this is my bio for my account on SOIL."
     });
 
     hash = await argon2.hash("def456", { type: argon2.argon2id });
@@ -32,7 +33,8 @@ async function seedData() {
       Email: "shekhar@example.com",
       FirstName: "Shekhar",
       LastName: "Kalra",
-      JoinDate: new Date()
+      JoinDate: new Date(),
+      Bio: "My name is Shekhar Kalra and this is my bio for my account on SOIL."
     });
 
     console.log("Seed data has been added successfully.");

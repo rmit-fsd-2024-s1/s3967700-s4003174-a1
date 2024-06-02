@@ -26,6 +26,9 @@ module.exports = (express, app) => {
   // Update profile
   router.put('/update', controller.updateProfile);
 
+  // Update password
+  router.put('/update-password', controller.updatePassword);
+
   // Delete profile
   router.delete('/delete', controller.deleteProfile);
 
